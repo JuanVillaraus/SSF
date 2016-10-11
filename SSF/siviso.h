@@ -121,6 +121,10 @@ private slots:
 
     void on_play_clicked();
 
+    void on_toolButton_clicked();
+
+    void on_save_clicked();
+
 private:
     Ui::siviso *ui;
 

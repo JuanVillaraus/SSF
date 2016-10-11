@@ -28,7 +28,7 @@ siviso::siviso(QWidget *parent) :
     serialPortDB9 = new QSerialPort();
     serialPortUSB = new QSerialPort();
     connect(udpsocket,SIGNAL(readyRead()),this,SLOT(leerSocket()));
-    connect(serialPortDB9, SIGNAL(readyRead()),this,SLOT(leerSerialDB9())); //Esta parte esta comentada porque en la computadora de desarrollo no tiene acceso a los puertos seriales y proboca crashed
+    connect(serialPortDB9, SIGNAL(readyRead()),this,SLOT(leerSerialDB9()));
     connect(serialPortUSB, SIGNAL(readyRead()),this,SLOT(leerSerialUSB()));
 
     direccionSPP = "192.168.1.177";                   //direccion del SPP
@@ -170,7 +170,6 @@ void siviso::leerSocket()
 
 void siviso::on_btOpenPort_clicked()
 {
-    //Esta parte esta comentada porque en la computadora de desarrollo no tiene acceso a los puertos seriales y proboca crashed
     serialPortDB9->setPortName("/dev/ttyS0");
     if(serialPortDB9->open(QIODevice::ReadWrite))
         ui->view->appendPlainText("Puerto serial abierto\n");
@@ -450,4 +449,32 @@ void siviso::on_play_clicked()
         ui->play->setText("Play");
         proceso3->startDetached("pactl unload-module module-loopback");
     }
+}
+
+void siviso::on_toolButton_clicked()
+{
+    if(bToolButton){
+        bToolButton=false;
+        ui->textTestGrap->setVisible(false);
+        ui->view->setVisible(false);
+        ui->save->setVisible(false);
+        //ui->pushButton_info->setVisible(false);
+        //ui->pushButton_send->setVisible(false);
+        //ui->btOpenPort->setVisible(false);
+    }else{
+        bToolButton=true;
+        ui->textTestGrap->setVisible(true);
+        ui->view->setVisible(true);
+        ui->save->setVisible(true);
+        //ui->pushButton_info->setVisible(true);
+        //ui->pushButton_send->setVisible(true);
+        //ui->btOpenPort->setVisible(true);
+    }
+}
+
+void siviso::on_save_clicked()
+{
+    QString s;
+    s = "LF_SAVE";
+    udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoLF);
 }
