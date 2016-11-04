@@ -1,4 +1,4 @@
-#include "siviso.h"
+  #include "siviso.h"
 #include "ui_siviso.h"
 
 #include <QFile>
@@ -48,6 +48,48 @@ siviso::siviso(QWidget *parent) :
     ui->prob_falsa->setValue(mysignal->get_prob_falsa());
     ui->prob_deteccion->setValue(mysignal->get_prob_deteccion());
     ui->edo_mar->setValue(mysignal->get_edo_mar());
+
+    bToolButton=false;
+    ui->textTestGrap->setVisible(false);
+    ui->view->setVisible(false);
+    ui->save->setVisible(false);
+
+    QFile file1("resource/colorUp.txt");
+    if(file1.open(QIODevice::WriteOnly)){
+        QTextStream stream(&file1);
+        stream<<"255";
+    } else {
+        qDebug();
+    }
+    file1.close();
+
+    QFile file2("resource/colorDw.txt");
+    if(file2.open(QIODevice::WriteOnly)){
+        QTextStream stream(&file2);
+        stream<<"0";
+    } else {
+        qDebug();
+    }
+    file2.close();
+
+    /*QFile file("resource/colorDw.txt");
+    if(file.open(QIODevice::ReadOnly)){
+        QTextStream stream(&file);
+        //ui->view->appendPlainText(stream.readAll());
+        ui->setColorDw->setValue(stream.readAll().toInt());
+    } else {
+        qDebug();
+    }
+    file.close();
+    QFile file2("resource/colorUp.txt");
+    if(file.open(QIODevice::ReadOnly)){
+        QTextStream stream(&file2);
+        //ui->view->appendPlainText(stream.readAll());
+        ui->setColorDw->setValue(stream.readAll().toInt());
+    } else {
+        qDebug();
+    }
+    file2.close();*/
 
 
 
@@ -199,6 +241,10 @@ void siviso::on_btOpenPort_clicked()
     serialPortUSB->write("START COMMUNICATION\n");
     serialPortUSB->write("SPEED 1500\n");
 
+    QString s = "BTR_EXIT";
+    udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoBTR);
+    s = "LF_EXIT";
+    udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoLF);
     proceso1->startDetached("java -jar Lofar.jar");
     proceso2->startDetached("java -jar BTR.jar");
 }
@@ -277,6 +323,8 @@ void siviso::on_lf_clicked()
     s = "BTR_OFF";
     udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoBTR);
     compGraf="LF";
+    s = "LF_RP";
+    udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoLF);
 }
 
 void siviso::on_btr_clicked()
@@ -289,6 +337,8 @@ void siviso::on_btr_clicked()
     s = "LF_OFF";
     udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoLF);
     compGraf="BTR";
+    s = "BTR_RP";
+    udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoBTR);
 }
 
 void siviso::on_rng_clicked()
@@ -476,5 +526,66 @@ void siviso::on_save_clicked()
 {
     QString s;
     s = "LF_SAVE";
-    udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoLF);
+    if(compGraf=="BTR")
+        udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoBTR);
+    if(compGraf=="LF")
+        udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoLF);
+}
+
+void siviso::on_setColorUp_valueChanged(int value)
+{
+    colorUp = value;
+    if(colorUp <= colorDw){
+        colorDw = colorUp-1;
+        ui->setColorDw->setValue(colorDw);
+    }
+
+    QFile file("resource/colorUp.txt");
+    if(file.open(QIODevice::WriteOnly)){
+        QTextStream stream(&file);
+        stream<<value;
+    } else {
+        qDebug();
+    }
+    file.close();
+
+    QString s;
+    if(compGraf=="BTR"){
+        s = "BTR_RP";
+        udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoBTR);
+    }
+    if(compGraf=="LF"){
+        s = "LF_RP";
+        udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoLF);
+    }
+    //ui->textTestGrap->appendPlainText(QString::number(value));
+}
+
+void siviso::on_setColorDw_valueChanged(int value)
+{
+    colorDw = value;
+    if(colorDw >= colorUp){
+        colorUp = colorDw+1;
+        ui->setColorUp->setValue(colorUp);
+    }
+
+    QFile file("resource/colorDw.txt");
+    if(file.open(QIODevice::WriteOnly)){
+        QTextStream stream(&file);
+        stream<<value;
+    } else {
+        qDebug();
+    }
+    file.close();
+
+    QString s;
+    if(compGraf=="BTR"){
+        s = "BTR_RP";
+        udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoBTR);
+    }
+    if(compGraf=="LF"){
+        s = "LF_RP";
+        udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoLF);
+    }
+    //ui->textTestGrap->appendPlainText(QString::number(value));
 }

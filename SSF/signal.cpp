@@ -6,7 +6,7 @@ Signal::Signal()
     bw = 7.2;
     it = 5;
     dt = 9;
-    ganancia_sensor = 10;
+    ganancia_sensor = 3;
     prob_falsa = 0.3;
     prob_deteccion = 0.57;
     edo_mar = 2;

@@ -65,6 +65,8 @@ public:
 
     int numero;
     int numCatchSend;
+    int colorUp;
+    int colorDw;
     QString catchSend;
     QString compGraf;
     PPI *myppi;
@@ -124,6 +126,10 @@ private slots:
     void on_toolButton_clicked();
 
     void on_save_clicked();
+
+    void on_setColorUp_valueChanged(int value);
+
+    void on_setColorDw_valueChanged(int value);
 
 private:
     Ui::siviso *ui;
