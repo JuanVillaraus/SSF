@@ -6,12 +6,16 @@ class Signal
 {
 private:
     int frec;
-    float bw;
-    float it;
+    int bw;
+    int it;
     int dt;
+    int frecP;
+    int nP;
+    int anchoP;
+    int rangoDetec;
     int ganancia_sensor;
-    float prob_falsa;
-    float prob_deteccion;
+    int prob_falsa;
+    int prob_deteccion;
     int edo_mar;
     QString info;
 
@@ -27,6 +31,9 @@ public:
     void set_prob_deteccion(float prob_deteccion);
     void set_edo_mar(int edo_mar);
     void set_info_signal(QString info);
+    void set_frecP(int frecP);
+    void set_nP(int nP);
+    void set_anchoP(int anchoP);
     void receive_of_sensor(QString message);
 
     int get_frec();
@@ -39,6 +46,9 @@ public:
     int get_edo_mar();
     QString get_info_signal();
     QString send_to_sensor();
+    int get_frecP();
+    int get_nP();
+    int get_anchoP();
 };
 
 #endif // SIGNAL_H

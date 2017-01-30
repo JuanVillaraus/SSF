@@ -67,13 +67,20 @@ public:
     int numCatchSend;
     int colorUp;
     int colorDw;
+    int nSensor;
+    int tipoSensor;
+    int longBTR;
+    int longLF;
+    int nWords;
     QString catchSend;
     QString compGraf;
+    QString catchSensor;
     PPI *myppi;
     Signal *mysignal;
     bool bToolButton;
     bool bRec;
     bool bPlay;
+    bool bSensor;
 
 private slots:
     //void on_toolButton_clicked();
@@ -91,7 +98,7 @@ private slots:
 
     void on_btr_clicked();
 
-    void on_rng_clicked();
+    void on_ppi_clicked();
 
     void on_origen_buque_clicked();
 
@@ -113,10 +120,6 @@ private slots:
 
     void on_frecuencia_valueChanged(int value);
 
-    //void on_pushButton_info_clicked();
-
-    //void on_pushButton_send_clicked();
-
     void on_it_valueChanged(int arg1);
 
     void on_rec_clicked();
@@ -131,13 +134,49 @@ private slots:
 
     void on_setColorDw_valueChanged(int value);
 
+    void on_frecP_valueChanged(int arg1);
+
+    void on_nP_valueChanged(int arg1);
+
+    void on_anchoP_valueChanged(int arg1);
+
+    void on_cw_clicked();
+
+    void on_startCom_clicked();
+
+    void on_endCom_clicked();
+
+    void on_sensor0_clicked();
+
+    void on_sensor1_clicked();
+
+    void on_openJars_clicked();
+
+    void on_closeJars_clicked();
+
+    void on_dial_valueChanged(int value);
+
+    void on_ang_valueChanged(int arg1);
+
+    void on_origenOmni_clicked();
+
+    void on_origenManual_clicked();
+
+    void on_dial_sliderReleased();
+
+    void on_ang_editingFinished();
+
+    void on_send_clicked();
+
+    void on_infoSignal_clicked();
+
 private:
     Ui::siviso *ui;
 
     QUdpSocket *udpsocket;
-    QHostAddress direccionSPP;
+    QHostAddress direccionSSF;
     QHostAddress direccionApp;
-    quint16 puertoSPP;
+    quint16 puertoSSF;
     quint16 puertoPPI;
     quint16 puertoBTR;
     quint16 puertoLF;

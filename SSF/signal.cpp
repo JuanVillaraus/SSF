@@ -6,6 +6,10 @@ Signal::Signal()
     bw = 7.2;
     it = 5;
     dt = 9;
+    frecP = 2000;
+    nP = 10;
+    anchoP = 25;
+    rangoDetec = 0;
     ganancia_sensor = 3;
     prob_falsa = 0.3;
     prob_deteccion = 0.57;
@@ -58,6 +62,21 @@ void Signal::set_info_signal(QString info)
     this->info = info;
 }
 
+void Signal::set_frecP(int frecP)
+{
+    this->frecP = frecP;
+}
+
+void Signal::set_nP(int nP)
+{
+    this->nP = nP;
+}
+
+void Signal::set_anchoP(int anchoP)
+{
+    this->anchoP = anchoP;
+}
+
 void Signal::receive_of_sensor(QString message)
 {
     this->info = message;
@@ -108,20 +127,27 @@ QString Signal::get_info_signal()
     QString s;
     s = "frec= ";
     s += QString::number(get_frec());
-    s += " ; bw= ";
+    s += "; bw= ";
     s += QString::number(get_bw());
-    s += " ; it= ";
+    s += "; it= ";
     s += QString::number(get_it());
-    s += " ; dt= ";
+    s += "; dt= ";
     s += QString::number(get_dt());
-    s += " ; gan sen= ";
+    s += "; gan sen= ";
     s += QString::number(get_ganancia_sensor());
-    s += " ; prob falsa= ";
+    s += "; prob falsa= ";
     s += QString::number(get_prob_falsa());
-    s += " ; prob detec= ";
+    s += "; prob detec= ";
     s += QString::number(get_prob_deteccion());
-    s += " ; edo mar= ";
+    s += "; edo mar= ";
     s += QString::number(get_edo_mar());
+    s += "; frecP= ";
+    s += QString::number(get_frecP());
+    s += "; nP= ";
+    s += QString::number(get_nP());
+    s += "; anchoP= ";
+    s += QString::number(get_anchoP());
+    s += ";";
     return s;
 }
 
@@ -208,4 +234,19 @@ QString Signal::send_to_sensor()
         s += QString::number(get_ganancia_sensor());
         return s;
 
+}
+
+int Signal::get_frecP()
+{
+    return frecP;
+}
+
+int Signal::get_nP()
+{
+    return nP;
+}
+
+int Signal::get_anchoP()
+{
+    return anchoP;
 }

@@ -1,4 +1,4 @@
-  #include "siviso.h"
+#include "siviso.h"
 #include "ui_siviso.h"
 
 #include <QFile>
@@ -18,6 +18,7 @@ siviso::siviso(QWidget *parent) :
     mysignal = new Signal();
     proceso1 = new QProcess(this);
     proceso2 = new QProcess(this);
+    proceso3 = new QProcess(this);
     numCatchSend = 0;
     catchSend = "";
     compGraf = "";
@@ -31,8 +32,8 @@ siviso::siviso(QWidget *parent) :
     connect(serialPortDB9, SIGNAL(readyRead()),this,SLOT(leerSerialDB9()));
     connect(serialPortUSB, SIGNAL(readyRead()),this,SLOT(leerSerialUSB()));
 
-    direccionSPP = "192.168.1.177";                   //direccion del SPP
-    puertoSPP = 8888;                                 //puerto del SPP
+    direccionSSF = "192.168.1.177";                   //direccion del SPP
+    puertoSSF = 8888;                                 //puerto del SPP
     //direccionApp = "192.168.1.178";                   //direccion que usaran las aplicaciones
     direccionApp = "127.0.0.1";                   //direccion que usaran las aplicaciones
     //udpsocket->writeDatagram(ui->view->text().toLatin1(),direccionPar,puertoPar); //visualiza la direcion IP y puerto del que envia
@@ -48,11 +49,28 @@ siviso::siviso(QWidget *parent) :
     ui->prob_falsa->setValue(mysignal->get_prob_falsa());
     ui->prob_deteccion->setValue(mysignal->get_prob_deteccion());
     ui->edo_mar->setValue(mysignal->get_edo_mar());
+    ui->origenOmni->setChecked(true);
+    ui->dial->setDisabled(true);
+    ui->ang->setVisible(false);
+    ui->frecP->setValue(mysignal->get_frecP());
+    ui->nP->setValue(mysignal->get_nP());
+    ui->anchoP->setValue(mysignal->get_anchoP());
 
     bToolButton=false;
     ui->textTestGrap->setVisible(false);
     ui->view->setVisible(false);
     ui->save->setVisible(false);
+    ui->startCom->setVisible(false);
+    ui->endCom->setVisible(false);
+    ui->sensor0->setVisible(false);
+    ui->sensor1->setVisible(false);
+    ui->closeJars->setVisible(false);
+    ui->openJars->setVisible(false);
+    ui->textSend->setVisible(false);
+    ui->send->setVisible(false);
+    ui->infoSignal->setVisible(false);
+
+    serialPortUSB->write("GAIN 3\n");
 
     QFile file1("resource/colorUp.txt");
     if(file1.open(QIODevice::WriteOnly)){
@@ -72,24 +90,9 @@ siviso::siviso(QWidget *parent) :
     }
     file2.close();
 
-    /*QFile file("resource/colorDw.txt");
-    if(file.open(QIODevice::ReadOnly)){
-        QTextStream stream(&file);
-        //ui->view->appendPlainText(stream.readAll());
-        ui->setColorDw->setValue(stream.readAll().toInt());
-    } else {
-        qDebug();
-    }
-    file.close();
-    QFile file2("resource/colorUp.txt");
-    if(file.open(QIODevice::ReadOnly)){
-        QTextStream stream(&file2);
-        //ui->view->appendPlainText(stream.readAll());
-        ui->setColorDw->setValue(stream.readAll().toInt());
-    } else {
-        qDebug();
-    }
-    file2.close();*/
+    proceso1->startDetached("java -jar Lofar.jar");
+    proceso2->startDetached("java -jar BTR.jar");
+    proceso3->startDetached("java -jar PPI.jar");
 
 
 
@@ -107,10 +110,11 @@ siviso::siviso(QWidget *parent) :
 
 siviso::~siviso()
 {
-    QString s = "BTR_EXIT";
+    QString s = "EXIT";
     udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoBTR);
-    s = "LF_EXIT";
     udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoLF);
+    udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoPPI);
+
     serialPortUSB->write("END COMMUNICATION\n");
     serialPortDB9->close();
     serialPortUSB->close();
@@ -164,49 +168,41 @@ void siviso::leerSocket()
         QHostAddress sender;
         quint16 senderPort;
         udpsocket->readDatagram(datagram.data(),datagram.size(), &sender, &senderPort);
-        //ui->textTestGrap->appendPlainText(QString(datagram) + " (ip->" + sender.toString() + " ; port-> " + QString("%1").arg(senderPort) + " ) ");
         QString info = datagram.data();
-        /*QString s = " ";
-        if(info.data()[0]=='$')                       //verifica cabecera y parte elo paquete en secciones sepáradas ṕor punto y coma
-        for(int x=0;x<=info.size();x++)
-           {
-            if(info.data()[x]!=';')
-                s += info.data()[x];
-            else{
-                ui->textTestGrap->appendPlainText(s);
-                s = " ";
-            }
-        }
-        else
-            ui->textTestGrap->appendPlainText("ERROR: el mensaje no tiene cabecera");*/
         ui->textTestGrap->appendPlainText(" port-> " + QString("%1").arg(senderPort));
         ui->textTestGrap->appendPlainText(info);
         //s = " ";
 
-        if(info == "runPPI")
+        QString s;
+        if(info == "runPPI"){
             puertoPPI = senderPort;
-        if(info == "runBTR")
+            //s = "LONG";
+            //udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoPPI);
+            s = "OFF";
+            udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoPPI);
+        } else if(info == "runBTR"){
             puertoBTR = senderPort;
-        if(info == "runLF")
+            s = "LONG";
+            udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoBTR);
+            s = "OFF";
+            udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoBTR);
+        } else if(info == "runLF"){
             puertoLF = senderPort;
-        if(info == "runREC")
+            s = "LONG";
+            udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoLF);
+            s = "OFF";
+            udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoLF);
+        } else if(info == "runREC"){
             puertoREC = senderPort;
         //puertoPar = senderPort;
-        if(puertoSPP == senderPort){
+        } else if(puertoSSF == senderPort){
              udpsocket->writeDatagram(info.toLatin1(),direccionApp,puertoBTR);
              udpsocket->writeDatagram(info.toLatin1(),direccionApp,puertoLF);
-        }
-        /*if(info == "BTR" || info == "LOFAR")
-            udpsocket->writeDatagram(info.toLatin1(),direccionSPP,puertoSPP);
-        if(puertoBTR == senderPort){
-            ui->textTestGrap->appendPlainText(" intento enviar ");
-            udpsocket->writeDatagram(info.toLatin1(),direccionSPP,puertoSPP);
-            ui->textTestGrap->appendPlainText(" paquete enviado ");
-        }*/
-        if(info == "BTR")
+        } else if(info == "BTR"){
             serialPortUSB->write("BTR\n");
-        if(info == "LOFAR")
+        } else if(info == "LOFAR"){
             serialPortUSB->write("LOFAR\n");
+        }
     }
 }
 
@@ -225,28 +221,28 @@ void siviso::on_btOpenPort_clicked()
     serialPortDB9->setParity(QSerialPort::NoParity);
     serialPortDB9->setFlowControl(QSerialPort::NoFlowControl);
 
-    serialPortUSB->setPortName("/dev/ttyUSB1");
+    serialPortUSB->setPortName("/dev/ttyUSB0");
     if(serialPortUSB->open(QIODevice::ReadWrite))
         ui->view->appendPlainText("Puerto serial abierto\n");
         //qDebug("Puerto serial abierto\n");
     else
         ui->view->appendPlainText("Error de coexion con el puerto serial\n");
         //qDebug("Error de coexion con el puerto serial\n");
-    serialPortUSB->setBaudRate(QSerialPort::Baud115200);
+    serialPortUSB->setBaudRate(QSerialPort::Baud9600);
     serialPortUSB->setDataBits(QSerialPort::Data8);
     serialPortUSB->setStopBits(QSerialPort::OneStop);
     serialPortUSB->setParity(QSerialPort::NoParity);
     serialPortUSB->setFlowControl(QSerialPort::NoFlowControl);
 
-    serialPortUSB->write("START COMMUNICATION\n");
-    serialPortUSB->write("SPEED 1500\n");
+    serialPortUSB->write("START COMMUNICATION P\n");
+    serialPortUSB->write("START COMMUNICATION A\n");
 
-    QString s = "BTR_EXIT";
+    /*QString s = "BTR_EXIT";
     udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoBTR);
     s = "LF_EXIT";
     udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoLF);
     proceso1->startDetached("java -jar Lofar.jar");
-    proceso2->startDetached("java -jar BTR.jar");
+    proceso2->startDetached("java -jar BTR.jar");*/
 }
 
 void siviso::leerSerialDB9()
@@ -274,25 +270,139 @@ void siviso::leerSerialUSB()
     QString str;
     str=QString(buffer);
     int n =str.size();
-    ui->textTestGrap->appendPlainText(QString::number(n));
+    //ui->textTestGrap->appendPlainText(QString::number(n));
 
 
     numCatchSend += n;
     for(int x=0;x<str.size();x++){
-        if(str[x]=='1'||str[x]=='2'||str[x]=='3'||str[x]=='4'||str[x]=='5'||str[x]=='6'||str[x]=='7'||str[x]=='8'||str[x]=='9'||str[x]=='0'||str[x]==','||str[x]==';'){
-            catchSend += str[x];
+        if(str[x]=='#'){
+            bSensor = true;
+            catchSensor = "";
+            nSensor = 0;
+            tipoSensor = 9; //esta variable es para indicar que sensor se comunica, si activo "1" o pasivo "0", se inicializa en "9"
+        }
+        if(str[x]=='1'||str[x]=='2'||str[x]=='3'||str[x]=='4'||str[x]=='5'||str[x]=='6'||str[x]=='7'||str[x]=='8'||str[x]=='9'||str[x]=='0'||str[x]==','||str[x]==';'||str[x]=='.'||str[x]==':'||str[x]=='-'){
+            if(bSensor){
+                if(str[x]==','||str[x]==';'){
+                    switch(nSensor){
+                    case 0:
+                        if(catchSensor=="0"){
+                            ui->B1Nom->setText("SSPF");
+                            tipoSensor = 0;
+                        }else if (catchSensor=="1"){
+                            ui->B1Nom->setText("SSAF");
+                            tipoSensor = 1;
+                        }else{
+                            ui->B1Nom->setText("error");
+                        }
+                        catchSensor = "";
+                        nSensor++;
+                        break;
+                    case 1:
+                        if(tipoSensor == 0){
+                            ui->B0Or->setText(catchSensor);
+                        } else if(tipoSensor == 1){
+                            ui->B1Or->setText(catchSensor);
+                        }
+                        catchSensor = "";
+                        nSensor++;
+                        break;
+                    case 2:
+                        if(tipoSensor == 0){
+                            ui->B0Pr->setText(catchSensor);
+                        } else if(tipoSensor == 1){
+                            ui->B1Pr->setText(catchSensor);
+                        }
+                        catchSensor = "";
+                        nSensor++;
+                        break;
+                    case 3:
+                        if(tipoSensor == 0){
+                            ui->B0Temp->setText(catchSensor);
+                        } else if(tipoSensor == 1){
+                            ui->B1Temp->setText(catchSensor);
+                        }
+                        catchSensor = "";
+                        nSensor++;
+                        break;
+                    case 4:
+                        if(tipoSensor == 0){
+                            ui->B0Time->setText(catchSensor);
+                        } else if(tipoSensor == 1){
+                            ui->B1Time->setText(catchSensor);
+                        }
+                        catchSensor = "";
+                        nSensor++;
+                        break;
+                    case 5:
+                        if(tipoSensor == 0){
+                            ui->B0Lat->setText(catchSensor);
+                        } else if(tipoSensor == 1){
+                            ui->B1Lat->setText(catchSensor);
+                        }
+                        catchSensor = "";
+                        nSensor++;
+                        break;
+                    case 6:
+                        if(tipoSensor == 0){
+                            ui->B0Long->setText(catchSensor);
+                        } else if(tipoSensor == 1){
+                            ui->B1Long->setText(catchSensor);
+                        }
+                        catchSensor = "";
+                        nSensor++;
+                        break;
+                    case 7:
+                        if(tipoSensor == 0){
+                            ui->B0Carg->setText(catchSensor);
+                        } else if(tipoSensor == 1){
+                            ui->B1Carg->setText(catchSensor);
+                        }
+                        catchSensor = "";
+                        nSensor++;
+                        if(catchSensor.toInt()<=20)
+                            ui->Alert->setText("ALERTA BATERIA BAJA");
+                        break;
+                    case 8:
+                        if(tipoSensor == 0){
+                            ui->B0Volt->setText(catchSensor);
+                        } else if(tipoSensor == 1){
+                            ui->B1Volt->setText(catchSensor);
+                        }
+                        catchSensor = "";
+                        break;
+                    }
+                } else{
+                    catchSensor += str[x];
+                }
+            } else{
+                if(str[x]==','||str[x]==';')
+                    nWords++;
+                catchSend += str[x];
+            }
         }
         if(str[x]==';'){
-            ui->textTestGrap->appendPlainText("esto enviare: "+catchSend);
-            if(compGraf=="BTR")
-                udpsocket->writeDatagram(catchSend.toLatin1(),direccionApp,puertoBTR);
-            if(compGraf=="LF")
-                udpsocket->writeDatagram(catchSend.toLatin1(),direccionApp,puertoLF);
+            if(!bSensor){
+                ui->textTestGrap->appendPlainText("esto enviare: "+catchSend);
+                if(compGraf=="BTR"){
+                    if(nWords==longBTR||catchSend.size()>=(longBTR*2))
+                        udpsocket->writeDatagram(catchSend.toLatin1(),direccionApp,puertoBTR);
+                    else
+                        ui->Alert->setText("Error, Datos recividos para graficar BTR son incomprensibles");
+                }
+                if(compGraf=="LF"){
+                    if(nWords==longLF||catchSend.size()>=(longLF*2))
+                        udpsocket->writeDatagram(catchSend.toLatin1(),direccionApp,puertoLF);
+                    else
+                        ui->Alert->setText("Error, Datos recividos para graficar Lofar son incomprensibles");
+                }
 
-            numCatchSend = 0;
+                numCatchSend = 0;
 
-            ui->textTestGrap->appendPlainText(catchSend);
-            catchSend="";
+                //ui->textTestGrap->appendPlainText(catchSend);
+                catchSend="";
+            }
+            nWords=0;
         }
     }
 }
@@ -310,52 +420,46 @@ void siviso::on_tipo_norte_clicked()
         ui->tipo_norte->setText("Norte\nVerdadero");
         myppi->set_tipo_norte(true);
     }
-
 }
 
 void siviso::on_lf_clicked()
 {
-    QString s = "LOFAR";
-    ui->view->appendPlainText("send: " + s);
-    udpsocket->writeDatagram(s.toLatin1(),direccionSPP,puertoSPP);
-    s = "LF_ON";
-    udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoLF);
-    s = "BTR_OFF";
+    QString s;
+    s = "OFF";
     udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoBTR);
+    udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoPPI);
+    s = "ON";
+    udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoLF);
     compGraf="LF";
-    s = "LF_RP";
+    s = "RP";
     udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoLF);
 }
 
 void siviso::on_btr_clicked()
 {
-    QString s = "BTR";
-    ui->view->appendPlainText("send to SSPP: " + s);
-    udpsocket->writeDatagram(s.toLatin1(),direccionSPP,puertoSPP);
-    s = "BTR_ON";
-    udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoBTR);
-    s = "LF_OFF";
+    QString s;
+    s = "OFF";
     udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoLF);
+    udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoPPI);
+    s = "ON";
+    udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoBTR);
     compGraf="BTR";
-    s = "BTR_RP";
+    s = "RP";
     udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoBTR);
 }
 
-void siviso::on_rng_clicked()
-{/*
-    //ui->textTestGrap->appendPlainText("despliega PPI");
-    QString s;
-    //ui->view->appendPlainText("send: " + s);
-    //udpsocket->writeDatagram(s.toLatin1(),direccionSPP,puertoSPP);
-    s = "BTR_EXIT";
-    udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoBTR);
-    s = "LF_EXIT";
-    udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoLF);
-    //serialPortUSB->write("SPEED 1500\n");
-    serialPortUSB->write("END COMMUNICATION\n");
 
-    //proceso->start("java -jar Lofar.jar");
-    //proceso2->start("java -jar BTR.jar");*/
+void siviso::on_ppi_clicked()
+{
+    QString s;
+    s = "OFF";
+    udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoBTR);
+    udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoLF);
+    s = "ON";
+    udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoPPI);
+    compGraf="PPI";
+    s = "RP";
+    udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoPPI);
 }
 
 void siviso::on_origen_buque_clicked()
@@ -367,16 +471,6 @@ void siviso::on_origen_target_clicked()
 {
     ui->textTestGrap->appendPlainText("se cambio el origen a blanco");
 }
-
-/*void siviso::on_pushButton_info_clicked()
-{
-    ui->view->appendPlainText("info: ");
-    QString s = mysignal->get_info_signal();
-    ui->view->appendPlainText(s);
-    ui->view->appendPlainText("portSPP " + QString("%1").arg(puertoSPP));
-    ui->view->appendPlainText("portBTR " + QString("%1").arg(puertoBTR));
-    ui->view->appendPlainText("portLF " + QString("%1").arg(puertoLF));
-}*/
 
 void siviso::on_frecuencia_valueChanged(int value)
 {
@@ -444,20 +538,10 @@ void siviso::on_gan_sen_valueChanged(int arg1)
     ui->view->appendPlainText("ganancia_sensor: ");
     QString s = QString::number(arg1);
     ui->view->appendPlainText(s);
-    QByteArray ba ="GAIN "+s.toLatin1()+"\n";
-    serialPortUSB->write(ba);
+    //QByteArray ba ="GAIN "+s.toLatin1()+"\n";
+    serialPortUSB->write("SET GAIN P\n");
+    serialPortUSB->write(s.toLatin1()+"\n");
 }
-
-/*//boton para enviar la informacion
-void siviso::on_pushButton_send_clicked()
-{
-    //QString s = mysignal->send_to_sensor();               //guarda en la variable "s" lo que tiene en sensor
-    QString s = "END COMMUNICATION";
-    ui->view->appendPlainText("send: " + s);
-    udpsocket->writeDatagram(s.toLatin1(),direccionSPP,puertoSPP);
-    serialPortDB9->write("s");
-    //serialPortUSB->write("END COMMUNICATION\n");
-}*/
 
 void siviso::on_it_valueChanged(int arg1)
 {
@@ -467,8 +551,6 @@ void siviso::on_it_valueChanged(int arg1)
     QString s = QString::number(arg1);
     ui->view->appendPlainText(s);
 }
-
-
 
 void siviso::on_rec_clicked()
 {
@@ -508,28 +590,42 @@ void siviso::on_toolButton_clicked()
         ui->textTestGrap->setVisible(false);
         ui->view->setVisible(false);
         ui->save->setVisible(false);
-        //ui->pushButton_info->setVisible(false);
-        //ui->pushButton_send->setVisible(false);
-        //ui->btOpenPort->setVisible(false);
+        ui->startCom->setVisible(false);
+        ui->endCom->setVisible(false);
+        ui->sensor0->setVisible(false);
+        ui->sensor1->setVisible(false);
+        ui->closeJars->setVisible(false);
+        ui->openJars->setVisible(false);
+        ui->textSend->setVisible(false);
+        ui->send->setVisible(false);
+        ui->infoSignal->setVisible(false);
     }else{
         bToolButton=true;
         ui->textTestGrap->setVisible(true);
         ui->view->setVisible(true);
         ui->save->setVisible(true);
-        //ui->pushButton_info->setVisible(true);
-        //ui->pushButton_send->setVisible(true);
-        //ui->btOpenPort->setVisible(true);
+        ui->startCom->setVisible(true);
+        ui->endCom->setVisible(true);
+        ui->sensor0->setVisible(true);
+        ui->sensor1->setVisible(true);
+        ui->closeJars->setVisible(true);
+        ui->openJars->setVisible(true);
+        ui->textSend->setVisible(true);
+        ui->send->setVisible(true);
+        ui->infoSignal->setVisible(true);
     }
 }
 
 void siviso::on_save_clicked()
 {
     QString s;
-    s = "LF_SAVE";
+    s = "SAVE";
     if(compGraf=="BTR")
         udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoBTR);
     if(compGraf=="LF")
         udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoLF);
+    if(compGraf=="PPI")
+        udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoPPI);
 }
 
 void siviso::on_setColorUp_valueChanged(int value)
@@ -550,15 +646,11 @@ void siviso::on_setColorUp_valueChanged(int value)
     file.close();
 
     QString s;
-    if(compGraf=="BTR"){
-        s = "BTR_RP";
+    s = "RP";
+    if(compGraf=="BTR")
         udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoBTR);
-    }
-    if(compGraf=="LF"){
-        s = "LF_RP";
+    if(compGraf=="LF")
         udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoLF);
-    }
-    //ui->textTestGrap->appendPlainText(QString::number(value));
 }
 
 void siviso::on_setColorDw_valueChanged(int value)
@@ -579,13 +671,161 @@ void siviso::on_setColorDw_valueChanged(int value)
     file.close();
 
     QString s;
-    if(compGraf=="BTR"){
-        s = "BTR_RP";
+    s = "RP";
+    if(compGraf=="BTR")
         udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoBTR);
-    }
-    if(compGraf=="LF"){
-        s = "LF_RP";
+    if(compGraf=="LF")
         udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoLF);
+}
+
+void siviso::on_frecP_valueChanged(int arg1)
+{
+    serialPortUSB->write("SET CENTRAL FREQUENCY\n");
+    QString s = QString::number(arg1);
+    serialPortUSB->write(s.toLatin1() + "\n");
+}
+
+void siviso::on_nP_valueChanged(int arg1)
+{
+    serialPortUSB->write("SET N PULSOS\n");
+    QString s = QString::number(arg1);
+    serialPortUSB->write(s.toLatin1() + "\n");
+}
+
+void siviso::on_anchoP_valueChanged(int arg1)
+{
+    serialPortUSB->write("SET ANCHO PULSO\n");
+    QString s = QString::number(arg1);
+    serialPortUSB->write(s.toLatin1() + "\n");
+}
+
+void siviso::on_cw_clicked()
+{
+    //serialPortUSB->write("RANGO 1\n");
+    if(ui->origenManual->isChecked()){
+        serialPortUSB->write("SET ANGLE A\n");
+        int n = ui->ang->value();
+        if(n<0)
+            n+=360;
+        QString s = QString::number(n);
+        serialPortUSB->write(s.toLatin1() + "\n");
     }
-    //ui->textTestGrap->appendPlainText(QString::number(value));
+    serialPortUSB->write("ENCENDER\n");
+}
+
+void siviso::on_startCom_clicked()
+{
+    serialPortUSB->write("START COMMUNICATION P\n");
+    serialPortUSB->write("START COMMUNICATION A\n");
+}
+
+void siviso::on_endCom_clicked()
+{
+    serialPortUSB->write("END COMMUNICATION\n");
+}
+
+void siviso::on_sensor0_clicked()
+{
+    serialPortUSB->write("SENSORES P\n");
+}
+
+void siviso::on_sensor1_clicked()
+{
+    serialPortUSB->write("SENSORES A\n");
+}
+
+void siviso::on_closeJars_clicked()
+{
+    QString s;
+    s = "EXIT";
+    udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoBTR);
+    udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoLF);
+    udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoPPI);
+}
+
+void siviso::on_openJars_clicked()
+{
+    QString s;
+    s = "EXIT";
+    udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoBTR);
+    udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoLF);
+    udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoPPI);
+
+    proceso1->startDetached("java -jar Lofar.jar");
+    proceso2->startDetached("java -jar BTR.jar");
+    proceso3->startDetached("java -jar PPI.jar");
+}
+
+
+void siviso::on_dial_valueChanged(int value)
+{
+    ui->ang->setValue(value);
+}
+
+void siviso::on_ang_valueChanged(int arg1)
+{
+    if(arg1<=180)
+        ui->dial->setValue(arg1);
+    else{
+        int n = arg1-360;
+        ui->dial->setValue(n);
+    }
+}
+
+void siviso::on_origenOmni_clicked()
+{
+    serialPortUSB->write("SET HIDROFONO\n");
+    serialPortUSB->write("5 \n");
+    ui->ang->setVisible(false);
+    ui->dial->setDisabled(true);
+}
+
+void siviso::on_origenManual_clicked()
+{
+    serialPortUSB->write("SET HIDROFONO\n");
+    serialPortUSB->write("0 \n");
+    ui->ang->setVisible(true);
+    ui->dial->setDisabled(false);
+}
+
+void siviso::on_dial_sliderReleased()
+{
+    serialPortUSB->write("SET ANGLE A\n");
+    ui->textTestGrap->appendPlainText("SET ANGLE A\n");
+    int n = ui->ang->value();
+    /*if(n<0)
+        n+=360;*/
+    QString s = QString::number(n);
+    serialPortUSB->write(s.toLatin1() + "\n");
+    ui->textTestGrap->appendPlainText(s);
+}
+
+void siviso::on_ang_editingFinished()
+{
+    serialPortUSB->write("SET ANGLE A\n");
+    ui->textTestGrap->appendPlainText("SET ANGLE A\n");
+    int n = ui->ang->value();
+    /*if(n<0)
+        n+=360;*/
+    QString s = QString::number(n);
+    serialPortUSB->write(s.toLatin1() + "\n");
+    ui->textTestGrap->appendPlainText(s);
+}
+
+void siviso::on_send_clicked()
+{
+    QString s;
+    s = ui->textSend->text();
+    serialPortUSB->write(s.toLatin1());
+    ui->textSend->clear();
+}
+
+void siviso::on_infoSignal_clicked()
+{
+    ui->view->appendPlainText("info: ");
+    QString s = mysignal->get_info_signal();
+    ui->view->appendPlainText(s);
+    ui->view->appendPlainText("portSSF " + QString("%1").arg(puertoSSF));
+    ui->view->appendPlainText("portBTR " + QString("%1").arg(puertoBTR));
+    ui->view->appendPlainText("portLF " + QString("%1").arg(puertoLF));
 }
