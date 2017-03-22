@@ -83,9 +83,8 @@ public:
     bool bSensor;
 
 private slots:
-    //void on_toolButton_clicked();
     void leerSocket();
-    void leerSerialDB9();
+    //void leerSerialDB9();
     void leerSerialUSB();
 
 private slots:
@@ -139,6 +138,8 @@ private slots:
     void on_nP_valueChanged(int arg1);
 
     void on_anchoP_valueChanged(int arg1);
+
+    void habilitado(bool value);
 
     void on_cw_clicked();
 

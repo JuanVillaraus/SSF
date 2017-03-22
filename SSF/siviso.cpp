@@ -14,6 +14,7 @@ siviso::siviso(QWidget *parent) :
      ui( new Ui::siviso)
 {
     ui->setupUi(this);
+
     myppi = new PPI();
     mysignal = new Signal();
     proceso1 = new QProcess(this);
@@ -37,8 +38,7 @@ siviso::siviso(QWidget *parent) :
     //direccionApp = "192.168.1.178";                   //direccion que usaran las aplicaciones
     direccionApp = "127.0.0.1";                   //direccion que usaran las aplicaciones
     //udpsocket->writeDatagram(ui->view->text().toLatin1(),direccionPar,puertoPar); //visualiza la direcion IP y puerto del que envia
-
-
+    //pSocket->connectToHost("192.168.1.10",6001);
 
     ui->frecuencia->setValue(mysignal->get_frec());
     ui->bw->setValue(mysignal->get_bw());
@@ -194,7 +194,8 @@ void siviso::leerSocket()
             udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoLF);
         } else if(info == "runREC"){
             puertoREC = senderPort;
-        //puertoPar = senderPort;
+        } else if(info == "PPI OK"){
+            habilitado(false);
         } else if(puertoSSF == senderPort){
              udpsocket->writeDatagram(info.toLatin1(),direccionApp,puertoBTR);
              udpsocket->writeDatagram(info.toLatin1(),direccionApp,puertoLF);
@@ -208,7 +209,7 @@ void siviso::leerSocket()
 
 void siviso::on_btOpenPort_clicked()
 {
-    serialPortDB9->setPortName("/dev/ttyS0");
+    /*serialPortDB9->setPortName("/dev/ttyS0");
     if(serialPortDB9->open(QIODevice::ReadWrite))
         ui->view->appendPlainText("Puerto serial abierto\n");
         //qDebug("Puerto serial abierto\n");
@@ -219,15 +220,14 @@ void siviso::on_btOpenPort_clicked()
     serialPortDB9->setDataBits(QSerialPort::Data8);
     serialPortDB9->setStopBits(QSerialPort::OneStop);
     serialPortDB9->setParity(QSerialPort::NoParity);
-    serialPortDB9->setFlowControl(QSerialPort::NoFlowControl);
+    serialPortDB9->setFlowControl(QSerialPort::NoFlowControl);*/
 
     serialPortUSB->setPortName("/dev/ttyUSB0");
-    if(serialPortUSB->open(QIODevice::ReadWrite))
-        ui->view->appendPlainText("Puerto serial abierto\n");
-        //qDebug("Puerto serial abierto\n");
-    else
-        ui->view->appendPlainText("Error de coexion con el puerto serial\n");
-        //qDebug("Error de coexion con el puerto serial\n");
+    if(serialPortUSB->open(QIODevice::ReadWrite)){
+        ui->view->appendPlainText("Puerto USB serial abierto\n");
+    }else{
+        ui->view->appendPlainText("Error de coexion con el puerto USB serial\n");
+    }
     serialPortUSB->setBaudRate(QSerialPort::Baud9600);
     serialPortUSB->setDataBits(QSerialPort::Data8);
     serialPortUSB->setStopBits(QSerialPort::OneStop);
@@ -236,16 +236,9 @@ void siviso::on_btOpenPort_clicked()
 
     serialPortUSB->write("START COMMUNICATION P\n");
     serialPortUSB->write("START COMMUNICATION A\n");
-
-    /*QString s = "BTR_EXIT";
-    udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoBTR);
-    s = "LF_EXIT";
-    udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoLF);
-    proceso1->startDetached("java -jar Lofar.jar");
-    proceso2->startDetached("java -jar BTR.jar");*/
 }
 
-void siviso::leerSerialDB9()
+/*void siviso::leerSerialDB9()
 {
     char buffer[101];
     int nDatos;
@@ -254,7 +247,7 @@ void siviso::leerSerialDB9()
     buffer[nDatos] = '\0';
     ui->textTestGrap->appendPlainText(buffer);
 
-}
+}*/
 
 void siviso::leerSerialUSB()
 {
@@ -287,7 +280,7 @@ void siviso::leerSerialUSB()
                     switch(nSensor){
                     case 0:
                         if(catchSensor=="0"){
-                            ui->B1Nom->setText("SSPF");
+                            ui->B0Nom->setText("SSPF");
                             tipoSensor = 0;
                         }else if (catchSensor=="1"){
                             ui->B1Nom->setText("SSAF");
@@ -358,10 +351,10 @@ void siviso::leerSerialUSB()
                         } else if(tipoSensor == 1){
                             ui->B1Carg->setText(catchSensor);
                         }
-                        catchSensor = "";
                         nSensor++;
                         if(catchSensor.toInt()<=20)
                             ui->Alert->setText("ALERTA BATERIA BAJA");
+                        catchSensor = "";
                         break;
                     case 8:
                         if(tipoSensor == 0){
@@ -651,6 +644,8 @@ void siviso::on_setColorUp_valueChanged(int value)
         udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoBTR);
     if(compGraf=="LF")
         udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoLF);
+    if(compGraf=="PPI")
+        udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoPPI);
 }
 
 void siviso::on_setColorDw_valueChanged(int value)
@@ -676,6 +671,8 @@ void siviso::on_setColorDw_valueChanged(int value)
         udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoBTR);
     if(compGraf=="LF")
         udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoLF);
+    if(compGraf=="PPI")
+        udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoPPI);
 }
 
 void siviso::on_frecP_valueChanged(int arg1)
@@ -701,16 +698,20 @@ void siviso::on_anchoP_valueChanged(int arg1)
 
 void siviso::on_cw_clicked()
 {
+    habilitado(true);
+    QString s;
     //serialPortUSB->write("RANGO 1\n");
     if(ui->origenManual->isChecked()){
         serialPortUSB->write("SET ANGLE A\n");
         int n = ui->ang->value();
         if(n<0)
             n+=360;
-        QString s = QString::number(n);
+        s = QString::number(n);
         serialPortUSB->write(s.toLatin1() + "\n");
     }
     serialPortUSB->write("ENCENDER\n");
+    s = "PULSO";
+    udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoPPI);
 }
 
 void siviso::on_startCom_clicked()
@@ -793,8 +794,6 @@ void siviso::on_dial_sliderReleased()
     serialPortUSB->write("SET ANGLE A\n");
     ui->textTestGrap->appendPlainText("SET ANGLE A\n");
     int n = ui->ang->value();
-    /*if(n<0)
-        n+=360;*/
     QString s = QString::number(n);
     serialPortUSB->write(s.toLatin1() + "\n");
     ui->textTestGrap->appendPlainText(s);
@@ -805,8 +804,6 @@ void siviso::on_ang_editingFinished()
     serialPortUSB->write("SET ANGLE A\n");
     ui->textTestGrap->appendPlainText("SET ANGLE A\n");
     int n = ui->ang->value();
-    /*if(n<0)
-        n+=360;*/
     QString s = QString::number(n);
     serialPortUSB->write(s.toLatin1() + "\n");
     ui->textTestGrap->appendPlainText(s);
@@ -816,7 +813,19 @@ void siviso::on_send_clicked()
 {
     QString s;
     s = ui->textSend->text();
-    serialPortUSB->write(s.toLatin1());
+
+   /* QByteArray data = "prueba"; // <-- fill with data
+    data = "ui->textSend->text()";
+
+        pSocket = new QTcpSocket( this ); // <-- needs to be a member variable: QTcpSocket * pSocket;
+        connect( pSocket, SIGNAL(readyRead()), SLOT(readTcpData()) );
+
+        pSocket->connectToHost("192.168.1.10", 6001);
+        if( pSocket->waitForConnected() ) {
+            pSocket->write( data );
+        }*/
+
+    serialPortUSB->write(s.toLatin1()+"\n");
     ui->textSend->clear();
 }
 
@@ -828,4 +837,43 @@ void siviso::on_infoSignal_clicked()
     ui->view->appendPlainText("portSSF " + QString("%1").arg(puertoSSF));
     ui->view->appendPlainText("portBTR " + QString("%1").arg(puertoBTR));
     ui->view->appendPlainText("portLF " + QString("%1").arg(puertoLF));
+    ui->view->appendPlainText("portPPI " + QString("%1").arg(puertoPPI));
+}
+
+void siviso::habilitado(bool value){
+    ui->frecuencia->setDisabled(value);
+    ui->bw->setDisabled(value);
+    ui->it->setDisabled(value);
+    ui->dt->setDisabled(value);
+    ui->cw->setDisabled(value);
+    ui->frecP->setDisabled(value);
+    ui->nP->setDisabled(value);
+    ui->anchoP->setDisabled(value);
+    ui->ran_det->setDisabled(value);
+    ui->tipo_norte->setDisabled(value);
+    ui->origenBuque->setDisabled(value);
+    ui->origenSensor->setDisabled(value);
+    ui->origenBlanco->setDisabled(value);
+    ui->origenOmni->setDisabled(value);
+    ui->origenAuto->setDisabled(value);
+    ui->origenManual->setDisabled(value);
+    ui->ang->setDisabled(value);
+    ui->dial->setDisabled(value);
+    ui->rec->setDisabled(value);
+    ui->play->setDisabled(value);
+    ui->vol_dw->setDisabled(value);
+    ui->vol_up->setDisabled(value);
+    ui->et_blancos->setDisabled(value);
+    ui->clas_blancos->setDisabled(value);
+    ui->edo_mar->setDisabled(value);
+    ui->radio_boya->setDisabled(value);
+    ui->prob_falsa->setDisabled(value);
+    ui->prob_deteccion->setDisabled(value);
+    ui->escala_ppi->setDisabled(value);
+    ui->escala_desp->setDisabled(value);
+    ui->gan_sen->setDisabled(value);
+    ui->btOpenPort->setDisabled(value);
+    ui->lf->setDisabled(value);
+    ui->btr->setDisabled(value);
+    ui->ppi->setDisabled(value);
 }

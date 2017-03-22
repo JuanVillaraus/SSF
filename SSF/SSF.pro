@@ -28,7 +28,8 @@ HEADERS  += siviso.h \
     ppi.h \
     signal.h \
     dbasepostgresql.h \
-    wconfig.h
+    wconfig.h \
+    conexionsf.h
 
 FORMS    += siviso.ui \
     wconfig.ui

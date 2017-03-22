@@ -753,7 +753,7 @@ Verdadero</string>
        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;Blancos&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
      </widget>
-     <widget class="QPushButton" name="pushButton_11">
+     <widget class="QPushButton" name="et_blancos">
       <property name="geometry">
        <rect>
         <x>10</x>
@@ -771,7 +771,7 @@ Verdadero</string>
        <string>Etiquetar blanco</string>
       </property>
      </widget>
-     <widget class="QComboBox" name="comboBox">
+     <widget class="QComboBox" name="clas_blancos">
       <property name="geometry">
        <rect>
         <x>114</x>
@@ -1079,7 +1079,7 @@ Verdadero</string>
       <string>PPI</string>
      </property>
     </widget>
-    <widget class="QDoubleSpinBox" name="prob_falsa_2">
+    <widget class="QDoubleSpinBox" name="radio_boya">
      <property name="geometry">
       <rect>
        <x>620</x>
@@ -2426,6 +2426,25 @@ Verdadero</string>
      </property>
      <property name="text">
       <string/>
+     </property>
+    </widget>
+    <widget class="QLabel" name="B1estado">
+     <property name="geometry">
+      <rect>
+       <x>220</x>
+       <y>10</y>
+       <width>67</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>offline</string>
+     </property>
+     <property name="textFormat">
+      <enum>Qt::PlainText</enum>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
      </property>
     </widget>
    </widget>
