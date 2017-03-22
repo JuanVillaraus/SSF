@@ -195,7 +195,7 @@ void siviso::leerSocket()
         } else if(info == "runREC"){
             puertoREC = senderPort;
         } else if(info == "PPI OK"){
-            habilitado(false);
+            deshabilitado(false);
         } else if(puertoSSF == senderPort){
              udpsocket->writeDatagram(info.toLatin1(),direccionApp,puertoBTR);
              udpsocket->writeDatagram(info.toLatin1(),direccionApp,puertoLF);
@@ -698,7 +698,7 @@ void siviso::on_anchoP_valueChanged(int arg1)
 
 void siviso::on_cw_clicked()
 {
-    habilitado(true);
+    //deshabilitado(true);
     QString s;
     //serialPortUSB->write("RANGO 1\n");
     if(ui->origenManual->isChecked()){
@@ -840,7 +840,7 @@ void siviso::on_infoSignal_clicked()
     ui->view->appendPlainText("portPPI " + QString("%1").arg(puertoPPI));
 }
 
-void siviso::habilitado(bool value){
+void siviso::deshabilitado(bool value){
     ui->frecuencia->setDisabled(value);
     ui->bw->setDisabled(value);
     ui->it->setDisabled(value);

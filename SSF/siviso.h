@@ -139,7 +139,7 @@ private slots:
 
     void on_anchoP_valueChanged(int arg1);
 
-    void habilitado(bool value);
+    void deshabilitado(bool value);
 
     void on_cw_clicked();
 
