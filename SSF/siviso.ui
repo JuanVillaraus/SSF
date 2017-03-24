@@ -1027,7 +1027,7 @@ Verdadero</string>
       </property>
      </widget>
     </widget>
-    <widget class="QPushButton" name="btOpenPort">
+    <widget class="QPushButton" name="startCom">
      <property name="geometry">
       <rect>
        <x>1200</x>
@@ -1037,7 +1037,7 @@ Verdadero</string>
       </rect>
      </property>
      <property name="text">
-      <string>Open</string>
+      <string>Start</string>
      </property>
     </widget>
     <widget class="QPushButton" name="lf">
@@ -1657,7 +1657,7 @@ Verdadero</string>
       <string>Guardar</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="startCom">
+    <widget class="QPushButton" name="btOpenPort">
      <property name="geometry">
       <rect>
        <x>20</x>
@@ -1667,7 +1667,7 @@ Verdadero</string>
       </rect>
      </property>
      <property name="text">
-      <string>start com</string>
+      <string>open port</string>
      </property>
     </widget>
     <widget class="QPushButton" name="sensor0">
@@ -1698,7 +1698,7 @@ Verdadero</string>
       </font>
      </property>
      <property name="text">
-      <string>openJars</string>
+      <string>open Jars</string>
      </property>
     </widget>
     <widget class="QPushButton" name="closeJars">
@@ -1781,6 +1781,19 @@ Verdadero</string>
       <string>info signal</string>
      </property>
     </widget>
+    <zorder>view</zorder>
+    <zorder>textTestGrap</zorder>
+    <zorder>save</zorder>
+    <zorder>btOpenPort</zorder>
+    <zorder>sensor0</zorder>
+    <zorder>openJars</zorder>
+    <zorder>closeJars</zorder>
+    <zorder>sensor1</zorder>
+    <zorder>endCom</zorder>
+    <zorder>textSend</zorder>
+    <zorder>send</zorder>
+    <zorder>infoSignal</zorder>
+    <zorder>startCom</zorder>
    </widget>
    <widget class="QFrame" name="MedioAmbiente">
     <property name="geometry">

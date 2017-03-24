@@ -60,7 +60,8 @@ siviso::siviso(QWidget *parent) :
     ui->textTestGrap->setVisible(false);
     ui->view->setVisible(false);
     ui->save->setVisible(false);
-    ui->startCom->setVisible(false);
+    //ui->startCom->setVisible(false);
+    ui->btOpenPort->setVisible(false);
     ui->endCom->setVisible(false);
     ui->sensor0->setVisible(false);
     ui->sensor1->setVisible(false);
@@ -94,7 +95,17 @@ siviso::siviso(QWidget *parent) :
     proceso2->startDetached("java -jar BTR.jar");
     proceso3->startDetached("java -jar PPI.jar");
 
-
+    serialPortUSB->setPortName("/dev/ttyUSB0");
+    if(serialPortUSB->open(QIODevice::ReadWrite)){
+        ui->view->appendPlainText("Puerto USB serial abierto\n");
+    }else{
+        ui->view->appendPlainText("Error de coexion con el puerto USB serial\n");
+    }
+    serialPortUSB->setBaudRate(QSerialPort::Baud9600);
+    serialPortUSB->setDataBits(QSerialPort::Data8);
+    serialPortUSB->setStopBits(QSerialPort::OneStop);
+    serialPortUSB->setParity(QSerialPort::NoParity);
+    serialPortUSB->setFlowControl(QSerialPort::NoFlowControl);
 
 //This use for TEST the class DBasePostgreSQL by Misael M Del Valle -- Status: Functional
 //    myDB = new DBasePostgreSQL("172.16.1.3","PruebaQT",5432,"Administrador","nautilus");
@@ -583,7 +594,8 @@ void siviso::on_toolButton_clicked()
         ui->textTestGrap->setVisible(false);
         ui->view->setVisible(false);
         ui->save->setVisible(false);
-        ui->startCom->setVisible(false);
+        //ui->startCom->setVisible(false);
+        ui->btOpenPort->setVisible(false);
         ui->endCom->setVisible(false);
         ui->sensor0->setVisible(false);
         ui->sensor1->setVisible(false);
@@ -597,7 +609,8 @@ void siviso::on_toolButton_clicked()
         ui->textTestGrap->setVisible(true);
         ui->view->setVisible(true);
         ui->save->setVisible(true);
-        ui->startCom->setVisible(true);
+        //ui->startCom->setVisible(true);
+        ui->btOpenPort->setVisible(true);
         ui->endCom->setVisible(true);
         ui->sensor0->setVisible(true);
         ui->sensor1->setVisible(true);
@@ -699,23 +712,14 @@ void siviso::on_anchoP_valueChanged(int arg1)
 void siviso::on_cw_clicked()
 {
     //deshabilitado(true);
-    QString s;
-    //serialPortUSB->write("RANGO 1\n");
-    if(ui->origenManual->isChecked()){
-        serialPortUSB->write("SET ANGLE A\n");
-        int n = ui->ang->value();
-        if(n<0)
-            n+=360;
-        s = QString::number(n);
-        serialPortUSB->write(s.toLatin1() + "\n");
-    }
     serialPortUSB->write("ENCENDER\n");
-    s = "PULSO";
-    udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoPPI);
+    /*QString s = "PULSO";
+    udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoPPI);*/
 }
 
 void siviso::on_startCom_clicked()
 {
+    serialPortUSB->write("END COMMUNICATION\n");
     serialPortUSB->write("START COMMUNICATION P\n");
     serialPortUSB->write("START COMMUNICATION A\n");
 }
@@ -794,6 +798,8 @@ void siviso::on_dial_sliderReleased()
     serialPortUSB->write("SET ANGLE A\n");
     ui->textTestGrap->appendPlainText("SET ANGLE A\n");
     int n = ui->ang->value();
+    if(n<0)
+        n+=360;
     QString s = QString::number(n);
     serialPortUSB->write(s.toLatin1() + "\n");
     ui->textTestGrap->appendPlainText(s);
@@ -804,6 +810,8 @@ void siviso::on_ang_editingFinished()
     serialPortUSB->write("SET ANGLE A\n");
     ui->textTestGrap->appendPlainText("SET ANGLE A\n");
     int n = ui->ang->value();
+    if(n<0)
+        n+=360;
     QString s = QString::number(n);
     serialPortUSB->write(s.toLatin1() + "\n");
     ui->textTestGrap->appendPlainText(s);
