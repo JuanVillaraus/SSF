@@ -651,8 +651,6 @@ moc_siviso.cpp: ../SSF/blanco.h \
 		../../../Qt5.6.0/5.6/gcc_64/include/QtSerialPort/qserialportglobal.h \
 		../../../Qt5.6.0/5.6/gcc_64/include/QtCore/QProcess \
 		../../../Qt5.6.0/5.6/gcc_64/include/QtCore/qprocess.h \
-		../../../Qt5.6.0/5.6/gcc_64/include/QtNetwork/QTcpSocket \
-		../../../Qt5.6.0/5.6/gcc_64/include/QtNetwork/qtcpsocket.h \
 		../../../Qt5.6.0/5.6/gcc_64/include/QtSql/QSql \
 		../../../Qt5.6.0/5.6/gcc_64/include/QtSql/qsql.h \
 		../../../Qt5.6.0/5.6/gcc_64/include/QtSql/QSqlDatabase \
@@ -997,8 +995,6 @@ main.o: ../SSF/main.cpp ../SSF/siviso.h \
 		../../../Qt5.6.0/5.6/gcc_64/include/QtSerialPort/qserialportglobal.h \
 		../../../Qt5.6.0/5.6/gcc_64/include/QtCore/QProcess \
 		../../../Qt5.6.0/5.6/gcc_64/include/QtCore/qprocess.h \
-		../../../Qt5.6.0/5.6/gcc_64/include/QtNetwork/QTcpSocket \
-		../../../Qt5.6.0/5.6/gcc_64/include/QtNetwork/qtcpsocket.h \
 		../../../Qt5.6.0/5.6/gcc_64/include/QtSql/QSql \
 		../../../Qt5.6.0/5.6/gcc_64/include/QtSql/qsql.h \
 		../../../Qt5.6.0/5.6/gcc_64/include/QtSql/QSqlDatabase \
@@ -1150,8 +1146,6 @@ siviso.o: ../SSF/siviso.cpp ../SSF/siviso.h \
 		../../../Qt5.6.0/5.6/gcc_64/include/QtSerialPort/qserialportglobal.h \
 		../../../Qt5.6.0/5.6/gcc_64/include/QtCore/QProcess \
 		../../../Qt5.6.0/5.6/gcc_64/include/QtCore/qprocess.h \
-		../../../Qt5.6.0/5.6/gcc_64/include/QtNetwork/QTcpSocket \
-		../../../Qt5.6.0/5.6/gcc_64/include/QtNetwork/qtcpsocket.h \
 		../../../Qt5.6.0/5.6/gcc_64/include/QtSql/QSql \
 		../../../Qt5.6.0/5.6/gcc_64/include/QtSql/qsql.h \
 		../../../Qt5.6.0/5.6/gcc_64/include/QtSql/QSqlDatabase \

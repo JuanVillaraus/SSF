@@ -1076,7 +1076,7 @@ Verdadero</string>
       </rect>
      </property>
      <property name="text">
-      <string>PPI</string>
+      <string>Demon</string>
      </property>
     </widget>
     <widget class="QDoubleSpinBox" name="radio_boya">
@@ -1557,6 +1557,25 @@ Verdadero</string>
       <string/>
      </property>
     </widget>
+    <widget class="QLabel" name="B0estado">
+     <property name="geometry">
+      <rect>
+       <x>196</x>
+       <y>10</y>
+       <width>101</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Apagado</string>
+     </property>
+     <property name="textFormat">
+      <enum>Qt::PlainText</enum>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
    </widget>
    <widget class="QFrame" name="CompGraf">
     <property name="geometry">
@@ -1781,19 +1800,6 @@ Verdadero</string>
       <string>info signal</string>
      </property>
     </widget>
-    <zorder>view</zorder>
-    <zorder>textTestGrap</zorder>
-    <zorder>save</zorder>
-    <zorder>btOpenPort</zorder>
-    <zorder>sensor0</zorder>
-    <zorder>openJars</zorder>
-    <zorder>closeJars</zorder>
-    <zorder>sensor1</zorder>
-    <zorder>endCom</zorder>
-    <zorder>textSend</zorder>
-    <zorder>send</zorder>
-    <zorder>infoSignal</zorder>
-    <zorder>startCom</zorder>
    </widget>
    <widget class="QFrame" name="MedioAmbiente">
     <property name="geometry">
@@ -2444,14 +2450,14 @@ Verdadero</string>
     <widget class="QLabel" name="B1estado">
      <property name="geometry">
       <rect>
-       <x>220</x>
+       <x>196</x>
        <y>10</y>
-       <width>67</width>
-       <height>17</height>
+       <width>101</width>
+       <height>20</height>
       </rect>
      </property>
      <property name="text">
-      <string>offline</string>
+      <string>Apagado</string>
      </property>
      <property name="textFormat">
       <enum>Qt::PlainText</enum>

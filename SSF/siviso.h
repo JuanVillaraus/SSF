@@ -71,10 +71,13 @@ public:
     int tipoSensor;
     int longBTR;
     int longLF;
+    int longDEMON;
     int nWords;
     QString catchSend;
     QString compGraf;
     QString catchSensor;
+    QString catchCom;
+    QString Com;
     PPI *myppi;
     Signal *mysignal;
     bool bToolButton;
@@ -178,15 +181,17 @@ private:
     QHostAddress direccionSSF;
     QHostAddress direccionApp;
     quint16 puertoSSF;
-    quint16 puertoPPI;
+    quint16 puertoDEMON;
     quint16 puertoBTR;
     quint16 puertoLF;
     quint16 puertoREC;
+    quint16 puertoConxSF;
     QSerialPort *serialPortDB9;
     QSerialPort *serialPortUSB;
     QProcess *proceso1;
     QProcess *proceso2;
     QProcess *proceso3;
+    QProcess *proceso4;
 
     // For use the class dbasepostgresql by Misael M Del Valle
     DBasePostgreSQL* myDB;
