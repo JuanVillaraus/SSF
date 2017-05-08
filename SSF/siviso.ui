@@ -461,8 +461,17 @@
         <height>41</height>
        </rect>
       </property>
+      <property name="minimum">
+       <number>7000</number>
+      </property>
       <property name="maximum">
-       <number>4096</number>
+       <number>16000</number>
+      </property>
+      <property name="singleStep">
+       <number>1000</number>
+      </property>
+      <property name="value">
+       <number>7000</number>
       </property>
      </widget>
      <widget class="QSpinBox" name="nP">
@@ -474,8 +483,17 @@
         <height>41</height>
        </rect>
       </property>
+      <property name="minimum">
+       <number>10</number>
+      </property>
       <property name="maximum">
-       <number>65535</number>
+       <number>16000</number>
+      </property>
+      <property name="singleStep">
+       <number>1000</number>
+      </property>
+      <property name="value">
+       <number>1000</number>
       </property>
      </widget>
      <widget class="QSpinBox" name="anchoP">
@@ -488,10 +506,13 @@
        </rect>
       </property>
       <property name="minimum">
-       <number>1</number>
+       <number>40</number>
       </property>
       <property name="maximum">
-       <number>40</number>
+       <number>50</number>
+      </property>
+      <property name="value">
+       <number>50</number>
       </property>
      </widget>
      <widget class="QDoubleSpinBox" name="ran_det">
@@ -649,7 +670,7 @@ Verdadero</string>
       </rect>
      </property>
      <property name="text">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;altertar Norte&lt;br/&gt;Verdadero/Relativo &lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;alternar Norte&lt;br/&gt;Verdadero/Relativo &lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
     </widget>
     <widget class="QGroupBox" name="ControlOrigen">
@@ -1557,25 +1578,6 @@ Verdadero</string>
       <string/>
      </property>
     </widget>
-    <widget class="QLabel" name="B0estado">
-     <property name="geometry">
-      <rect>
-       <x>196</x>
-       <y>10</y>
-       <width>101</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Apagado</string>
-     </property>
-     <property name="textFormat">
-      <enum>Qt::PlainText</enum>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignCenter</set>
-     </property>
-    </widget>
    </widget>
    <widget class="QFrame" name="CompGraf">
     <property name="geometry">
@@ -2450,14 +2452,14 @@ Verdadero</string>
     <widget class="QLabel" name="B1estado">
      <property name="geometry">
       <rect>
-       <x>196</x>
+       <x>220</x>
        <y>10</y>
-       <width>101</width>
-       <height>20</height>
+       <width>67</width>
+       <height>17</height>
       </rect>
      </property>
      <property name="text">
-      <string>Apagado</string>
+      <string>offline</string>
      </property>
      <property name="textFormat">
       <enum>Qt::PlainText</enum>
