@@ -6,9 +6,9 @@ Signal::Signal()
     bw = 7.2;
     it = 5;
     dt = 9;
-    frecP = 2000;
-    nP = 10;
-    anchoP = 25;
+    frecP = 7000;
+    nP = 1000;
+    anchoP = 50;
     rangoDetec = 0;
     ganancia_sensor = 3;
     prob_falsa = 0.3;
