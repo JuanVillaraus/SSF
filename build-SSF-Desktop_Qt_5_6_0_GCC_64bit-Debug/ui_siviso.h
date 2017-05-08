@@ -132,6 +132,7 @@ public:
     QLabel *B0Or;
     QLabel *B0Carg;
     QLabel *B0Volt;
+    QLabel *B0estado;
     QFrame *CompGraf;
     QSlider *setColorDw;
     QSlider *setColorUp;
@@ -587,6 +588,11 @@ public:
         B0Volt->setObjectName(QStringLiteral("B0Volt"));
         B0Volt->setGeometry(QRect(250, 180, 51, 20));
         B0Volt->setFont(font2);
+        B0estado = new QLabel(PlataformaP);
+        B0estado->setObjectName(QStringLiteral("B0estado"));
+        B0estado->setGeometry(QRect(190, 10, 111, 20));
+        B0estado->setTextFormat(Qt::PlainText);
+        B0estado->setAlignment(Qt::AlignCenter);
         CompGraf = new QFrame(centralWidget);
         CompGraf->setObjectName(QStringLiteral("CompGraf"));
         CompGraf->setGeometry(QRect(10, 310, 791, 701));
@@ -797,7 +803,7 @@ public:
         B1Time->setFont(font2);
         B1estado = new QLabel(PlataformaActiva);
         B1estado->setObjectName(QStringLiteral("B1estado"));
-        B1estado->setGeometry(QRect(220, 10, 67, 17));
+        B1estado->setGeometry(QRect(190, 10, 111, 20));
         B1estado->setTextFormat(Qt::PlainText);
         B1estado->setAlignment(Qt::AlignCenter);
         Blancos = new QFrame(centralWidget);
@@ -935,6 +941,7 @@ public:
         B0Or->setText(QString());
         B0Carg->setText(QString());
         B0Volt->setText(QString());
+        B0estado->setText(QApplication::translate("siviso", "apagado", 0));
         save->setText(QApplication::translate("siviso", "Guardar", 0));
         btOpenPort->setText(QApplication::translate("siviso", "open port", 0));
         sensor0->setText(QApplication::translate("siviso", "sensor P", 0));
@@ -979,7 +986,7 @@ public:
         B1Pr->setText(QString());
         B1Long->setText(QString());
         B1Time->setText(QString());
-        B1estado->setText(QApplication::translate("siviso", "offline", 0));
+        B1estado->setText(QApplication::translate("siviso", "apagado", 0));
         label_40->setText(QApplication::translate("siviso", "COG:", 0));
         label_41->setText(QApplication::translate("siviso", "Etiqueta blanco:", 0));
         label_42->setText(QApplication::translate("siviso", "Latitud:", 0));

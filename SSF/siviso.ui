@@ -1578,6 +1578,25 @@ Verdadero</string>
       <string/>
      </property>
     </widget>
+    <widget class="QLabel" name="B0estado">
+     <property name="geometry">
+      <rect>
+       <x>190</x>
+       <y>10</y>
+       <width>111</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>apagado</string>
+     </property>
+     <property name="textFormat">
+      <enum>Qt::PlainText</enum>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
    </widget>
    <widget class="QFrame" name="CompGraf">
     <property name="geometry">
@@ -2452,14 +2471,14 @@ Verdadero</string>
     <widget class="QLabel" name="B1estado">
      <property name="geometry">
       <rect>
-       <x>220</x>
+       <x>190</x>
        <y>10</y>
-       <width>67</width>
-       <height>17</height>
+       <width>111</width>
+       <height>20</height>
       </rect>
      </property>
      <property name="text">
-      <string>offline</string>
+      <string>apagado</string>
      </property>
      <property name="textFormat">
       <enum>Qt::PlainText</enum>

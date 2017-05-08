@@ -224,6 +224,10 @@ void siviso::leerSocket()
             serialPortUSB->write("LOFAR P\n");
         } else if(info == "DEMON"){
             serialPortUSB->write("DEMON P\n");
+        } else if(info == "SENSOR P"){
+            serialPortUSB->write("SENSOR P\n");
+        } else if(info == "SENSOR P"){
+            serialPortUSB->write("SENSOR P\n");
         } else if(info[0] == '#'){
             s = "";
             for(int x=1;x<info.size();x++){
@@ -302,9 +306,11 @@ void siviso::leerSerialUSB()
                     case 0:
                         if(catchSensor=="0"){
                             ui->B0Nom->setText("SSPF");
+                            ui->B0estado->setText("Conectado");
                             tipoSensor = 0;
                         }else if (catchSensor=="1"){
                             ui->B1Nom->setText("SSAF");
+                            ui->B1estado->setText("Conectado");
                             tipoSensor = 1;
                         }else{
                             ui->B1Nom->setText("error");
