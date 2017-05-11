@@ -130,6 +130,7 @@ siviso::~siviso()
     udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoBTR);
     udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoLF);
     udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoDEMON);
+    udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoComSF);
 
     serialPortUSB->write("END COMMUNICATION A\n");
     serialPortUSB->write("END COMMUNICATION P\n");
@@ -141,6 +142,7 @@ siviso::~siviso()
     proceso1->close();
     proceso2->close();
     proceso3->close();
+    proceso4->close();
 }
 
 void siviso::changeStyleSheet(int iStyle)
@@ -225,9 +227,19 @@ void siviso::leerSocket()
         } else if(info == "DEMON"){
             serialPortUSB->write("DEMON P\n");
         } else if(info == "SENSOR P"){
-            serialPortUSB->write("SENSOR P\n");
-        } else if(info == "SENSOR P"){
-            serialPortUSB->write("SENSOR P\n");
+            serialPortUSB->write("SENSORES P\n");
+        } else if(info == "SENSOR A"){
+            serialPortUSB->write("SENSORES A\n");
+        } else if(info == "A1"){
+            ui->B1estado->setText("Desconectado");
+            ui->Alert->setText("BOYA ACTIVA DESAPARECIDA EN ACCIÓN");
+        } else if(info == "A2"){
+            ui->B1estado->setText("En espera");
+        } else if(info == "P1"){
+            ui->B0estado->setText("Desconectado");
+            ui->Alert->setText("BOYA PASIVA DESAPARECIDA EN ACCIÓN");
+        } else if(info == "P2"){
+            ui->B0estado->setText("En espera");
         } else if(info[0] == '#'){
             s = "";
             for(int x=1;x<info.size();x++){
@@ -402,34 +414,40 @@ void siviso::leerSerialUSB()
             }
         } else {
             if(str[x]=='!'||str[x]=='A'||str[x]=='C'||str[x]=='E'||str[x]=='F'||str[x]=='H'||str[x]=='I'||str[x]=='K'||str[x]=='M'||str[x]=='N'||str[x]=='O'||str[x]=='P'||str[x]=='R'||str[x]=='S'||str[x]=='T'||str[x]=='U'){
-                if(str[x]!=';'){
+                if(str[x]!='!'){
                     catchCmd += str[x];
                 } else {
+                    ui->textTestGrap->appendPlainText("comando: " + catchCmd);
                     if(catchCmd == "STARTOKP"){
                         catchSend="P_UP";
                         udpsocket->writeDatagram(catchSend.toLatin1(),direccionApp,puertoComSF);
                         catchSend="";
+                        ui->B0estado->setText("Encendido");
                     } else if(catchCmd == "STARTOKA"){
                         catchSend="A_UP";
                         udpsocket->writeDatagram(catchSend.toLatin1(),direccionApp,puertoComSF);
                         catchSend="";
+                        ui->B1estado->setText("Encendido");
                     } else if(catchCmd == "OKP"){
-
+                        ui->B0estado->setText("Conectado");
                     } else if(catchCmd == "OKA"){
-
+                        ui->B1estado->setText("Conectado");
                     } else if(catchCmd == "FINISHCOMMUNICATIONP"){
                         catchSend="P_DW";
                         udpsocket->writeDatagram(catchSend.toLatin1(),direccionApp,puertoComSF);
                         catchSend="";
+                        ui->B0estado->setText("Apagado");
                     } else if(catchCmd == "FINISHCOMMUNICATIONA"){
                         catchSend="A_DW";
                         udpsocket->writeDatagram(catchSend.toLatin1(),direccionApp,puertoComSF);
                         catchSend="";
+                        ui->B1estado->setText("Apagado");
                     } else if(catchCmd == "COMMUNICATIONERRORP"){
 
                     } else if(catchCmd == "COMMUNICATIONERRORA"){
 
                     }
+                    catchCmd = "";
                 }
             }
         }
@@ -958,3 +976,4 @@ void siviso::deshabilitado(bool value){
     ui->btr->setDisabled(value);
     ui->ppi->setDisabled(value);
 }
+

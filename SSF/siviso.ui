@@ -218,7 +218,7 @@
       </font>
      </property>
      <property name="text">
-      <string>Frecuiencia</string>
+      <string>Frecuencia</string>
      </property>
     </widget>
     <widget class="QFrame" name="ControlRec">
@@ -340,7 +340,7 @@
       <rect>
        <x>210</x>
        <y>10</y>
-       <width>81</width>
+       <width>61</width>
        <height>17</height>
       </rect>
      </property>
@@ -379,10 +379,10 @@
     <widget class="QLabel" name="label_11">
      <property name="geometry">
       <rect>
-       <x>290</x>
+       <x>310</x>
        <y>10</y>
-       <width>121</width>
-       <height>17</height>
+       <width>91</width>
+       <height>20</height>
       </rect>
      </property>
      <property name="font">
@@ -403,9 +403,9 @@
     <widget class="QLabel" name="label_12">
      <property name="geometry">
       <rect>
-       <x>420</x>
+       <x>430</x>
        <y>10</y>
-       <width>91</width>
+       <width>71</width>
        <height>20</height>
       </rect>
      </property>
@@ -1244,7 +1244,7 @@ Verdadero</string>
     <widget class="QLabel" name="label_28">
      <property name="geometry">
       <rect>
-       <x>110</x>
+       <x>80</x>
        <y>10</y>
        <width>101</width>
        <height>20</height>
@@ -1586,6 +1586,9 @@ Verdadero</string>
        <width>111</width>
        <height>20</height>
       </rect>
+     </property>
+     <property name="toolTip">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
      <property name="text">
       <string>apagado</string>
@@ -2008,7 +2011,7 @@ Verdadero</string>
     <widget class="QLabel" name="label_36">
      <property name="geometry">
       <rect>
-       <x>110</x>
+       <x>80</x>
        <y>10</y>
        <width>101</width>
        <height>20</height>
@@ -2476,6 +2479,12 @@ Verdadero</string>
        <width>111</width>
        <height>20</height>
       </rect>
+     </property>
+     <property name="toolTip">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+     <property name="layoutDirection">
+      <enum>Qt::LeftToRight</enum>
      </property>
      <property name="text">
       <string>apagado</string>

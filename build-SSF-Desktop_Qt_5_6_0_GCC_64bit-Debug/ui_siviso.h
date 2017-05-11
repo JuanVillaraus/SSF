@@ -515,7 +515,7 @@ public:
         PlataformaP->setFrameShadow(QFrame::Raised);
         label_28 = new QLabel(PlataformaP);
         label_28->setObjectName(QStringLiteral("label_28"));
-        label_28->setGeometry(QRect(110, 10, 101, 20));
+        label_28->setGeometry(QRect(80, 10, 101, 20));
         label_29 = new QLabel(PlataformaP);
         label_29->setObjectName(QStringLiteral("label_29"));
         label_29->setGeometry(QRect(20, 30, 67, 17));
@@ -700,7 +700,7 @@ public:
         PlataformaActiva->setFrameShadow(QFrame::Raised);
         label_36 = new QLabel(PlataformaActiva);
         label_36->setObjectName(QStringLiteral("label_36"));
-        label_36->setGeometry(QRect(110, 10, 101, 20));
+        label_36->setGeometry(QRect(80, 10, 101, 20));
         label_37 = new QLabel(PlataformaActiva);
         label_37->setObjectName(QStringLiteral("label_37"));
         label_37->setGeometry(QRect(20, 40, 67, 17));
@@ -804,6 +804,7 @@ public:
         B1estado = new QLabel(PlataformaActiva);
         B1estado->setObjectName(QStringLiteral("B1estado"));
         B1estado->setGeometry(QRect(190, 10, 111, 20));
+        B1estado->setLayoutDirection(Qt::LeftToRight);
         B1estado->setTextFormat(Qt::PlainText);
         B1estado->setAlignment(Qt::AlignCenter);
         Blancos = new QFrame(centralWidget);
@@ -941,6 +942,9 @@ public:
         B0Or->setText(QString());
         B0Carg->setText(QString());
         B0Volt->setText(QString());
+#ifndef QT_NO_TOOLTIP
+        B0estado->setToolTip(QApplication::translate("siviso", "<html><head/><body><p align=\"center\"><br/></p></body></html>", 0));
+#endif // QT_NO_TOOLTIP
         B0estado->setText(QApplication::translate("siviso", "apagado", 0));
         save->setText(QApplication::translate("siviso", "Guardar", 0));
         btOpenPort->setText(QApplication::translate("siviso", "open port", 0));
@@ -986,6 +990,9 @@ public:
         B1Pr->setText(QString());
         B1Long->setText(QString());
         B1Time->setText(QString());
+#ifndef QT_NO_TOOLTIP
+        B1estado->setToolTip(QApplication::translate("siviso", "<html><head/><body><p align=\"center\"><br/></p></body></html>", 0));
+#endif // QT_NO_TOOLTIP
         B1estado->setText(QApplication::translate("siviso", "apagado", 0));
         label_40->setText(QApplication::translate("siviso", "COG:", 0));
         label_41->setText(QApplication::translate("siviso", "Etiqueta blanco:", 0));
