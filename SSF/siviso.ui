@@ -1710,7 +1710,7 @@ Verdadero</string>
       </rect>
      </property>
      <property name="text">
-      <string>open port</string>
+      <string>abrir puerto</string>
      </property>
     </widget>
     <widget class="QPushButton" name="sensor0">
@@ -1741,7 +1741,7 @@ Verdadero</string>
       </font>
      </property>
      <property name="text">
-      <string>open Jars</string>
+      <string>abrir Jars</string>
      </property>
     </widget>
     <widget class="QPushButton" name="closeJars">
@@ -1759,7 +1759,7 @@ Verdadero</string>
       </font>
      </property>
      <property name="text">
-      <string>close Jars</string>
+      <string>cerrar Jars</string>
      </property>
     </widget>
     <widget class="QPushButton" name="sensor1">
@@ -1785,7 +1785,7 @@ Verdadero</string>
       </rect>
      </property>
      <property name="text">
-      <string>end com</string>
+      <string>fin de com</string>
      </property>
     </widget>
     <widget class="QLineEdit" name="textSend">
@@ -1822,6 +1822,58 @@ Verdadero</string>
      </property>
      <property name="text">
       <string>info signal</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="ApagarP">
+     <property name="geometry">
+      <rect>
+       <x>199</x>
+       <y>596</y>
+       <width>81</width>
+       <height>27</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Apagar P</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="sensorOFF">
+     <property name="geometry">
+      <rect>
+       <x>200</x>
+       <y>626</y>
+       <width>81</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>apagar S</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="ApagarA">
+     <property name="geometry">
+      <rect>
+       <x>284</x>
+       <y>596</y>
+       <width>81</width>
+       <height>27</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Apagar A</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="sensorON">
+     <property name="geometry">
+      <rect>
+       <x>286</x>
+       <y>625</y>
+       <width>81</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>encender S</string>
      </property>
     </widget>
    </widget>

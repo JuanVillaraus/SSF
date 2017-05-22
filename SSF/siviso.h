@@ -173,6 +173,14 @@ private slots:
 
     void on_infoSignal_clicked();
 
+    void on_ApagarP_clicked();
+
+    void on_ApagarA_clicked();
+
+    void on_sensorOFF_clicked();
+
+    void on_sensorON_clicked();
+
 private:
     Ui::siviso *ui;
 

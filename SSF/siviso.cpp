@@ -73,7 +73,33 @@ siviso::siviso(QWidget *parent) :
     ui->textSend->setVisible(false);
     ui->send->setVisible(false);
     ui->infoSignal->setVisible(false);
+    ui->ApagarP->setVisible(false);
+    ui->ApagarA->setVisible(false);
+    ui->sensorOFF->setVisible(false);
+    ui->sensorON->setVisible(false);
     ui->anchoP->setDisabled(true);
+
+    ui->frecuencia->setDisabled(true);
+    ui->bw->setDisabled(true);
+    ui->it->setDisabled(true);
+    ui->dt->setDisabled(true);
+    ui->tipo_norte->setDisabled(true);
+    ui->origenBuque->setDisabled(true);
+    ui->origenSensor->setDisabled(true);
+    ui->origenBlanco->setDisabled(true);
+    ui->origenAuto->setDisabled(true);
+    ui->rec->setDisabled(true);
+    ui->play->setDisabled(true);
+    ui->vol_dw->setDisabled(true);
+    ui->vol_up->setDisabled(true);
+    ui->et_blancos->setDisabled(true);
+    ui->clas_blancos->setDisabled(true);
+    ui->edo_mar->setDisabled(true);
+    ui->radio_boya->setDisabled(true);
+    ui->prob_falsa->setDisabled(true);
+    ui->prob_deteccion->setDisabled(true);
+    ui->escala_ppi->setDisabled(true);
+    ui->escala_desp->setDisabled(true);
 
     serialPortUSB->write("GAIN 3\n");
 
@@ -188,8 +214,8 @@ void siviso::leerSocket()
         quint16 senderPort;
         udpsocket->readDatagram(datagram.data(),datagram.size(), &sender, &senderPort);
         QString info = datagram.data();
-        ui->textTestGrap->appendPlainText(" port-> " + QString("%1").arg(senderPort));
-        ui->textTestGrap->appendPlainText(info);
+        ui->view->appendPlainText(" port-> " + QString("%1").arg(senderPort));
+        ui->view->appendPlainText(info);
         //s = " ";
 
         QString s;
@@ -201,9 +227,9 @@ void siviso::leerSocket()
             udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoDEMON);
         } else if(info == "runBTR"){
             puertoBTR = senderPort;
-            s = "LONG";
-            udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoBTR);
             s = "OFF";
+            udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoBTR);
+            s = "LONG";
             udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoBTR);
         } else if(info == "runLF"){
             puertoLF = senderPort;
@@ -368,18 +394,18 @@ void siviso::leerSerialUSB()
                         break;
                     case 5:
                         if(tipoSensor == 0){
-                            ui->B0Lat->setText(catchSensor);
+                            ui->B0Lat->setNum(catchSensor.toDouble()/100);
                         } else if(tipoSensor == 1){
-                            ui->B1Lat->setText(catchSensor);
+                            ui->B1Lat->setNum(catchSensor.toDouble()/100);
                         }
                         catchSensor = "";
                         nSensor++;
                         break;
                     case 6:
                         if(tipoSensor == 0){
-                            ui->B0Long->setText(catchSensor);
+                            ui->B0Long->setNum(catchSensor.toDouble()/-100);
                         } else if(tipoSensor == 1){
-                            ui->B1Long->setText(catchSensor);
+                            ui->B1Long->setNum(catchSensor.toDouble()/-100);
                         }
                         catchSensor = "";
                         nSensor++;
@@ -686,6 +712,10 @@ void siviso::on_toolButton_clicked()
         ui->textSend->setVisible(false);
         ui->send->setVisible(false);
         ui->infoSignal->setVisible(false);
+        ui->ApagarP->setVisible(false);
+        ui->ApagarA->setVisible(false);
+        ui->sensorOFF->setVisible(false);
+        ui->sensorON->setVisible(false);
     }else{
         bToolButton=true;
         ui->textTestGrap->setVisible(true);
@@ -701,6 +731,10 @@ void siviso::on_toolButton_clicked()
         ui->textSend->setVisible(true);
         ui->send->setVisible(true);
         ui->infoSignal->setVisible(true);
+        ui->ApagarP->setVisible(true);
+        ui->ApagarA->setVisible(true);
+        ui->sensorOFF->setVisible(true);
+        ui->sensorON->setVisible(true);
     }
 }
 
@@ -977,3 +1011,29 @@ void siviso::deshabilitado(bool value){
     ui->ppi->setDisabled(value);
 }
 
+
+void siviso::on_ApagarP_clicked()
+{
+    serialPortUSB->write("APAGAR P\n");
+}
+
+void siviso::on_ApagarA_clicked()
+{
+    serialPortUSB->write("APAGAR A\n");
+}
+
+void siviso::on_sensorOFF_clicked()
+{
+    QString s;
+    s = "EXIT";
+    udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoComSF);
+}
+
+void siviso::on_sensorON_clicked()
+{
+    QString s;
+    s = "EXIT";
+    udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoComSF);
+
+    proceso4->startDetached("java -jar ConexionSF.jar");
+}
