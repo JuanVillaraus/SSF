@@ -181,6 +181,10 @@ private slots:
 
     void on_sensorON_clicked();
 
+    void on_vol_dw_clicked();
+
+    void on_vol_up_clicked();
+
 private:
     Ui::siviso *ui;
 
@@ -199,6 +203,7 @@ private:
     QProcess *proceso2;
     QProcess *proceso3;
     QProcess *proceso4;
+    QProcess *proceso5;
 
     // For use the class dbasepostgresql by Misael M Del Valle
     DBasePostgreSQL* myDB;

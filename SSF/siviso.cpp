@@ -21,6 +21,7 @@ siviso::siviso(QWidget *parent) :
     proceso2 = new QProcess(this);
     proceso3 = new QProcess(this);
     proceso4 = new QProcess(this);
+    proceso5 = new QProcess(this);
     numCatchSend = 0;
     catchSend = "";
     catchCmd = "";
@@ -994,8 +995,6 @@ void siviso::deshabilitado(bool value){
     ui->dial->setDisabled(value);
     ui->rec->setDisabled(value);
     ui->play->setDisabled(value);
-    ui->vol_dw->setDisabled(value);
-    ui->vol_up->setDisabled(value);
     ui->et_blancos->setDisabled(value);
     ui->clas_blancos->setDisabled(value);
     ui->edo_mar->setDisabled(value);
@@ -1036,4 +1035,14 @@ void siviso::on_sensorON_clicked()
     udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoComSF);
 
     proceso4->startDetached("java -jar ConexionSF.jar");
+}
+
+void siviso::on_vol_dw_clicked()
+{
+    proceso3->startDetached("amixer sset Master 5%-");
+}
+
+void siviso::on_vol_up_clicked()
+{
+    proceso3->startDetached("amixer sset Master 5%+");
 }
