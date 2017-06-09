@@ -185,6 +185,8 @@ private slots:
 
     void on_vol_up_clicked();
 
+    void on_demon_clicked();
+
 private:
     Ui::siviso *ui;
 
@@ -195,6 +197,7 @@ private:
     quint16 puertoDEMON;
     quint16 puertoBTR;
     quint16 puertoLF;
+    quint16 puertoPPI;
     quint16 puertoREC;
     quint16 puertoComSF;
     QSerialPort *serialPortDB9;

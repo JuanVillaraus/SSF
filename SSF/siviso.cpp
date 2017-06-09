@@ -124,8 +124,9 @@ siviso::siviso(QWidget *parent) :
 
     proceso1->startDetached("java -jar Lofar.jar");
     proceso2->startDetached("java -jar BTR.jar");
-    proceso3->startDetached("java -jar demon.jar");
-    proceso4->startDetached("java -jar ConexionSF.jar");
+    proceso3->startDetached("java -jar PPI.jar");
+    proceso4->startDetached("java -jar demon.jar");
+    proceso5->startDetached("java -jar ConexionSF.jar");
 
     serialPortUSB->setPortName("/dev/ttyUSB0");
     if(serialPortUSB->open(QIODevice::ReadWrite)){
@@ -156,6 +157,7 @@ siviso::~siviso()
     QString s = "EXIT";
     udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoBTR);
     udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoLF);
+    udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoPPI);
     udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoDEMON);
     udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoComSF);
 
@@ -170,6 +172,7 @@ siviso::~siviso()
     proceso2->close();
     proceso3->close();
     proceso4->close();
+    proceso5->close();
 }
 
 void siviso::changeStyleSheet(int iStyle)
@@ -226,6 +229,12 @@ void siviso::leerSocket()
             udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoDEMON);
             s = "OFF";
             udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoDEMON);
+        } else if(info == "runPPI"){
+            puertoPPI = senderPort;
+            s = "OFF";
+            udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoPPI);
+            s = "LONG";
+            udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoPPI);
         } else if(info == "runBTR"){
             puertoBTR = senderPort;
             s = "OFF";
@@ -540,6 +549,7 @@ void siviso::on_lf_clicked()
     QString s;
     s = "OFF";
     udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoBTR);
+    udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoPPI);
     udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoDEMON);
     s = "ON";
     udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoLF);
@@ -553,6 +563,7 @@ void siviso::on_btr_clicked()
     QString s;
     s = "OFF";
     udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoLF);
+    udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoPPI);
     udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoDEMON);
     s = "ON";
     udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoBTR);
@@ -566,6 +577,21 @@ void siviso::on_ppi_clicked()
 {
     QString s;
     s = "OFF";
+    udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoDEMON);
+    udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoBTR);
+    udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoLF);
+    s = "ON";
+    udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoPPI);
+    compGraf="PPI";
+    s = "RP";
+    udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoPPI);
+}
+
+void siviso::on_demon_clicked()
+{
+    QString s;
+    s = "OFF";
+    udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoPPI);
     udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoBTR);
     udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoLF);
     s = "ON";
@@ -871,6 +897,7 @@ void siviso::on_closeJars_clicked()
     s = "EXIT";
     udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoBTR);
     udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoLF);
+    udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoPPI);
     udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoDEMON);
 }
 
@@ -880,10 +907,12 @@ void siviso::on_openJars_clicked()
     s = "EXIT";
     udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoBTR);
     udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoLF);
+    udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoPPI);
     udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoDEMON);
 
     proceso1->startDetached("java -jar Lofar.jar");
     proceso2->startDetached("java -jar BTR.jar");
+    proceso2->startDetached("java -jar PPI.jar");
     proceso3->startDetached("java -jar demon.jar");
 }
 
@@ -971,6 +1000,7 @@ void siviso::on_infoSignal_clicked()
     ui->view->appendPlainText("portSSF " + QString("%1").arg(puertoSSF));
     ui->view->appendPlainText("portBTR " + QString("%1").arg(puertoBTR));
     ui->view->appendPlainText("portLF " + QString("%1").arg(puertoLF));
+    ui->view->appendPlainText("portPPI " + QString("%1").arg(puertoPPI));
     ui->view->appendPlainText("portDEMON " + QString("%1").arg(puertoDEMON));
 }
 
@@ -1008,6 +1038,7 @@ void siviso::deshabilitado(bool value){
     ui->lf->setDisabled(value);
     ui->btr->setDisabled(value);
     ui->ppi->setDisabled(value);
+    ui->demon->setDisabled(value);
 }
 
 
