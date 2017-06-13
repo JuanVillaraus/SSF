@@ -128,17 +128,22 @@ siviso::siviso(QWidget *parent) :
     proceso4->startDetached("java -jar demon.jar");
     proceso5->startDetached("java -jar ConexionSF.jar");
 
-    serialPortUSB->setPortName("/dev/ttyUSB0");
+    /*serialPortUSB->setPortName("/dev/ttyUSB0");
     if(serialPortUSB->open(QIODevice::ReadWrite)){
         ui->view->appendPlainText("Puerto USB serial abierto\n");
+        s = "ANT_UP";
+        udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoComSF);
+        serialPortUSB->setBaudRate(QSerialPort::Baud9600);
+        serialPortUSB->setDataBits(QSerialPort::Data8);
+        serialPortUSB->setStopBits(QSerialPort::OneStop);
+        serialPortUSB->setParity(QSerialPort::NoParity);
+        serialPortUSB->setFlowControl(QSerialPort::NoFlowControl);
     }else{
         ui->view->appendPlainText("Error de coexion con el puerto USB serial\n");
-    }
-    serialPortUSB->setBaudRate(QSerialPort::Baud9600);
-    serialPortUSB->setDataBits(QSerialPort::Data8);
-    serialPortUSB->setStopBits(QSerialPort::OneStop);
-    serialPortUSB->setParity(QSerialPort::NoParity);
-    serialPortUSB->setFlowControl(QSerialPort::NoFlowControl);
+        s = "ANT_DW";
+        udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoComSF);
+    }*/
+
 
 //This use for TEST the class DBasePostgreSQL by Misael M Del Valle -- Status: Functional
 //    myDB = new DBasePostgreSQL("172.16.1.3","PruebaQT",5432,"Administrador","nautilus");
@@ -224,30 +229,40 @@ void siviso::leerSocket()
 
         QString s;
         if(info == "runDEMON"){
+            s = "EXIT";
+            udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoDEMON);
             puertoDEMON = senderPort;
             s = "LONG";
             udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoDEMON);
             s = "OFF";
             udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoDEMON);
         } else if(info == "runPPI"){
+            s = "EXIT";
+            udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoPPI);
             puertoPPI = senderPort;
             s = "OFF";
             udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoPPI);
             s = "LONG";
             udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoPPI);
         } else if(info == "runBTR"){
+            s = "EXIT";
+            udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoBTR);
             puertoBTR = senderPort;
             s = "OFF";
             udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoBTR);
             s = "LONG";
             udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoBTR);
         } else if(info == "runLF"){
+            s = "EXIT";
+            udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoLF);
             puertoLF = senderPort;
             s = "LONG";
             udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoLF);
             s = "OFF";
             udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoLF);
         } else if(info == "runConxSF"){
+            s = "EXIT";
+            udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoComSF);
             puertoComSF = senderPort;
         } else if(info == "runREC"){
             puertoREC = senderPort;
@@ -268,14 +283,54 @@ void siviso::leerSocket()
             serialPortUSB->write("SENSORES A\n");
         } else if(info == "A1"){
             ui->B1estado->setText("Desconectado");
-            ui->Alert->setText("BOYA ACTIVA DESAPARECIDA EN ACCIÓN");
+            //ui->Alert->setText("BOYA ACTIVA DESAPARECIDA EN ACCIÓN");
+            s = "A_DW";
+            udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoComSF);
         } else if(info == "A2"){
             ui->B1estado->setText("En espera");
+            s = "A_ESP";
+            udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoComSF);
         } else if(info == "P1"){
             ui->B0estado->setText("Desconectado");
-            ui->Alert->setText("BOYA PASIVA DESAPARECIDA EN ACCIÓN");
+            //ui->Alert->setText("BOYA PASIVA DESAPARECIDA EN ACCIÓN");
+            s = "P_DW";
+            udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoComSF);
         } else if(info == "P2"){
             ui->B0estado->setText("En espera");
+            s = "P_ESP";
+            udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoComSF);
+        } else if(info == "ANT"){
+            serialPortUSB->setPortName("/dev/ttyUSB0");
+            if(serialPortUSB->open(QIODevice::ReadWrite)){
+                ui->view->appendPlainText("Puerto USB serial abierto\n");
+                s = "ANT_UP";
+                udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoComSF);
+                serialPortUSB->setBaudRate(QSerialPort::Baud9600);
+                serialPortUSB->setDataBits(QSerialPort::Data8);
+                serialPortUSB->setStopBits(QSerialPort::OneStop);
+                serialPortUSB->setParity(QSerialPort::NoParity);
+                serialPortUSB->setFlowControl(QSerialPort::NoFlowControl);
+                //serialPortUSB->write("START COMMUNICATION P\n");
+                //serialPortUSB->write("START COMMUNICATION A\n");
+            }else{
+                s = "ANT_DW";
+                udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoComSF);
+                ui->view->appendPlainText("Error de coexion con el puerto USB serial\n");
+            }
+        /*} else if(info == "Conx0"){
+            serialPortUSB->setPortName("/dev/ttyUSB0");
+            if(serialPortUSB->open(QIODevice::ReadWrite)){
+                ui->view->appendPlainText("Puerto USB serial abierto\n");
+                serialPortUSB->setBaudRate(QSerialPort::Baud9600);
+                serialPortUSB->setDataBits(QSerialPort::Data8);
+                serialPortUSB->setStopBits(QSerialPort::OneStop);
+                serialPortUSB->setParity(QSerialPort::NoParity);
+                serialPortUSB->setFlowControl(QSerialPort::NoFlowControl);
+            }else{
+                ui->view->appendPlainText("Error de coexion con el puerto USB serial\n");
+                s = "USB_DW";
+                udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoComSF);
+            }*/
         } else if(info[0] == '#'){
             s = "";
             for(int x=1;x<info.size();x++){
@@ -294,20 +349,26 @@ void siviso::leerSocket()
 
 void siviso::on_btOpenPort_clicked()
 {
+    QString s;
     serialPortUSB->setPortName("/dev/ttyUSB0");
     if(serialPortUSB->open(QIODevice::ReadWrite)){
         ui->view->appendPlainText("Puerto USB serial abierto\n");
+        s = "ANT_UP";
+        udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoComSF);
+        serialPortUSB->setBaudRate(QSerialPort::Baud9600);
+        serialPortUSB->setDataBits(QSerialPort::Data8);
+        serialPortUSB->setStopBits(QSerialPort::OneStop);
+        serialPortUSB->setParity(QSerialPort::NoParity);
+        serialPortUSB->setFlowControl(QSerialPort::NoFlowControl);
+
+        serialPortUSB->write("START COMMUNICATION P\n");
+        serialPortUSB->write("START COMMUNICATION A\n");
     }else{
+        s = "ANT_DW";
+        udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoComSF);
         ui->view->appendPlainText("Error de coexion con el puerto USB serial\n");
     }
-    serialPortUSB->setBaudRate(QSerialPort::Baud9600);
-    serialPortUSB->setDataBits(QSerialPort::Data8);
-    serialPortUSB->setStopBits(QSerialPort::OneStop);
-    serialPortUSB->setParity(QSerialPort::NoParity);
-    serialPortUSB->setFlowControl(QSerialPort::NoFlowControl);
 
-    serialPortUSB->write("START COMMUNICATION P\n");
-    serialPortUSB->write("START COMMUNICATION A\n");
 }
 
 /*void siviso::leerSerialDB9()
@@ -332,6 +393,8 @@ void siviso::leerSerialUSB()
 
     buffer[nDatos] = '\0';
     ui->textTestGrap->appendPlainText(buffer);
+
+    QString sComSF;
 
     QString str;
     str=QString(buffer);
@@ -453,30 +516,39 @@ void siviso::leerSerialUSB()
                 if(str[x]!='!'){
                     catchCmd += str[x];
                 } else {
+                    sComSF="INFO";
+                    udpsocket->writeDatagram(sComSF.toLatin1(),direccionApp,puertoComSF);
+                    sComSF="";
                     ui->textTestGrap->appendPlainText("comando: " + catchCmd);
                     if(catchCmd == "STARTOKP"){
-                        catchSend="P_UP";
-                        udpsocket->writeDatagram(catchSend.toLatin1(),direccionApp,puertoComSF);
-                        catchSend="";
+                        sComSF="P_UP";
+                        udpsocket->writeDatagram(sComSF.toLatin1(),direccionApp,puertoComSF);
+                        sComSF="";
                         ui->B0estado->setText("Encendido");
                     } else if(catchCmd == "STARTOKA"){
-                        catchSend="A_UP";
-                        udpsocket->writeDatagram(catchSend.toLatin1(),direccionApp,puertoComSF);
-                        catchSend="";
+                        sComSF="A_UP";
+                        udpsocket->writeDatagram(sComSF.toLatin1(),direccionApp,puertoComSF);
+                        sComSF="";
                         ui->B1estado->setText("Encendido");
                     } else if(catchCmd == "OKP"){
                         ui->B0estado->setText("Conectado");
+                        sComSF="CONF";
+                        udpsocket->writeDatagram(sComSF.toLatin1(),direccionApp,puertoComSF);
+                        sComSF="";
                     } else if(catchCmd == "OKA"){
                         ui->B1estado->setText("Conectado");
+                        sComSF="CONF";
+                        udpsocket->writeDatagram(sComSF.toLatin1(),direccionApp,puertoComSF);
+                        sComSF="";
                     } else if(catchCmd == "FINISHCOMMUNICATIONP"){
-                        catchSend="P_DW";
-                        udpsocket->writeDatagram(catchSend.toLatin1(),direccionApp,puertoComSF);
-                        catchSend="";
+                        sComSF="P_DW";
+                        udpsocket->writeDatagram(sComSF.toLatin1(),direccionApp,puertoComSF);
+                        sComSF="";
                         ui->B0estado->setText("Apagado");
                     } else if(catchCmd == "FINISHCOMMUNICATIONA"){
-                        catchSend="A_DW";
-                        udpsocket->writeDatagram(catchSend.toLatin1(),direccionApp,puertoComSF);
-                        catchSend="";
+                        sComSF="A_DW";
+                        udpsocket->writeDatagram(sComSF.toLatin1(),direccionApp,puertoComSF);
+                        sComSF="";
                         ui->B1estado->setText("Apagado");
                     } else if(catchCmd == "COMMUNICATIONERRORP"){
 
@@ -488,6 +560,9 @@ void siviso::leerSerialUSB()
             }
         }
         if(str[x]==';'){
+            sComSF="INFO";
+            udpsocket->writeDatagram(sComSF.toLatin1(),direccionApp,puertoComSF);
+            sComSF="";
             if(!bSensor){
                 if(catchSend[0] == ','){
                     bSend = false;
@@ -775,6 +850,8 @@ void siviso::on_save_clicked()
         udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoLF);
     if(compGraf=="DEMON")
         udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoDEMON);
+    s = "P_UP";
+    udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoComSF);
 }
 
 void siviso::on_setColorUp_valueChanged(int value)
@@ -899,6 +976,7 @@ void siviso::on_closeJars_clicked()
     udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoLF);
     udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoPPI);
     udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoDEMON);
+    udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoComSF);
 }
 
 void siviso::on_openJars_clicked()
@@ -909,6 +987,7 @@ void siviso::on_openJars_clicked()
     udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoLF);
     udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoPPI);
     udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoDEMON);
+    udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoComSF);
 
     proceso1->startDetached("java -jar Lofar.jar");
     proceso2->startDetached("java -jar BTR.jar");
@@ -991,17 +1070,19 @@ void siviso::on_send_clicked()
     serialPortUSB->write(s.toLatin1()+"\n");
     ui->textSend->clear();
 }
-//cspv.setHabilitado(true);
+
 void siviso::on_infoSignal_clicked()
 {
     ui->view->appendPlainText("info: ");
     QString s = mysignal->get_info_signal();
-    ui->view->appendPlainText(s);
+   /* ui->view->appendPlainText(s);
     ui->view->appendPlainText("portSSF " + QString("%1").arg(puertoSSF));
     ui->view->appendPlainText("portBTR " + QString("%1").arg(puertoBTR));
     ui->view->appendPlainText("portLF " + QString("%1").arg(puertoLF));
     ui->view->appendPlainText("portPPI " + QString("%1").arg(puertoPPI));
-    ui->view->appendPlainText("portDEMON " + QString("%1").arg(puertoDEMON));
+    ui->view->appendPlainText("portDEMON " + QString("%1").arg(puertoDEMON));*/
+    s = "P_DW";
+    udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoComSF);
 }
 
 void siviso::deshabilitado(bool value){
