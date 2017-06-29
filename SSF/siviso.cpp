@@ -261,8 +261,8 @@ void siviso::leerSocket()
             s = "OFF";
             udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoLF);
         } else if(info == "runConxSF"){
-            s = "EXIT";
-            udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoComSF);
+            //s = "EXIT";
+            //udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoComSF);
             puertoComSF = senderPort;
         } else if(info == "runREC"){
             puertoREC = senderPort;
