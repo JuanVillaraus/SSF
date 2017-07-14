@@ -245,8 +245,13 @@
         <height>27</height>
        </rect>
       </property>
+      <property name="font">
+       <font>
+        <pointsize>9</pointsize>
+       </font>
+      </property>
       <property name="text">
-       <string>Rec</string>
+       <string>Grabar</string>
       </property>
      </widget>
      <widget class="QPushButton" name="play">
@@ -258,8 +263,13 @@
         <height>27</height>
        </rect>
       </property>
+      <property name="font">
+       <font>
+        <pointsize>6</pointsize>
+       </font>
+      </property>
       <property name="text">
-       <string>Play</string>
+       <string>Reproducir</string>
       </property>
      </widget>
     </widget>
@@ -462,10 +472,10 @@
        </rect>
       </property>
       <property name="minimum">
-       <number>7000</number>
+       <number>5000</number>
       </property>
       <property name="maximum">
-       <number>16000</number>
+       <number>15000</number>
       </property>
       <property name="singleStep">
        <number>1000</number>
@@ -484,10 +494,10 @@
        </rect>
       </property>
       <property name="minimum">
-       <number>10</number>
+       <number>1</number>
       </property>
       <property name="maximum">
-       <number>16000</number>
+       <number>65536</number>
       </property>
       <property name="singleStep">
        <number>1000</number>
@@ -1665,7 +1675,7 @@ Verdadero</string>
       </rect>
      </property>
      <property name="maximum">
-      <number>255</number>
+      <number>254</number>
      </property>
      <property name="orientation">
       <enum>Qt::Vertical</enum>
@@ -1679,6 +1689,9 @@ Verdadero</string>
        <width>29</width>
        <height>331</height>
       </rect>
+     </property>
+     <property name="minimum">
+      <number>1</number>
      </property>
      <property name="maximum">
       <number>255</number>
@@ -1915,23 +1928,6 @@ Verdadero</string>
       <string>encender S</string>
      </property>
     </widget>
-    <zorder>view</zorder>
-    <zorder>textTestGrap</zorder>
-    <zorder>save</zorder>
-    <zorder>btOpenPort</zorder>
-    <zorder>sensor0</zorder>
-    <zorder>openJars</zorder>
-    <zorder>closeJars</zorder>
-    <zorder>sensor1</zorder>
-    <zorder>endCom</zorder>
-    <zorder>textSend</zorder>
-    <zorder>send</zorder>
-    <zorder>infoSignal</zorder>
-    <zorder>ApagarP</zorder>
-    <zorder>sensorOFF</zorder>
-    <zorder>ApagarA</zorder>
-    <zorder>sensorON</zorder>
-    <zorder>B0Carg</zorder>
    </widget>
    <widget class="QFrame" name="MedioAmbiente">
     <property name="geometry">

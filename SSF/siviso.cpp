@@ -339,9 +339,9 @@ void siviso::leerSocket()
             if(puertoDEMON == senderPort){
                 longDEMON = s.toInt();
             } else if(puertoBTR == senderPort){
-                longBTR == s.toInt();
+                longBTR = s.toInt();
             } else if(puertoLF == senderPort){
-                longLF == s.toInt();
+                longLF = s.toInt();
             }
         }
     }
@@ -449,9 +449,9 @@ void siviso::leerSerialUSB()
                         break;
                     case 3:
                         if(tipoSensor == 0){
-                            ui->B0Temp->setText(catchSensor);
+                            ui->B0Temp->setText(catchSensor+"°C");
                         } else if(tipoSensor == 1){
-                            ui->B1Temp->setText(catchSensor);
+                            ui->B1Temp->setText(catchSensor+"°C");
                         }
                         catchSensor = "";
                         nSensor++;
@@ -485,9 +485,9 @@ void siviso::leerSerialUSB()
                         break;
                     case 7:
                         if(tipoSensor == 0){
-                            ui->B0Carg->setText(catchSensor);
+                            ui->B0Carg->setText(catchSensor+"%");
                         } else if(tipoSensor == 1){
-                            ui->B1Carg->setText(catchSensor);
+                            ui->B1Carg->setText(catchSensor+"%");
                         }
                         nSensor++;
                         if(catchSensor.toInt()<=20)
@@ -936,6 +936,16 @@ void siviso::on_cw_clicked()
     serialPortUSB->write("ENCENDER P\n");
     /*QString s = "PULSO";
     udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoPPI);*/
+    QString s;
+    s = "OFF";
+    udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoDEMON);
+    udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoBTR);
+    udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoLF);
+    s = "ON";
+    udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoPPI);
+    compGraf="PPI";
+    s = "RP";
+    udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoPPI);
 }
 
 void siviso::on_startCom_clicked()
