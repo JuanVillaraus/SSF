@@ -27,6 +27,11 @@ siviso::siviso(QWidget *parent) :
     catchCmd = "";
     compGraf = "";
     bSensor = false;
+    puertoLF = 0;
+    puertoBTR = 0;
+    puertoPPI = 0;
+    puertoDEMON = 0;
+    puertoComSF = 0;
 
     udpsocket = new QUdpSocket(this);
     //udpsocket->bind(localdir,puertolocal);
@@ -122,11 +127,18 @@ siviso::siviso(QWidget *parent) :
     }
     file2.close();
 
-    proceso1->startDetached("java -jar Lofar.jar");
-    proceso2->startDetached("java -jar BTR.jar");
-    proceso3->startDetached("java -jar PPI.jar");
-    proceso4->startDetached("java -jar demon.jar");
+    thread()->sleep(1);
     proceso5->startDetached("java -jar ConexionSF.jar");
+    thread()->sleep(1);
+    proceso1->startDetached("java -jar Lofar.jar");
+    thread()->sleep(1);
+    proceso2->startDetached("java -jar BTR.jar");
+    thread()->sleep(1);
+    proceso3->startDetached("java -jar PPI.jar");
+    thread()->sleep(1);
+    proceso4->startDetached("java -jar demon.jar");
+    thread()->sleep(1);
+
 
     /*serialPortUSB->setPortName("/dev/ttyUSB0");
     if(serialPortUSB->open(QIODevice::ReadWrite)){
@@ -261,9 +273,9 @@ void siviso::leerSocket()
             s = "OFF";
             udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoLF);
         } else if(info == "runConxSF"){
-            //s = "EXIT";
-            //udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoComSF);
             puertoComSF = senderPort;
+            s = "RP";
+            udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoComSF);
         } else if(info == "runREC"){
             puertoREC = senderPort;
         } else if(info == "PPI OK"){

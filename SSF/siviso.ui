@@ -192,7 +192,7 @@
       <rect>
        <x>20</x>
        <y>40</y>
-       <width>160</width>
+       <width>141</width>
        <height>29</height>
       </rect>
      </property>
@@ -338,7 +338,7 @@
     <widget class="QDoubleSpinBox" name="bw">
      <property name="geometry">
       <rect>
-       <x>200</x>
+       <x>180</x>
        <y>40</y>
        <width>91</width>
        <height>41</height>
@@ -348,10 +348,10 @@
     <widget class="QLabel" name="label_8">
      <property name="geometry">
       <rect>
-       <x>210</x>
-       <y>10</y>
-       <width>61</width>
-       <height>17</height>
+       <x>180</x>
+       <y>16</y>
+       <width>91</width>
+       <height>20</height>
       </rect>
      </property>
      <property name="font">
@@ -363,13 +363,13 @@
       </font>
      </property>
      <property name="text">
-      <string>Bandwidth</string>
+      <string>Ancho de Banda</string>
      </property>
     </widget>
     <widget class="QDoubleSpinBox" name="it">
      <property name="geometry">
       <rect>
-       <x>310</x>
+       <x>300</x>
        <y>40</y>
        <width>91</width>
        <height>41</height>
@@ -389,9 +389,9 @@
     <widget class="QLabel" name="label_11">
      <property name="geometry">
       <rect>
-       <x>310</x>
-       <y>10</y>
-       <width>91</width>
+       <x>290</x>
+       <y>16</y>
+       <width>111</width>
        <height>20</height>
       </rect>
      </property>
@@ -404,7 +404,7 @@
       </font>
      </property>
      <property name="text">
-      <string>Integration time</string>
+      <string>tiempo de integración</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignCenter</set>
@@ -413,9 +413,9 @@
     <widget class="QLabel" name="label_12">
      <property name="geometry">
       <rect>
-       <x>430</x>
-       <y>10</y>
-       <width>71</width>
+       <x>410</x>
+       <y>16</y>
+       <width>111</width>
        <height>20</height>
       </rect>
      </property>
@@ -428,7 +428,7 @@
       </font>
      </property>
      <property name="text">
-      <string>Display time</string>
+      <string>Rango de despliegue</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignCenter</set>
