@@ -128,8 +128,6 @@ siviso::siviso(QWidget *parent) :
     file2.close();
 
     thread()->sleep(1);
-    proceso5->startDetached("java -jar ConexionSF.jar");
-    thread()->sleep(1);
     proceso1->startDetached("java -jar Lofar.jar");
     thread()->sleep(1);
     proceso2->startDetached("java -jar BTR.jar");
@@ -137,6 +135,8 @@ siviso::siviso(QWidget *parent) :
     proceso3->startDetached("java -jar PPI.jar");
     thread()->sleep(1);
     proceso4->startDetached("java -jar demon.jar");
+    thread()->sleep(1);
+    proceso5->startDetached("java -jar ConexionSF.jar");
     thread()->sleep(1);
 
 
