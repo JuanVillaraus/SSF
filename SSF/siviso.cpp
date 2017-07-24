@@ -1011,9 +1011,14 @@ void siviso::on_openJars_clicked()
     udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoDEMON);
     udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoComSF);
 
+    proceso5->startDetached("java -jar ConexionSF.jar");
+    thread()->sleep(1);
     proceso1->startDetached("java -jar Lofar.jar");
+    thread()->sleep(1);
     proceso2->startDetached("java -jar BTR.jar");
+    thread()->sleep(1);
     proceso2->startDetached("java -jar PPI.jar");
+    thread()->sleep(1);
     proceso3->startDetached("java -jar demon.jar");
 }
 
