@@ -588,6 +588,9 @@ void siviso::leerSerialUSB()
                     }
                 }
                 if(bSend){
+                    sComSF="P_UP";
+                    udpsocket->writeDatagram(sComSF.toLatin1(),direccionApp,puertoComSF);
+                    sComSF="";
                     ui->textTestGrap->appendPlainText("esto enviare: "+catchSend);
                     if(compGraf=="BTR"){
                         udpsocket->writeDatagram(catchSend.toLatin1(),direccionApp,puertoBTR);
