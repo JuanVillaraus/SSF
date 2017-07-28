@@ -511,7 +511,7 @@ public:
         chirpFrecUp = new QSpinBox(frame);
         chirpFrecUp->setObjectName(QStringLiteral("chirpFrecUp"));
         chirpFrecUp->setGeometry(QRect(200, 40, 91, 41));
-        chirpFrecUp->setMinimum(5001);
+        chirpFrecUp->setMinimum(7001);
         chirpFrecUp->setMaximum(15000);
         chirpFrecUp->setSingleStep(1000);
         chirpFrecUp->setValue(15000);
@@ -523,7 +523,7 @@ public:
         chirpFrecDw = new QSpinBox(frame);
         chirpFrecDw->setObjectName(QStringLiteral("chirpFrecDw"));
         chirpFrecDw->setGeometry(QRect(100, 40, 91, 41));
-        chirpFrecDw->setMinimum(5000);
+        chirpFrecDw->setMinimum(7000);
         chirpFrecDw->setMaximum(14999);
         chirpFrecDw->setSingleStep(1000);
         chirpFrecDw->setValue(7000);
@@ -538,7 +538,7 @@ public:
         chirpTime = new QDoubleSpinBox(frame);
         chirpTime->setObjectName(QStringLiteral("chirpTime"));
         chirpTime->setGeometry(QRect(10, 40, 81, 41));
-        chirpTime->setMinimum(0.06);
+        chirpTime->setMinimum(0.01);
         chirpTime->setMaximum(2.5);
         chirpTime->setSingleStep(0.5);
         chirpTime->setValue(1);

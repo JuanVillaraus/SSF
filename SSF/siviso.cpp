@@ -435,12 +435,18 @@ void siviso::leerSerialUSB()
                     case 0:
                         if(catchSensor=="0"){
                             ui->B0Nom->setText("SSPF");
-                            ui->B0estado->setText("Conectado");
+                            ui->B0estado->setText("Enlazado");
                             tipoSensor = 0;
+                            sComSF="P_UP";
+                            udpsocket->writeDatagram(sComSF.toLatin1(),direccionApp,puertoComSF);
+                            sComSF="";
                         }else if (catchSensor=="1"){
                             ui->B1Nom->setText("SSAF");
-                            ui->B1estado->setText("Conectado");
+                            ui->B1estado->setText("Enlazado");
                             tipoSensor = 1;
+                            sComSF="A_UP";
+                            udpsocket->writeDatagram(sComSF.toLatin1(),direccionApp,puertoComSF);
+                            sComSF="";
                         }else{
                             ui->B1Nom->setText("error");
                         }
@@ -449,9 +455,9 @@ void siviso::leerSerialUSB()
                         break;
                     case 1:
                         if(tipoSensor == 0){
-                            ui->B0Or->setText(catchSensor);
+                            ui->B0Or->setText(catchSensor+"°");
                         } else if(tipoSensor == 1){
-                            ui->B1Or->setText(catchSensor);
+                            ui->B1Or->setText(catchSensor+"°");
                         }
                         catchSensor = "";
                         nSensor++;
@@ -514,9 +520,9 @@ void siviso::leerSerialUSB()
                         break;
                     case 8:
                         if(tipoSensor == 0){
-                            ui->B0Volt->setText(catchSensor);
+                            ui->B0Volt->setText(catchSensor+"V");
                         } else if(tipoSensor == 1){
-                            ui->B1Volt->setText(catchSensor);
+                            ui->B1Volt->setText(catchSensor+"V");
                         }
                         catchSensor = "";
                         break;
@@ -552,10 +558,14 @@ void siviso::leerSerialUSB()
                         ui->B0estado->setText("Conectado");
                         sComSF="CONF";
                         udpsocket->writeDatagram(sComSF.toLatin1(),direccionApp,puertoComSF);
+                        sComSF="P_UP";
+                        udpsocket->writeDatagram(sComSF.toLatin1(),direccionApp,puertoComSF);
                         sComSF="";
                     } else if(catchCmd == "OKA"){
                         ui->B1estado->setText("Conectado");
                         sComSF="CONF";
+                        udpsocket->writeDatagram(sComSF.toLatin1(),direccionApp,puertoComSF);
+                        sComSF="A_UP";
                         udpsocket->writeDatagram(sComSF.toLatin1(),direccionApp,puertoComSF);
                         sComSF="";
                     } else if(catchCmd == "FINISHCOMMUNICATIONP"){
@@ -610,7 +620,7 @@ void siviso::leerSerialUSB()
                 }
                 numCatchSend = 0;
                 catchSend="";
-            }else{
+            }/*else{
                 bSensor=false;
                 if(tipoSensor == 0){
                     catchSend="P_UP";
@@ -619,7 +629,7 @@ void siviso::leerSerialUSB()
                 }
                 udpsocket->writeDatagram(catchSend.toLatin1(),direccionApp,puertoComSF);
                 catchSend="";
-            }
+            }*/
             nWords=0;
         }
     }

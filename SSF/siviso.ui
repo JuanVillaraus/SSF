@@ -1176,7 +1176,7 @@ Verdadero</string>
        </rect>
       </property>
       <property name="minimum">
-       <number>5001</number>
+       <number>7001</number>
       </property>
       <property name="maximum">
        <number>15000</number>
@@ -1222,7 +1222,7 @@ Verdadero</string>
        </rect>
       </property>
       <property name="minimum">
-       <number>5000</number>
+       <number>7000</number>
       </property>
       <property name="maximum">
        <number>14999</number>
@@ -1281,7 +1281,7 @@ Verdadero</string>
        </rect>
       </property>
       <property name="minimum">
-       <double>0.060000000000000</double>
+       <double>0.010000000000000</double>
       </property>
       <property name="maximum">
        <double>2.500000000000000</double>
