@@ -605,7 +605,9 @@ public:
         B0Nom = new QLabel(PlataformaP);
         B0Nom->setObjectName(QStringLiteral("B0Nom"));
         B0Nom->setGeometry(QRect(90, 30, 151, 17));
-        B0Nom->setFont(font4);
+        QFont font5;
+        font5.setPointSize(10);
+        B0Nom->setFont(font5);
         B0Time = new QLabel(PlataformaP);
         B0Time->setObjectName(QStringLiteral("B0Time"));
         B0Time->setGeometry(QRect(130, 60, 151, 17));
@@ -687,13 +689,13 @@ public:
         openJars = new QPushButton(Desptact);
         openJars->setObjectName(QStringLiteral("openJars"));
         openJars->setGeometry(QRect(20, 560, 81, 31));
-        QFont font5;
-        font5.setPointSize(12);
-        openJars->setFont(font5);
+        QFont font6;
+        font6.setPointSize(12);
+        openJars->setFont(font6);
         closeJars = new QPushButton(Desptact);
         closeJars->setObjectName(QStringLiteral("closeJars"));
         closeJars->setGeometry(QRect(110, 560, 81, 31));
-        closeJars->setFont(font5);
+        closeJars->setFont(font6);
         sensor1 = new QPushButton(Desptact);
         sensor1->setObjectName(QStringLiteral("sensor1"));
         sensor1->setGeometry(QRect(110, 626, 81, 31));
@@ -835,7 +837,7 @@ public:
         B1Nom = new QLabel(PlataformaActiva);
         B1Nom->setObjectName(QStringLiteral("B1Nom"));
         B1Nom->setGeometry(QRect(90, 40, 151, 17));
-        B1Nom->setFont(font4);
+        B1Nom->setFont(font5);
         B1Or = new QLabel(PlataformaActiva);
         B1Or->setObjectName(QStringLiteral("B1Or"));
         B1Or->setGeometry(QRect(140, 160, 151, 17));
