@@ -555,14 +555,14 @@ void siviso::leerSerialUSB()
                         sComSF="";
                         ui->B1estado->setText("Encendido");
                     } else if(catchCmd == "OKP"){
-                        ui->B0estado->setText("Conectado");
+                        ui->B0estado->setText("Enlazado");
                         sComSF="CONF";
                         udpsocket->writeDatagram(sComSF.toLatin1(),direccionApp,puertoComSF);
                         sComSF="P_UP";
                         udpsocket->writeDatagram(sComSF.toLatin1(),direccionApp,puertoComSF);
                         sComSF="";
                     } else if(catchCmd == "OKA"){
-                        ui->B1estado->setText("Conectado");
+                        ui->B1estado->setText("Enlazado");
                         sComSF="CONF";
                         udpsocket->writeDatagram(sComSF.toLatin1(),direccionApp,puertoComSF);
                         sComSF="A_UP";
