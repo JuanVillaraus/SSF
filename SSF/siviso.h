@@ -187,6 +187,24 @@ private slots:
 
     void on_demon_clicked();
 
+    void on_chirpUp_clicked();
+
+    void on_ChirpDw_clicked();
+
+    void on_Chype_clicked();
+
+    void on_chirpFrecUp_valueChanged(int arg1);
+
+    void on_chirpFrecDw_valueChanged(int arg1);
+
+    void on_chirpTime_valueChanged(double arg1);
+
+    void on_chirpFrecUp_editingFinished();
+
+    void on_chirpFrecDw_editingFinished();
+
+    void on_chirpTime_editingFinished();
+
 private:
     Ui::siviso *ui;
 

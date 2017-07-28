@@ -49,7 +49,7 @@ siviso::siviso(QWidget *parent) :
     //udpsocket->writeDatagram(ui->view->text().toLatin1(),direccionPar,puertoPar); //visualiza la direcion IP y puerto del que envia
     //pSocket->connectToHost("192.168.1.10",6001);
 
-    ui->frecuencia->setValue(mysignal->get_frec());
+    //ui->frecuencia->setValue(mysignal->get_frec());
     ui->bw->setValue(mysignal->get_bw());
     ui->it->setValue(mysignal->get_it());
     ui->dt->setValue(mysignal->get_dt());
@@ -85,7 +85,7 @@ siviso::siviso(QWidget *parent) :
     ui->sensorON->setVisible(false);
     ui->anchoP->setDisabled(true);
 
-    ui->frecuencia->setDisabled(true);
+    //ui->frecuencia->setDisabled(true);
     ui->bw->setDisabled(true);
     ui->it->setDisabled(true);
     ui->dt->setDisabled(true);
@@ -98,8 +98,8 @@ siviso::siviso(QWidget *parent) :
     ui->play->setDisabled(true);
     ui->vol_dw->setDisabled(true);
     ui->vol_up->setDisabled(true);
-    ui->et_blancos->setDisabled(true);
-    ui->clas_blancos->setDisabled(true);
+    //ui->et_blancos->setDisabled(true);
+    //ui->clas_blancos->setDisabled(true);
     ui->edo_mar->setDisabled(true);
     ui->radio_boya->setDisabled(true);
     ui->prob_falsa->setDisabled(true);
@@ -127,14 +127,14 @@ siviso::siviso(QWidget *parent) :
     }
     file2.close();
 
-    thread()->sleep(1);
+    /*thread()->sleep(1);
     proceso1->startDetached("java -jar Lofar.jar");
     thread()->sleep(1);
     proceso2->startDetached("java -jar BTR.jar");
     thread()->sleep(1);
     proceso3->startDetached("java -jar PPI.jar");
     thread()->sleep(1);
-    proceso4->startDetached("java -jar demon.jar");
+    proceso4->startDetached("java -jar demon.jar");*/
     thread()->sleep(1);
     proceso5->startDetached("java -jar ConexionSF.jar");
     thread()->sleep(1);
@@ -291,8 +291,10 @@ void siviso::leerSocket()
             serialPortUSB->write("DEMON P\n");
         } else if(info == "SENSOR P"){
             serialPortUSB->write("SENSORES P\n");
+            thread()->msleep(100);
         } else if(info == "SENSOR A"){
             serialPortUSB->write("SENSORES A\n");
+            thread()->msleep(100);
         } else if(info == "A1"){
             ui->B1estado->setText("Desconectado");
             //ui->Alert->setText("BOYA ACTIVA DESAPARECIDA EN ACCIÓN");
@@ -323,7 +325,9 @@ void siviso::leerSocket()
                 serialPortUSB->setParity(QSerialPort::NoParity);
                 serialPortUSB->setFlowControl(QSerialPort::NoFlowControl);
                 //serialPortUSB->write("START COMMUNICATION P\n");
+                thread()->msleep(100);
                 //serialPortUSB->write("START COMMUNICATION A\n");
+                thread()->msleep(100);
             }else{
                 s = "ANT_DW";
                 udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoComSF);
@@ -374,7 +378,9 @@ void siviso::on_btOpenPort_clicked()
         serialPortUSB->setFlowControl(QSerialPort::NoFlowControl);
 
         serialPortUSB->write("START COMMUNICATION P\n");
+        thread()->msleep(100);
         serialPortUSB->write("START COMMUNICATION A\n");
+        thread()->msleep(100);
     }else{
         s = "ANT_DW";
         udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoComSF);
@@ -767,9 +773,9 @@ void siviso::on_gan_sen_valueChanged(int arg1)
     ui->view->appendPlainText("ganancia_sensor: ");
     QString s = QString::number(arg1);
     ui->view->appendPlainText(s);
-    //QByteArray ba ="GAIN "+s.toLatin1()+"\n";
     serialPortUSB->write("SET GAIN P\n");
     serialPortUSB->write(s.toLatin1()+"\n");
+    thread()->msleep(100);
 }
 
 void siviso::on_it_valueChanged(int arg1)
@@ -928,6 +934,7 @@ void siviso::on_frecP_valueChanged(int arg1)
     serialPortUSB->write("SET CENTRAL FREQUENCY A\n");
     QString s = QString::number(arg1);
     serialPortUSB->write(s.toLatin1() + "\n");
+    thread()->msleep(100);
 }
 
 void siviso::on_nP_valueChanged(int arg1)
@@ -935,6 +942,7 @@ void siviso::on_nP_valueChanged(int arg1)
     serialPortUSB->write("SET N PULSOS A\n");
     QString s = QString::number(arg1);
     serialPortUSB->write(s.toLatin1() + "\n");
+    thread()->msleep(100);
 }
 
 void siviso::on_anchoP_valueChanged(int arg1)
@@ -942,15 +950,17 @@ void siviso::on_anchoP_valueChanged(int arg1)
     serialPortUSB->write("SET ANCHO PULSO A\n");
     QString s = QString::number(arg1);
     serialPortUSB->write(s.toLatin1() + "\n");
+    thread()->msleep(100);
 }
 
 void siviso::on_cw_clicked()
 {
     //deshabilitado(true);
-    serialPortUSB->write("ENCENDER A\n");
-    serialPortUSB->write("ENCENDER P\n");
+    //serialPortUSB->write("ENCENDER A\n");
+    //serialPortUSB->write("ENCENDER P\n");
     /*QString s = "PULSO";
     udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoPPI);*/
+    serialPortUSB->write("BURST A\n");
     QString s;
     s = "OFF";
     udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoDEMON);
@@ -1045,6 +1055,7 @@ void siviso::on_origenOmni_clicked()
 {
     serialPortUSB->write("SET HIDROFONO P\n");
     serialPortUSB->write("5 \n");
+    thread()->msleep(100);
     ui->ang->setVisible(false);
     ui->dial->setDisabled(true);
 }
@@ -1053,6 +1064,7 @@ void siviso::on_origenManual_clicked()
 {
     serialPortUSB->write("SET HIDROFONO P\n");
     serialPortUSB->write("0 \n");
+    thread()->msleep(100);
     ui->ang->setVisible(true);
     ui->dial->setDisabled(false);
 }
@@ -1066,6 +1078,7 @@ void siviso::on_dial_sliderReleased()
         n+=360;
     QString s = QString::number(n);
     serialPortUSB->write(s.toLatin1() + "\n");
+    thread()->msleep(100);
     ui->textTestGrap->appendPlainText(s);
 }
 
@@ -1078,6 +1091,7 @@ void siviso::on_ang_editingFinished()
         n+=360;
     QString s = QString::number(n);
     serialPortUSB->write(s.toLatin1() + "\n");
+    thread()->msleep(100);
     ui->textTestGrap->appendPlainText(s);
 }
 
@@ -1116,7 +1130,7 @@ void siviso::on_infoSignal_clicked()
 }
 
 void siviso::deshabilitado(bool value){
-    ui->frecuencia->setDisabled(value);
+    //ui->frecuencia->setDisabled(value);
     ui->bw->setDisabled(value);
     ui->it->setDisabled(value);
     ui->dt->setDisabled(value);
@@ -1136,8 +1150,8 @@ void siviso::deshabilitado(bool value){
     ui->dial->setDisabled(value);
     ui->rec->setDisabled(value);
     ui->play->setDisabled(value);
-    ui->et_blancos->setDisabled(value);
-    ui->clas_blancos->setDisabled(value);
+    //ui->et_blancos->setDisabled(value);
+    //ui->clas_blancos->setDisabled(value);
     ui->edo_mar->setDisabled(value);
     ui->radio_boya->setDisabled(value);
     ui->prob_falsa->setDisabled(value);
@@ -1187,4 +1201,85 @@ void siviso::on_vol_dw_clicked()
 void siviso::on_vol_up_clicked()
 {
     proceso3->startDetached("amixer sset Master 5%+");
+}
+
+void siviso::on_chirpUp_clicked()
+{
+    serialPortUSB->write("UP LFM A\n");
+}
+
+void siviso::on_ChirpDw_clicked()
+{
+    serialPortUSB->write("DOWN LFM A\n");
+}
+
+void siviso::on_Chype_clicked()
+{
+    serialPortUSB->write("UP HFM A\n");
+}
+
+void siviso::on_chirpFrecUp_valueChanged(int arg1)
+{
+    if(arg1<=ui->chirpFrecDw->value()){
+        ui->chirpFrecDw->setValue(arg1-1);
+        thread()->msleep(100);
+    }
+    serialPortUSB->write("SET HIGH FREQUENCY A\n");
+    QString s = QString::number(arg1);
+    ui->view->appendPlainText(s);
+    serialPortUSB->write(s.toLatin1() + "\n");
+    thread()->msleep(100);
+}
+
+void siviso::on_chirpFrecDw_valueChanged(int arg1)
+{
+    if(arg1>=ui->chirpFrecUp->value()){
+        ui->chirpFrecUp->setValue(arg1+1);
+        thread()->msleep(100);
+    }
+    serialPortUSB->write("SET LOW FREQUENCY A\n");
+    QString s = QString::number(arg1);
+    ui->view->appendPlainText(s);
+    serialPortUSB->write(s.toLatin1() + "\n");
+    thread()->msleep(100);
+}
+
+void siviso::on_chirpTime_valueChanged(double arg1)
+{
+    serialPortUSB->write("SET TIME DURATION A\n");
+    QString s = QString::number(arg1);
+    serialPortUSB->write(s.toLatin1() + "\n");
+    thread()->msleep(100);
+}
+
+void siviso::on_chirpFrecUp_editingFinished()
+{
+    if(ui->chirpFrecUp->value()<=ui->chirpFrecDw->value()){
+        ui->chirpFrecDw->setValue(ui->chirpFrecUp->value()-1);
+        thread()->msleep(100);
+    }
+    serialPortUSB->write("SET HIGH FREQUENCY A\n");
+    QString s = QString::number(ui->chirpFrecUp->value());
+    serialPortUSB->write(s.toLatin1() + "\n");
+    thread()->msleep(100);
+}
+
+void siviso::on_chirpFrecDw_editingFinished()
+{
+    if(ui->chirpFrecDw->value()>=ui->chirpFrecUp->value()){
+        ui->chirpFrecUp->setValue(ui->chirpFrecDw->value()+1);
+        thread()->msleep(100);
+    }
+    serialPortUSB->write("SET LOW FREQUENCY A\n");
+    QString s = QString::number(ui->chirpFrecDw->value());
+    serialPortUSB->write(s.toLatin1() + "\n");
+    thread()->msleep(100);
+}
+
+void siviso::on_chirpTime_editingFinished()
+{
+    serialPortUSB->write("SET TIME DURATION A\n");
+    QString s = QString::number(ui->chirpTime->value());
+    serialPortUSB->write(s.toLatin1() + "\n");
+    thread()->msleep(100);
 }
