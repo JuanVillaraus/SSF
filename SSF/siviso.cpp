@@ -297,7 +297,6 @@ void siviso::leerSocket()
             thread()->msleep(100);
         } else if(info == "A1"){
             ui->B1estado->setText("Desconectado");
-            //ui->Alert->setText("BOYA ACTIVA DESAPARECIDA EN ACCIÓN");
             s = "A_DW";
             udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoComSF);
         } else if(info == "A2"){
@@ -306,7 +305,6 @@ void siviso::leerSocket()
             udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoComSF);
         } else if(info == "P1"){
             ui->B0estado->setText("Desconectado");
-            //ui->Alert->setText("BOYA PASIVA DESAPARECIDA EN ACCIÓN");
             s = "P_DW";
             udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoComSF);
         } else if(info == "P2"){
@@ -473,9 +471,9 @@ void siviso::leerSerialUSB()
                         break;
                     case 3:
                         if(tipoSensor == 0){
-                            ui->B0Temp->setText(catchSensor+"°C");
+                            ui->B0Temp->setText(catchSensor+"° C");
                         } else if(tipoSensor == 1){
-                            ui->B1Temp->setText(catchSensor+"°C");
+                            ui->B1Temp->setText(catchSensor+"° C");
                         }
                         catchSensor = "";
                         nSensor++;
@@ -490,28 +488,32 @@ void siviso::leerSerialUSB()
                         nSensor++;
                         break;
                     case 5:
-                        if(tipoSensor == 0){
-                            ui->B0Lat->setNum(catchSensor.toDouble()/100);
-                        } else if(tipoSensor == 1){
-                            ui->B1Lat->setNum(catchSensor.toDouble()/100);
+                        if(catchSensor.toDouble()!=0){
+                            if(tipoSensor == 0){
+                                ui->B0Lat->setNum(catchSensor.toDouble());
+                            } else if(tipoSensor == 1){
+                                ui->B1Lat->setNum(catchSensor.toDouble());
+                            }
                         }
                         catchSensor = "";
                         nSensor++;
                         break;
                     case 6:
-                        if(tipoSensor == 0){
-                            ui->B0Long->setNum(catchSensor.toDouble()/-100);
-                        } else if(tipoSensor == 1){
-                            ui->B1Long->setNum(catchSensor.toDouble()/-100);
+                        if(catchSensor.toDouble()!=0){
+                            if(tipoSensor == 0){
+                                ui->B0Long->setNum(catchSensor.toDouble());
+                            } else if(tipoSensor == 1){
+                                ui->B1Long->setNum(catchSensor.toDouble());
+                            }
                         }
                         catchSensor = "";
                         nSensor++;
                         break;
                     case 7:
                         if(tipoSensor == 0){
-                            ui->B0Carg->setText(catchSensor+"%");
+                            ui->B0Carg->setText(catchSensor+" %");
                         } else if(tipoSensor == 1){
-                            ui->B1Carg->setText(catchSensor+"%");
+                            ui->B1Carg->setText(catchSensor+" %");
                         }
                         nSensor++;
                         if(catchSensor.toInt()<=20)
@@ -520,12 +522,13 @@ void siviso::leerSerialUSB()
                         break;
                     case 8:
                         if(tipoSensor == 0){
-                            ui->B0Volt->setText(catchSensor+"V");
+                            ui->B0Volt->setText(catchSensor+" V");
                         } else if(tipoSensor == 1){
-                            ui->B1Volt->setText(catchSensor+"V");
+                            ui->B1Volt->setText(catchSensor+" V");
                         }
                         catchSensor = "";
                         break;
+                        bSensor=false;
                     }
                 } else{
                     catchSensor += str[x];
@@ -986,8 +989,11 @@ void siviso::on_cw_clicked()
 void siviso::on_startCom_clicked()
 {
     serialPortUSB->write("END COMMUNICATION A\n");
+    thread()->msleep(100);
     serialPortUSB->write("END COMMUNICATION P\n");
+    thread()->msleep(100);
     serialPortUSB->write("START COMMUNICATION P\n");
+    thread()->msleep(100);
     serialPortUSB->write("START COMMUNICATION A\n");
     //QThread::msleep(1000);
     //serialPortUSB->write("SET CENTRAL FREQUENCY A\n");
