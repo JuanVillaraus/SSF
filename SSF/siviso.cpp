@@ -529,6 +529,7 @@ void siviso::leerSerialUSB()
                         catchSensor = "";
                         break;
                         bSensor=false;
+                        nSensor = 0;
                     }
                 } else{
                     catchSensor += str[x];
