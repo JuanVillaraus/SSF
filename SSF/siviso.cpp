@@ -136,8 +136,8 @@ siviso::siviso(QWidget *parent) :
     thread()->sleep(1);
     proceso4->startDetached("java -jar demon.jar");
     thread()->sleep(1);
-    proceso5->startDetached("java -jar ConexionSF.jar");
-    thread()->sleep(1);
+    //proceso5->startDetached("java -jar ConexionSF.jar");
+    //thread()->sleep(1);
 
 
     /*serialPortUSB->setPortName("/dev/ttyUSB0");
@@ -405,7 +405,7 @@ void siviso::leerSerialUSB()
     numCatchSend++;
     serialPortUSB->flush();
     nDatos = serialPortUSB->read(buffer,2047);
-    bool bSend = true;
+    bool bSend = false;
 
     buffer[nDatos] = '\0';
     ui->textTestGrap->appendPlainText(buffer);
@@ -416,228 +416,266 @@ void siviso::leerSerialUSB()
     str=QString(buffer);
     int n =str.size();
     //ui->textTestGrap->appendPlainText(QString::number(n));
-
+    char c;
 
     numCatchSend += n;
     for(int x=0;x<str.size();x++){
-        if(str[x]=='#'){
-            bSensor = true;
-            catchSensor = "";
-            nSensor = 0;
-            tipoSensor = 9; //esta variable es para indicar que sensor se comunica, si activo "1" o pasivo "0", se inicializa en "9"
-        }
         if(str[x]=='1'||str[x]=='2'||str[x]=='3'||str[x]=='4'||str[x]=='5'||str[x]=='6'||str[x]=='7'||str[x]=='8'||str[x]=='9'||str[x]=='0'||str[x]==','||str[x]==';'||str[x]=='.'||str[x]==':'||str[x]=='-'){
-            if(bSensor){
-                if(str[x]==','||str[x]==';'){
-                    switch(nSensor){
-                    case 0:
-                        if(catchSensor=="0"){
-                            ui->B0Nom->setText("SSPF");
-                            ui->B0estado->setText("Enlazado");
-                            tipoSensor = 0;
-                            sComSF="P_UP";
-                            udpsocket->writeDatagram(sComSF.toLatin1(),direccionApp,puertoComSF);
-                            sComSF="";
-                        }else if (catchSensor=="1"){
-                            ui->B1Nom->setText("SSAF");
-                            ui->B1estado->setText("Enlazado");
-                            tipoSensor = 1;
-                            sComSF="A_UP";
-                            udpsocket->writeDatagram(sComSF.toLatin1(),direccionApp,puertoComSF);
-                            sComSF="";
-                        }else{
-                            ui->B1Nom->setText("error");
-                        }
-                        catchSensor = "";
-                        nSensor++;
-                        break;
-                    case 1:
-                        if(tipoSensor == 0){
-                            ui->B0Or->setText(catchSensor+"°");
-                        } else if(tipoSensor == 1){
-                            ui->B1Or->setText(catchSensor+"°");
-                        }
-                        catchSensor = "";
-                        nSensor++;
-                        break;
-                    case 2:
-                        if(tipoSensor == 0){
-                            ui->B0Pr->setText(catchSensor);
-                        } else if(tipoSensor == 1){
-                            ui->B1Pr->setText(catchSensor);
-                        }
-                        catchSensor = "";
-                        nSensor++;
-                        break;
-                    case 3:
-                        if(tipoSensor == 0){
-                            ui->B0Temp->setText(catchSensor+"° C");
-                        } else if(tipoSensor == 1){
-                            ui->B1Temp->setText(catchSensor+"° C");
-                        }
-                        catchSensor = "";
-                        nSensor++;
-                        break;
-                    case 4:
-                        if(tipoSensor == 0){
-                            ui->B0Time->setText(catchSensor);
-                        } else if(tipoSensor == 1){
-                            ui->B1Time->setText(catchSensor);
-                        }
-                        catchSensor = "";
-                        nSensor++;
-                        break;
-                    case 5:
-                        if(catchSensor.toDouble()!=0){
-                            if(tipoSensor == 0){
-                                ui->B0Lat->setNum(catchSensor.toDouble());
-                            } else if(tipoSensor == 1){
-                                ui->B1Lat->setNum(catchSensor.toDouble());
-                            }
-                        }
-                        catchSensor = "";
-                        nSensor++;
-                        break;
-                    case 6:
-                        if(catchSensor.toDouble()!=0){
-                            if(tipoSensor == 0){
-                                ui->B0Long->setNum(catchSensor.toDouble());
-                            } else if(tipoSensor == 1){
-                                ui->B1Long->setNum(catchSensor.toDouble());
-                            }
-                        }
-                        catchSensor = "";
-                        nSensor++;
-                        break;
-                    case 7:
-                        if(tipoSensor == 0){
-                            ui->B0Carg->setText(catchSensor+" %");
-                        } else if(tipoSensor == 1){
-                            ui->B1Carg->setText(catchSensor+" %");
-                        }
-                        nSensor++;
-                        if(catchSensor.toInt()<=20)
-                            ui->Alert->setText("ALERTA BATERIA BAJA");
-                        catchSensor = "";
-                        break;
-                    case 8:
-                        if(tipoSensor == 0){
-                            ui->B0Volt->setText(catchSensor+" V");
-                        } else if(tipoSensor == 1){
-                            ui->B1Volt->setText(catchSensor+" V");
-                        }
-                        catchSensor = "";
-                        break;
-                        bSensor=false;
-                        nSensor = 0;
-                    }
-                } else{
-                    catchSensor += str[x];
-                }
-            } else{
-                if(str[x]==','||str[x]==';')
-                    nWords++;
-                catchSend += str[x];
-            }
-        } else {
-            if(str[x]=='!'||str[x]=='A'||str[x]=='C'||str[x]=='E'||str[x]=='F'||str[x]=='H'||str[x]=='I'||str[x]=='K'||str[x]=='M'||str[x]=='N'||str[x]=='O'||str[x]=='P'||str[x]=='R'||str[x]=='S'||str[x]=='T'||str[x]=='U'){
-                if(str[x]!='!'){
-                    catchCmd += str[x];
-                } else {
-                    sComSF="INFO";
-                    udpsocket->writeDatagram(sComSF.toLatin1(),direccionApp,puertoComSF);
-                    sComSF="";
-                    ui->textTestGrap->appendPlainText("comando: " + catchCmd);
-                    if(catchCmd == "STARTOKP"){
-                        sComSF="P_UP";
-                        udpsocket->writeDatagram(sComSF.toLatin1(),direccionApp,puertoComSF);
-                        sComSF="";
-                        ui->B0estado->setText("Encendido");
-                    } else if(catchCmd == "STARTOKA"){
-                        sComSF="A_UP";
-                        udpsocket->writeDatagram(sComSF.toLatin1(),direccionApp,puertoComSF);
-                        sComSF="";
-                        ui->B1estado->setText("Encendido");
-                    } else if(catchCmd == "OKP"){
-                        ui->B0estado->setText("Enlazado");
-                        sComSF="CONF";
-                        udpsocket->writeDatagram(sComSF.toLatin1(),direccionApp,puertoComSF);
-                        sComSF="P_UP";
-                        udpsocket->writeDatagram(sComSF.toLatin1(),direccionApp,puertoComSF);
-                        sComSF="";
-                    } else if(catchCmd == "OKA"){
-                        ui->B1estado->setText("Enlazado");
-                        sComSF="CONF";
-                        udpsocket->writeDatagram(sComSF.toLatin1(),direccionApp,puertoComSF);
-                        sComSF="A_UP";
-                        udpsocket->writeDatagram(sComSF.toLatin1(),direccionApp,puertoComSF);
-                        sComSF="";
-                    } else if(catchCmd == "FINISHCOMMUNICATIONP"){
-                        sComSF="P_DW";
-                        udpsocket->writeDatagram(sComSF.toLatin1(),direccionApp,puertoComSF);
-                        sComSF="";
-                        ui->B0estado->setText("Apagado");
-                    } else if(catchCmd == "FINISHCOMMUNICATIONA"){
-                        sComSF="A_DW";
-                        udpsocket->writeDatagram(sComSF.toLatin1(),direccionApp,puertoComSF);
-                        sComSF="";
-                        ui->B1estado->setText("Apagado");
-                    } else if(catchCmd == "COMMUNICATIONERRORP"){
-
-                    } else if(catchCmd == "COMMUNICATIONERRORA"){
-
-                    }
-                    catchCmd = "";
-                }
-            }
-        }
-        if(str[x]==';'){
-            sComSF="INFO";
-            udpsocket->writeDatagram(sComSF.toLatin1(),direccionApp,puertoComSF);
-            sComSF="";
-            if(!bSensor){
-                if(catchSend[0] == ','){
-                    bSend = false;
-                } else {
-                    for(int x=0;x<catchSend.size()-1;x++){
-                        if(catchSend[x] == ','){
-                            if(catchSend[x+1] == ','){
-                                bSend = false;
-                            }
-                        }
-                    }
-                }
-                if(bSend){
+            catchSensor += str[x];
+            bSend = true;
+        } else if(str[x]=='!'||str[x]=='A'||str[x]=='C'||str[x]=='E'||str[x]=='F'||str[x]=='H'||str[x]=='I'||str[x]=='K'||str[x]=='M'||str[x]=='N'||str[x]=='O'||str[x]=='P'||str[x]=='R'||str[x]=='S'||str[x]=='T'||str[x]=='U'){
+            if(str[x]!='!'){
+                catchCmd += str[x];
+            } else {
+                sComSF="INFO";
+                udpsocket->writeDatagram(sComSF.toLatin1(),direccionApp,puertoComSF);
+                sComSF="";
+                ui->textTestGrap->appendPlainText("comando: " + catchCmd);
+                if(catchCmd == "STARTOKP"){
                     sComSF="P_UP";
                     udpsocket->writeDatagram(sComSF.toLatin1(),direccionApp,puertoComSF);
                     sComSF="";
-                    ui->textTestGrap->appendPlainText("esto enviare: "+catchSend);
-                    if(compGraf=="BTR"){
-                        udpsocket->writeDatagram(catchSend.toLatin1(),direccionApp,puertoBTR);
+                    ui->B0estado->setText("Encendido");
+                } else if(catchCmd == "STARTOKA"){
+                    sComSF="A_UP";
+                    udpsocket->writeDatagram(sComSF.toLatin1(),direccionApp,puertoComSF);
+                    sComSF="";
+                    ui->B1estado->setText("Encendido");
+                } else if(catchCmd == "OKP"){
+                    ui->B0estado->setText("Enlazado");
+                    sComSF="CONF";
+                    udpsocket->writeDatagram(sComSF.toLatin1(),direccionApp,puertoComSF);
+                    sComSF="P_UP";
+                    udpsocket->writeDatagram(sComSF.toLatin1(),direccionApp,puertoComSF);
+                    sComSF="";
+                } else if(catchCmd == "OKA"){
+                    ui->B1estado->setText("Enlazado");
+                    sComSF="CONF";
+                    udpsocket->writeDatagram(sComSF.toLatin1(),direccionApp,puertoComSF);
+                    sComSF="A_UP";
+                    udpsocket->writeDatagram(sComSF.toLatin1(),direccionApp,puertoComSF);
+                    sComSF="";
+                } else if(catchCmd == "FINISHCOMMUNICATIONP"){
+                    sComSF="P_DW";
+                    udpsocket->writeDatagram(sComSF.toLatin1(),direccionApp,puertoComSF);
+                    sComSF="";
+                    ui->B0estado->setText("Apagado");
+                } else if(catchCmd == "FINISHCOMMUNICATIONA"){
+                    sComSF="A_DW";
+                    udpsocket->writeDatagram(sComSF.toLatin1(),direccionApp,puertoComSF);
+                    sComSF="";
+                    ui->B1estado->setText("Apagado");
+                } else if(catchCmd == "COMMUNICATIONERRORP"){
+
+                } else if(catchCmd == "COMMUNICATIONERRORA"){
+
+                }
+                catchCmd = "";
+            }
+        } else if(str[x]=='#'||str[x]=='a'||str[x]=='b'||str[x]=='c'||str[x]=='d'||str[x]=='e'||str[x]=='f'||str[x]=='g'||str[x]=='h'||str[x]=='i'||str[x]=='j'||str[x]=='k'||str[x]=='m'||str[x]=='n'||str[x]=='o'||str[x]=='p'){
+            c = str[x].toLatin1();
+            if(str[x]=='#'){
+                nSensor = 0;
+                tipoSensor = 9; //esta variable es para indicar que sensor se comunica, si activo "1" o pasivo "0", se inicializa en "9"
+            } else if(str[x]=='k'||str[x]=='m'){
+                switch(nSensor){
+                case 0:
+                    if(catchSensor=="0"){
+                        ui->B0Nom->setText("SSPF");
+                        ui->B0estado->setText("Enlazado");
+                        tipoSensor = 0;
+                        sComSF="P_UP";
+                        udpsocket->writeDatagram(sComSF.toLatin1(),direccionApp,puertoComSF);
+                        sComSF="";
+                    }else if (catchSensor=="1"){
+                        ui->B1Nom->setText("SSAF");
+                        ui->B1estado->setText("Enlazado");
+                        tipoSensor = 1;
+                        sComSF="A_UP";
+                        udpsocket->writeDatagram(sComSF.toLatin1(),direccionApp,puertoComSF);
+                        sComSF="";
+                    }else{
+                        ui->B1Nom->setText("error");
                     }
-                    if(compGraf=="LF"){
-                        udpsocket->writeDatagram(catchSend.toLatin1(),direccionApp,puertoLF);
+                    catchSensor = "";
+                    nSensor++;
+                    break;
+                case 1:
+                    if(tipoSensor == 0){
+                        ui->B0Or->setText(catchSensor+"°");
+                    } else if(tipoSensor == 1){
+                        ui->B1Or->setText(catchSensor+"°");
                     }
-                    if(compGraf=="DEMON"){
-                        udpsocket->writeDatagram(catchSend.toLatin1(),direccionApp,puertoDEMON);
+                    catchSensor = "";
+                    nSensor++;
+                    break;
+                case 2:
+                    if(tipoSensor == 0){
+                        ui->B0Pr->setText(catchSensor);
+                    } else if(tipoSensor == 1){
+                        ui->B1Pr->setText(catchSensor);
+                    }
+                    catchSensor = "";
+                    nSensor++;
+                    break;
+                case 3:
+                    if(tipoSensor == 0){
+                        ui->B0Temp->setText(catchSensor+"° C");
+                    } else if(tipoSensor == 1){
+                        ui->B1Temp->setText(catchSensor+"° C");
+                    }
+                    catchSensor = "";
+                    nSensor++;
+                    break;
+                case 4:
+                    if(tipoSensor == 0){
+                        ui->B0Time->setText(catchSensor);
+                    } else if(tipoSensor == 1){
+                        ui->B1Time->setText(catchSensor);
+                    }
+                    catchSensor = "";
+                    nSensor++;
+                    break;
+                case 5:
+                    if(catchSensor.toDouble()!=0){
+                        if(tipoSensor == 0){
+                            ui->B0Lat->setNum(catchSensor.toDouble());
+                        } else if(tipoSensor == 1){
+                            ui->B1Lat->setNum(catchSensor.toDouble());
+                        }
+                    }
+                    catchSensor = "";
+                    nSensor++;
+                    break;
+                case 6:
+                    if(catchSensor.toDouble()!=0){
+                        if(tipoSensor == 0){
+                            ui->B0Long->setNum(catchSensor.toDouble());
+                        } else if(tipoSensor == 1){
+                            ui->B1Long->setNum(catchSensor.toDouble());
+                        }
+                    }
+                    catchSensor = "";
+                    nSensor++;
+                    break;
+                case 7:
+                    if(tipoSensor == 0){
+                        ui->B0Carg->setText(catchSensor+" %");
+                    } else if(tipoSensor == 1){
+                        ui->B1Carg->setText(catchSensor+" %");
+                    }
+                    nSensor++;
+                    if(catchSensor.toInt()<=20)
+                        ui->Alert->setText("ALERTA BATERIA BAJA");
+                    catchSensor = "";
+                    break;
+                case 8:
+                    if(tipoSensor == 0){
+                        ui->B0Volt->setText(catchSensor+" V");
+                    } else if(tipoSensor == 1){
+                        ui->B1Volt->setText(catchSensor+" V");
+                    }
+                    catchSensor = "";
+                    break;
+                    bSensor=false;
+                    nSensor = 0;
+                }
+            } else switch(c){
+            case 'a':
+                catchSensor += "1";
+                break;
+            case 'b':
+                catchSensor += "2";
+                break;
+            case 'c':
+                catchSensor += "3";
+                break;
+            case 'd':
+                catchSensor += "4";
+                break;
+            case 'e':
+                catchSensor += "5";
+                break;
+            case 'f':
+                catchSensor += "6";
+                break;
+            case 'g':
+                catchSensor += "7";
+                break;
+            case 'h':
+                catchSensor += "8";
+                break;
+            case 'i':
+                catchSensor += "9";
+                break;
+            case 'j':
+                catchSensor += "0";
+                break;
+            case 'k':
+                catchSensor += ",";
+                break;
+            case 'm':
+                catchSensor += ";";
+                break;
+            case 'n':
+                catchSensor += ".";
+                break;
+            case 'o':
+                catchSensor += ":";
+                break;
+            case 'p':
+                catchSensor += "-";
+                break;
+            }
+        } else if(str[x]==','){
+            nWords++;
+            catchSend += str[x];
+        } else if(str[x]==';'){
+            sComSF="INFO";
+            udpsocket->writeDatagram(sComSF.toLatin1(),direccionApp,puertoComSF);
+            sComSF="";
+            if(catchSend[0] == ','){
+                bSend = false;
+                for(int x=0;x<catchSend.size()-1;x++){
+                    if(catchSend[x] == ','){
+                        if(catchSend[x+1] == ','){
+                            bSend = false;
+                        }
                     }
                 }
-                numCatchSend = 0;
-                catchSend="";
-            }/*else{
-                bSensor=false;
-                if(tipoSensor == 0){
-                    catchSend="P_UP";
-                } else if(tipoSensor == 1){
-                    catchSend="A_UP";
+            }
+            if(bSend){
+                sComSF="P_UP";
+                udpsocket->writeDatagram(sComSF.toLatin1(),direccionApp,puertoComSF);
+                sComSF="";
+                ui->textTestGrap->appendPlainText("esto enviare: "+catchSend);
+                if(compGraf=="BTR"){
+                    udpsocket->writeDatagram(catchSend.toLatin1(),direccionApp,puertoBTR);
                 }
-                udpsocket->writeDatagram(catchSend.toLatin1(),direccionApp,puertoComSF);
-                catchSend="";
-            }*/
-            nWords=0;
+                if(compGraf=="LF"){
+                    udpsocket->writeDatagram(catchSend.toLatin1(),direccionApp,puertoLF);
+                }
+                if(compGraf=="DEMON"){
+                    udpsocket->writeDatagram(catchSend.toLatin1(),direccionApp,puertoDEMON);
+                }
+            }
+            numCatchSend = 0;
+            catchSend="";
         }
     }
+    /*else{
+         *                 bSensor=false;
+         *                 if(tipoSensor == 0){
+         *                     catchSend="P_UP";
+         *                 } else if(tipoSensor == 1){
+         *                     catchSend="A_UP";
+         *                 }
+         *                 udpsocket->writeDatagram(catchSend.toLatin1(),direccionApp,puertoComSF);
+         *                 catchSend="";
+         *                 }*/
+    nWords=0;
 }
+
 
 void siviso::on_tipo_norte_clicked()
 {
