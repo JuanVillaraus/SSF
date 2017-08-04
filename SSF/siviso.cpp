@@ -127,17 +127,17 @@ siviso::siviso(QWidget *parent) :
     }
     file2.close();
 
-    thread()->sleep(1);
+    /*thread()->sleep(1);
     proceso1->startDetached("java -jar Lofar.jar");
     thread()->sleep(1);
     proceso2->startDetached("java -jar BTR.jar");
     thread()->sleep(1);
     proceso3->startDetached("java -jar PPI.jar");
     thread()->sleep(1);
-    proceso4->startDetached("java -jar demon.jar");
+    proceso4->startDetached("java -jar demon.jar");*/
     thread()->sleep(1);
-    //proceso5->startDetached("java -jar ConexionSF.jar");
-    //thread()->sleep(1);
+    proceso5->startDetached("java -jar ConexionSF.jar");
+    thread()->sleep(1);
 
 
     /*serialPortUSB->setPortName("/dev/ttyUSB0");
@@ -317,7 +317,7 @@ void siviso::leerSocket()
                 ui->view->appendPlainText("Puerto USB serial abierto\n");
                 s = "ANT_UP";
                 udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoComSF);
-                serialPortUSB->setBaudRate(QSerialPort::Baud9600);
+                serialPortUSB->setBaudRate(QSerialPort::Baud115200);
                 serialPortUSB->setDataBits(QSerialPort::Data8);
                 serialPortUSB->setStopBits(QSerialPort::OneStop);
                 serialPortUSB->setParity(QSerialPort::NoParity);
@@ -420,9 +420,48 @@ void siviso::leerSerialUSB()
 
     numCatchSend += n;
     for(int x=0;x<str.size();x++){
-        if(str[x]=='1'||str[x]=='2'||str[x]=='3'||str[x]=='4'||str[x]=='5'||str[x]=='6'||str[x]=='7'||str[x]=='8'||str[x]=='9'||str[x]=='0'||str[x]==','||str[x]==';'||str[x]=='.'||str[x]==':'||str[x]=='-'){
-            catchSensor += str[x];
+        if(str[x]=='1'||str[x]=='2'||str[x]=='3'||str[x]=='4'||str[x]=='5'||str[x]=='6'||str[x]=='7'||str[x]=='8'||str[x]=='9'||str[x]=='0'||str[x]==','||str[x]==';'||str[x]=='.'||str[x]=='-'){
             bSend = true;
+            catchSend += str[x];
+            if(str[x]==','){
+                nWords++;
+            }if(str[x]==';'){
+                ui->textTestGrap->appendPlainText("RECIBÍ EL PUNTO Y COMA");
+                sComSF="INFO";
+                udpsocket->writeDatagram(sComSF.toLatin1(),direccionApp,puertoComSF);
+                sComSF="";
+                if(catchSend[0] == ','){
+                    bSend = false;
+                    ui->textTestGrap->appendPlainText("FALSE por coma inicial");
+                    for(int x=0;x<catchSend.size()-1;x++){
+                        if(catchSend[x] == ','){
+                            if(catchSend[x+1] == ','){
+                                ui->textTestGrap->appendPlainText("FALSE por coma seguidas");
+                                bSend = false;
+                            }
+                        }
+                    }
+                }
+                if(bSend){
+                    sComSF="P_UP";
+                    udpsocket->writeDatagram(sComSF.toLatin1(),direccionApp,puertoComSF);
+                    sComSF="";
+                    ui->textTestGrap->appendPlainText("esto enviare: "+catchSend);
+                    if(compGraf=="BTR"){
+                        udpsocket->writeDatagram(catchSend.toLatin1(),direccionApp,puertoBTR);
+                    }
+                    if(compGraf=="LF"){
+                        udpsocket->writeDatagram(catchSend.toLatin1(),direccionApp,puertoLF);
+                    }
+                    if(compGraf=="DEMON"){
+                        udpsocket->writeDatagram(catchSend.toLatin1(),direccionApp,puertoDEMON);
+                    }
+                }
+                numCatchSend = 0;
+                catchSend="";
+            }else{
+                catchSensor += str[x];
+            }
         } else if(str[x]=='!'||str[x]=='A'||str[x]=='C'||str[x]=='E'||str[x]=='F'||str[x]=='H'||str[x]=='I'||str[x]=='K'||str[x]=='M'||str[x]=='N'||str[x]=='O'||str[x]=='P'||str[x]=='R'||str[x]=='S'||str[x]=='T'||str[x]=='U'){
             if(str[x]!='!'){
                 catchCmd += str[x];
@@ -494,8 +533,6 @@ void siviso::leerSerialUSB()
                         sComSF="A_UP";
                         udpsocket->writeDatagram(sComSF.toLatin1(),direccionApp,puertoComSF);
                         sComSF="";
-                    }else{
-                        ui->B1Nom->setText("error");
                     }
                     catchSensor = "";
                     nSensor++;
@@ -561,12 +598,17 @@ void siviso::leerSerialUSB()
                 case 7:
                     if(tipoSensor == 0){
                         ui->B0Carg->setText(catchSensor+" %");
+                        if(catchSensor.toInt()<=20){
+                            ui->Alert->setText("ALERTA BOYA PASIVA CON BATERIA BAJA");
+                        }
                     } else if(tipoSensor == 1){
                         ui->B1Carg->setText(catchSensor+" %");
+                        if(catchSensor.toInt()<=20){
+                            ui->Alert->setText("ALERTA BOYA ACTIVA CON BATERIA BAJA");
+                        }
                     }
                     nSensor++;
-                    if(catchSensor.toInt()<=20)
-                        ui->Alert->setText("ALERTA BATERIA BAJA");
+
                     catchSensor = "";
                     break;
                 case 8:
@@ -627,41 +669,8 @@ void siviso::leerSerialUSB()
                 catchSensor += "-";
                 break;
             }
-        } else if(str[x]==','){
-            nWords++;
-            catchSend += str[x];
-        } else if(str[x]==';'){
-            sComSF="INFO";
-            udpsocket->writeDatagram(sComSF.toLatin1(),direccionApp,puertoComSF);
-            sComSF="";
-            if(catchSend[0] == ','){
-                bSend = false;
-                for(int x=0;x<catchSend.size()-1;x++){
-                    if(catchSend[x] == ','){
-                        if(catchSend[x+1] == ','){
-                            bSend = false;
-                        }
-                    }
-                }
-            }
-            if(bSend){
-                sComSF="P_UP";
-                udpsocket->writeDatagram(sComSF.toLatin1(),direccionApp,puertoComSF);
-                sComSF="";
-                ui->textTestGrap->appendPlainText("esto enviare: "+catchSend);
-                if(compGraf=="BTR"){
-                    udpsocket->writeDatagram(catchSend.toLatin1(),direccionApp,puertoBTR);
-                }
-                if(compGraf=="LF"){
-                    udpsocket->writeDatagram(catchSend.toLatin1(),direccionApp,puertoLF);
-                }
-                if(compGraf=="DEMON"){
-                    udpsocket->writeDatagram(catchSend.toLatin1(),direccionApp,puertoDEMON);
-                }
-            }
-            numCatchSend = 0;
-            catchSend="";
         }
+
     }
     /*else{
          *                 bSensor=false;
