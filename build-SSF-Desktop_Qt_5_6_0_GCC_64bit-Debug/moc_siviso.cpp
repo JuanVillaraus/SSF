@@ -84,8 +84,8 @@ QT_MOC_LITERAL(51, 1003, 17), // "on_vol_dw_clicked"
 QT_MOC_LITERAL(52, 1021, 17), // "on_vol_up_clicked"
 QT_MOC_LITERAL(53, 1039, 16), // "on_demon_clicked"
 QT_MOC_LITERAL(54, 1056, 18), // "on_chirpUp_clicked"
-QT_MOC_LITERAL(55, 1075, 18), // "on_ChirpDw_clicked"
-QT_MOC_LITERAL(56, 1094, 16), // "on_Chype_clicked"
+QT_MOC_LITERAL(55, 1075, 18), // "on_chirpDw_clicked"
+QT_MOC_LITERAL(56, 1094, 16), // "on_chype_clicked"
 QT_MOC_LITERAL(57, 1111, 27), // "on_chirpFrecUp_valueChanged"
 QT_MOC_LITERAL(58, 1139, 27), // "on_chirpFrecDw_valueChanged"
 QT_MOC_LITERAL(59, 1167, 25), // "on_chirpTime_valueChanged"
@@ -123,8 +123,8 @@ QT_MOC_LITERAL(62, 1255, 28) // "on_chirpTime_editingFinished"
     "on_ApagarA_clicked\0on_sensorOFF_clicked\0"
     "on_sensorON_clicked\0on_vol_dw_clicked\0"
     "on_vol_up_clicked\0on_demon_clicked\0"
-    "on_chirpUp_clicked\0on_ChirpDw_clicked\0"
-    "on_Chype_clicked\0on_chirpFrecUp_valueChanged\0"
+    "on_chirpUp_clicked\0on_chirpDw_clicked\0"
+    "on_chype_clicked\0on_chirpFrecUp_valueChanged\0"
     "on_chirpFrecDw_valueChanged\0"
     "on_chirpTime_valueChanged\0"
     "on_chirpFrecUp_editingFinished\0"
@@ -328,8 +328,8 @@ void siviso::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void
         case 48: _t->on_vol_up_clicked(); break;
         case 49: _t->on_demon_clicked(); break;
         case 50: _t->on_chirpUp_clicked(); break;
-        case 51: _t->on_ChirpDw_clicked(); break;
-        case 52: _t->on_Chype_clicked(); break;
+        case 51: _t->on_chirpDw_clicked(); break;
+        case 52: _t->on_chype_clicked(); break;
         case 53: _t->on_chirpFrecUp_valueChanged((*reinterpret_cast< int(*)>(_a[1]))); break;
         case 54: _t->on_chirpFrecDw_valueChanged((*reinterpret_cast< int(*)>(_a[1]))); break;
         case 55: _t->on_chirpTime_valueChanged((*reinterpret_cast< double(*)>(_a[1]))); break;

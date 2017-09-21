@@ -189,9 +189,9 @@ private slots:
 
     void on_chirpUp_clicked();
 
-    void on_ChirpDw_clicked();
+    void on_chirpDw_clicked();
 
-    void on_Chype_clicked();
+    void on_chype_clicked();
 
     void on_chirpFrecUp_valueChanged(int arg1);
 

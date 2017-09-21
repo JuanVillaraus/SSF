@@ -94,8 +94,8 @@ siviso::siviso(QWidget *parent) :
     ui->origenSensor->setDisabled(true);
     ui->origenBlanco->setDisabled(true);
     ui->origenAuto->setDisabled(true);
-    ui->rec->setDisabled(true);
-    ui->play->setDisabled(true);
+    //ui->rec->setDisabled(true);
+    //ui->play->setDisabled(true);
     ui->vol_dw->setDisabled(true);
     ui->vol_up->setDisabled(true);
     //ui->et_blancos->setDisabled(true);
@@ -127,34 +127,18 @@ siviso::siviso(QWidget *parent) :
     }
     file2.close();
 
-    /*thread()->sleep(1);
-    proceso1->startDetached("java -jar Lofar.jar");
     thread()->sleep(1);
     proceso2->startDetached("java -jar BTR.jar");
     thread()->sleep(1);
+    proceso1->startDetached("java -jar Lofar.jar");
+    thread()->sleep(1);
+
     proceso3->startDetached("java -jar PPI.jar");
     thread()->sleep(1);
-    proceso4->startDetached("java -jar demon.jar");*/
+    proceso4->startDetached("java -jar demon.jar");
     thread()->sleep(1);
     proceso5->startDetached("java -jar ConexionSF.jar");
     thread()->sleep(1);
-
-
-    /*serialPortUSB->setPortName("/dev/ttyUSB0");
-    if(serialPortUSB->open(QIODevice::ReadWrite)){
-        ui->view->appendPlainText("Puerto USB serial abierto\n");
-        s = "ANT_UP";
-        udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoComSF);
-        serialPortUSB->setBaudRate(QSerialPort::Baud9600);
-        serialPortUSB->setDataBits(QSerialPort::Data8);
-        serialPortUSB->setStopBits(QSerialPort::OneStop);
-        serialPortUSB->setParity(QSerialPort::NoParity);
-        serialPortUSB->setFlowControl(QSerialPort::NoFlowControl);
-    }else{
-        ui->view->appendPlainText("Error de coexion con el puerto USB serial\n");
-        s = "ANT_DW";
-        udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoComSF);
-    }*/
 
 
 //This use for TEST the class DBasePostgreSQL by Misael M Del Valle -- Status: Functional
@@ -273,6 +257,8 @@ void siviso::leerSocket()
             s = "OFF";
             udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoLF);
         } else if(info == "runConxSF"){
+            s = "EXIT";
+            udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoComSF);
             puertoComSF = senderPort;
             s = "RP";
             udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoComSF);
@@ -295,6 +281,8 @@ void siviso::leerSocket()
         } else if(info == "SENSOR A"){
             serialPortUSB->write("SENSORES A\n");
             thread()->msleep(100);
+        } else if(info == "PLAY OK"){
+            ui->play->setDisabled(false);
         } else if(info == "A1"){
             ui->B1estado->setText("Desconectado");
             s = "A_DW";
@@ -369,7 +357,7 @@ void siviso::on_btOpenPort_clicked()
         ui->view->appendPlainText("Puerto USB serial abierto\n");
         s = "ANT_UP";
         udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoComSF);
-        serialPortUSB->setBaudRate(QSerialPort::Baud9600);
+        serialPortUSB->setBaudRate(QSerialPort::Baud115200);
         serialPortUSB->setDataBits(QSerialPort::Data8);
         serialPortUSB->setStopBits(QSerialPort::OneStop);
         serialPortUSB->setParity(QSerialPort::NoParity);
@@ -402,7 +390,7 @@ void siviso::leerSerialUSB()
 {
     char buffer[2048];
     int nDatos;
-    numCatchSend++;
+    //numCatchSend++;
     serialPortUSB->flush();
     nDatos = serialPortUSB->read(buffer,2047);
     bool bSend = false;
@@ -411,7 +399,7 @@ void siviso::leerSerialUSB()
     ui->textTestGrap->appendPlainText(buffer);
 
     QString sComSF;
-
+    QString s;
     QString str;
     str=QString(buffer);
     int n =str.size();
@@ -422,6 +410,10 @@ void siviso::leerSerialUSB()
     for(int x=0;x<str.size();x++){
         if(str[x]=='1'||str[x]=='2'||str[x]=='3'||str[x]=='4'||str[x]=='5'||str[x]=='6'||str[x]=='7'||str[x]=='8'||str[x]=='9'||str[x]=='0'||str[x]==','||str[x]==';'||str[x]=='.'||str[x]=='-'){
             bSend = true;
+            ui->B0estado->setText("Enlazado");
+            sComSF="P_UP";
+            udpsocket->writeDatagram(sComSF.toLatin1(),direccionApp,puertoComSF);
+            sComSF="";
             catchSend += str[x];
             if(str[x]==','){
                 nWords++;
@@ -446,7 +438,8 @@ void siviso::leerSerialUSB()
                     sComSF="P_UP";
                     udpsocket->writeDatagram(sComSF.toLatin1(),direccionApp,puertoComSF);
                     sComSF="";
-                    ui->textTestGrap->appendPlainText("esto enviare: "+catchSend);
+                    ui->textTestGrap->appendPlainText("esto enviaré: "+catchSend + " \n Long de: " + QString::number(numCatchSend));
+
                     if(compGraf=="BTR"){
                         udpsocket->writeDatagram(catchSend.toLatin1(),direccionApp,puertoBTR);
                     }
@@ -456,11 +449,88 @@ void siviso::leerSerialUSB()
                     if(compGraf=="DEMON"){
                         udpsocket->writeDatagram(catchSend.toLatin1(),direccionApp,puertoDEMON);
                     }
+                    if(compGraf=="PPI"){
+                        udpsocket->writeDatagram(catchSend.toLatin1(),direccionApp,puertoPPI);
+                    }
+                    if(compGraf=="BAUDIO"){
+                        QFile file("resource/audio.txt");
+                        if(file.open(QIODevice::WriteOnly)){
+                            QTextStream stream(&file);
+                            stream<<catchSend;
+                        } else {
+                            qDebug();
+                        }
+                        file.close();
+                        compGraf = "BTR";
+                        s = "ON";
+                        udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoBTR);
+                        //ui->rec->setDisabled(false);
+                        deshabilitado(false);
+                    }
+                    if(compGraf=="LAUDIO"){
+                        //udpsocket->writeDatagram(catchSend.toLatin1(),direccionApp,puertoComSF);
+                        QFile file("resource/audio.txt");
+                        if(file.open(QIODevice::WriteOnly)){
+                            QTextStream stream(&file);
+                            stream<<catchSend;
+                        } else {
+                            qDebug();
+                        }
+                        file.close();
+                        compGraf = "LF";
+                        s = "ON";
+                        udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoLF);
+                        //ui->rec->setDisabled(false);
+                        deshabilitado(false);
+                    }
+                    if(compGraf=="DAUDIO"){
+                        //udpsocket->writeDatagram(catchSend.toLatin1(),direccionApp,puertoComSF);
+                        QFile file("resource/audio.txt");
+                        if(file.open(QIODevice::WriteOnly)){
+                            QTextStream stream(&file);
+                            stream<<catchSend;
+                        } else {
+                            qDebug();
+                        }
+                        file.close();
+                        compGraf = "DEMON";
+                        s = "ON";
+                        udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoDEMON);
+                        //ui->rec->setDisabled(false);
+                        deshabilitado(false);
+                    }
+                    if(compGraf=="PAUDIO"){
+                        //udpsocket->writeDatagram(catchSend.toLatin1(),direccionApp,puertoComSF);
+                        QFile file("resource/audio.txt");
+                        if(file.open(QIODevice::WriteOnly)){
+                            QTextStream stream(&file);
+                            stream<<catchSend;
+                        } else {
+                            qDebug();
+                        }
+                        file.close();
+                        compGraf = "PPI";
+                        s = "ON";
+                        udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoPPI);
+                        //ui->rec->setDisabled(false);
+                        deshabilitado(false);
+                    }
+                    if(compGraf=="AUDIO"){
+                        //udpsocket->writeDatagram(catchSend.toLatin1(),direccionApp,puertoComSF);
+                        QFile file("resource/audio.txt");
+                        if(file.open(QIODevice::WriteOnly)){
+                            QTextStream stream(&file);
+                            stream<<catchSend;
+                        } else {
+                            qDebug();
+                        }
+                        file.close();
+                        //ui->rec->setDisabled(false);
+                        deshabilitado(false);
+                    }
                 }
                 numCatchSend = 0;
                 catchSend="";
-            }else{
-                catchSensor += str[x];
             }
         } else if(str[x]=='!'||str[x]=='A'||str[x]=='C'||str[x]=='E'||str[x]=='F'||str[x]=='H'||str[x]=='I'||str[x]=='K'||str[x]=='M'||str[x]=='N'||str[x]=='O'||str[x]=='P'||str[x]=='R'||str[x]=='S'||str[x]=='T'||str[x]=='U'){
             if(str[x]!='!'){
@@ -850,33 +920,34 @@ void siviso::on_it_valueChanged(int arg1)
 
 void siviso::on_rec_clicked()
 {
+    serialPortUSB->write("AUDIO P\n");
+    deshabilitado(true);
+    //ui->rec->setDisabled(true);
     QString s;
-    if(bRec){
-        bRec=false;
-        ui->rec->setText("Stop");
-        s = "REC_ON";
-        udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoREC);
+    s = "OFF";
+    udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoPPI);
+    udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoBTR);
+    udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoLF);
+    udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoDEMON);
+    udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoComSF);
+    if(compGraf=="BTR"){
+        compGraf = "BAUDIO";
+    }else if(compGraf=="LF"){
+        compGraf = "LAUDIO";
+    }else if(compGraf=="DEMON"){
+        compGraf = "DAUDIO";
+    }else if(compGraf=="PPI"){
+        compGraf = "PAUDIO";
     }else{
-        bRec=true;
-        ui->rec->setText("Rec");
-        s = "REC_OFF";
-        udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoREC);
+        compGraf = "AUDIO";
     }
 }
 
 void siviso::on_play_clicked()
 {
-    if(bPlay){
-        bPlay=false;
-        ui->play->setText("Stop");
-        proceso3->startDetached("pactl load-module module-loopback");
-        //proceso3->startDetached("java -jar recSound.jar");
-        //QSound::play("2016-09-14_14:27:16.wav");
-    }else{
-        bPlay=true;
-        ui->play->setText("Play");
-        proceso3->startDetached("pactl unload-module module-loopback");
-    }
+    QString s= "PLAY";
+    udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoComSF);
+    ui->play->setDisabled(true);
 }
 
 void siviso::on_toolButton_clicked()
@@ -1211,7 +1282,6 @@ void siviso::deshabilitado(bool value){
     ui->origenAuto->setDisabled(value);
     ui->origenManual->setDisabled(value);
     ui->ang->setDisabled(value);
-    ui->dial->setDisabled(value);
     ui->rec->setDisabled(value);
     ui->play->setDisabled(value);
     //ui->et_blancos->setDisabled(value);
@@ -1228,6 +1298,13 @@ void siviso::deshabilitado(bool value){
     ui->btr->setDisabled(value);
     ui->ppi->setDisabled(value);
     ui->demon->setDisabled(value);
+    ui->startCom->setDisabled(value);
+    ui->chirpUp->setDisabled(value);
+    ui->chirpDw->setDisabled(value);
+    ui->chype->setDisabled(value);
+    if(ui->origenOmni->isChecked()){
+        ui->dial->setDisabled(value);
+    }
 }
 
 
@@ -1272,12 +1349,12 @@ void siviso::on_chirpUp_clicked()
     serialPortUSB->write("UP LFM A\n");
 }
 
-void siviso::on_ChirpDw_clicked()
+void siviso::on_chirpDw_clicked()
 {
     serialPortUSB->write("DOWN LFM A\n");
 }
 
-void siviso::on_Chype_clicked()
+void siviso::on_chype_clicked()
 {
     serialPortUSB->write("UP HFM A\n");
 }
