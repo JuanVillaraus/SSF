@@ -1216,24 +1216,16 @@ siviso.o: ../SSF/siviso.cpp ../SSF/siviso.h \
 		../../../Qt5.6.0/5.6/gcc_64/include/QtGui/qinputmethod.h \
 		../../../Qt5.6.0/5.6/gcc_64/include/QtWidgets/QButtonGroup \
 		../../../Qt5.6.0/5.6/gcc_64/include/QtWidgets/qbuttongroup.h \
-		../../../Qt5.6.0/5.6/gcc_64/include/QtWidgets/QComboBox \
-		../../../Qt5.6.0/5.6/gcc_64/include/QtWidgets/qcombobox.h \
-		../../../Qt5.6.0/5.6/gcc_64/include/QtWidgets/qabstractitemdelegate.h \
-		../../../Qt5.6.0/5.6/gcc_64/include/QtWidgets/qstyleoption.h \
+		../../../Qt5.6.0/5.6/gcc_64/include/QtWidgets/QDial \
+		../../../Qt5.6.0/5.6/gcc_64/include/QtWidgets/qdial.h \
+		../../../Qt5.6.0/5.6/gcc_64/include/QtWidgets/qabstractslider.h \
+		../../../Qt5.6.0/5.6/gcc_64/include/QtWidgets/QDoubleSpinBox \
+		../../../Qt5.6.0/5.6/gcc_64/include/QtWidgets/qspinbox.h \
 		../../../Qt5.6.0/5.6/gcc_64/include/QtWidgets/qabstractspinbox.h \
 		../../../Qt5.6.0/5.6/gcc_64/include/QtGui/qvalidator.h \
 		../../../Qt5.6.0/5.6/gcc_64/include/QtCore/qregularexpression.h \
-		../../../Qt5.6.0/5.6/gcc_64/include/QtWidgets/qslider.h \
-		../../../Qt5.6.0/5.6/gcc_64/include/QtWidgets/qabstractslider.h \
-		../../../Qt5.6.0/5.6/gcc_64/include/QtWidgets/qstyle.h \
-		../../../Qt5.6.0/5.6/gcc_64/include/QtWidgets/qtabbar.h \
-		../../../Qt5.6.0/5.6/gcc_64/include/QtWidgets/qrubberband.h \
-		../../../Qt5.6.0/5.6/gcc_64/include/QtWidgets/qframe.h \
-		../../../Qt5.6.0/5.6/gcc_64/include/QtWidgets/QDial \
-		../../../Qt5.6.0/5.6/gcc_64/include/QtWidgets/qdial.h \
-		../../../Qt5.6.0/5.6/gcc_64/include/QtWidgets/QDoubleSpinBox \
-		../../../Qt5.6.0/5.6/gcc_64/include/QtWidgets/qspinbox.h \
 		../../../Qt5.6.0/5.6/gcc_64/include/QtWidgets/QFrame \
+		../../../Qt5.6.0/5.6/gcc_64/include/QtWidgets/qframe.h \
 		../../../Qt5.6.0/5.6/gcc_64/include/QtWidgets/QGroupBox \
 		../../../Qt5.6.0/5.6/gcc_64/include/QtWidgets/qgroupbox.h \
 		../../../Qt5.6.0/5.6/gcc_64/include/QtWidgets/QHeaderView \
@@ -1241,6 +1233,12 @@ siviso.o: ../SSF/siviso.cpp ../SSF/siviso.h \
 		../../../Qt5.6.0/5.6/gcc_64/include/QtWidgets/qabstractitemview.h \
 		../../../Qt5.6.0/5.6/gcc_64/include/QtWidgets/qabstractscrollarea.h \
 		../../../Qt5.6.0/5.6/gcc_64/include/QtCore/qitemselectionmodel.h \
+		../../../Qt5.6.0/5.6/gcc_64/include/QtWidgets/qabstractitemdelegate.h \
+		../../../Qt5.6.0/5.6/gcc_64/include/QtWidgets/qstyleoption.h \
+		../../../Qt5.6.0/5.6/gcc_64/include/QtWidgets/qslider.h \
+		../../../Qt5.6.0/5.6/gcc_64/include/QtWidgets/qstyle.h \
+		../../../Qt5.6.0/5.6/gcc_64/include/QtWidgets/qtabbar.h \
+		../../../Qt5.6.0/5.6/gcc_64/include/QtWidgets/qrubberband.h \
 		../../../Qt5.6.0/5.6/gcc_64/include/QtWidgets/QLabel \
 		../../../Qt5.6.0/5.6/gcc_64/include/QtWidgets/qlabel.h \
 		../../../Qt5.6.0/5.6/gcc_64/include/QtWidgets/QLineEdit \

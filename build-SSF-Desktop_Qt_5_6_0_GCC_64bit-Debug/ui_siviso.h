@@ -81,7 +81,7 @@ public:
     QLabel *label_21;
     QDoubleSpinBox *prob_falsa;
     QLabel *label_22;
-    QDoubleSpinBox *prob_deteccion;
+    QSpinBox *prob_deteccion;
     QLabel *label_23;
     QLabel *label_24;
     QDoubleSpinBox *escala_ppi;
@@ -418,9 +418,10 @@ public:
         label_22 = new QLabel(BarraHerramientas);
         label_22->setObjectName(QStringLiteral("label_22"));
         label_22->setGeometry(QRect(746, 120, 91, 41));
-        prob_deteccion = new QDoubleSpinBox(BarraHerramientas);
+        prob_deteccion = new QSpinBox(BarraHerramientas);
         prob_deteccion->setObjectName(QStringLiteral("prob_deteccion"));
         prob_deteccion->setGeometry(QRect(850, 160, 69, 41));
+        prob_deteccion->setValue(60);
         label_23 = new QLabel(BarraHerramientas);
         label_23->setObjectName(QStringLiteral("label_23"));
         label_23->setGeometry(QRect(836, 120, 91, 41));
@@ -977,7 +978,7 @@ public:
         origenBuque->setText(QApplication::translate("siviso", "Buque", 0));
         label_21->setText(QApplication::translate("siviso", "<html><head/><body><p align=\"center\"><span style=\" font-size:8pt;\">Estado<br/>de la mar</span></p></body></html>", 0));
         label_22->setText(QApplication::translate("siviso", "<html><head/><body><p align=\"center\"><span style=\" font-size:8pt;\">Probabilidad<br/>de falsa alarma</span></p></body></html>", 0));
-        label_23->setText(QApplication::translate("siviso", "<html><head/><body><p align=\"center\"><span style=\" font-size:8pt;\">Probabilidad<br/>de detecci\303\263n</span></p></body></html>", 0));
+        label_23->setText(QApplication::translate("siviso", "<html><head/><body><p align=\"center\"><span style=\" font-size:8pt;\">Rango de<br/>detecci\303\263n</span></p></body></html>", 0));
         label_24->setText(QApplication::translate("siviso", "<html><head/><body><p align=\"center\"><span style=\" font-size:8pt;\">Escala<br/>PPI</span></p></body></html>", 0));
         label_25->setText(QApplication::translate("siviso", "<html><head/><body><p align=\"center\"><span style=\" font-size:8pt;\">Escala<br/>despliegue<br/>t\303\241ctico</span></p></body></html>", 0));
         label_26->setText(QApplication::translate("siviso", "<html><head/><body><p align=\"center\"><span style=\" font-size:8pt;\">Ganancia</span></p></body></html>", 0));

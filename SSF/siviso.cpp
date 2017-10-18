@@ -127,7 +127,7 @@ siviso::siviso(QWidget *parent) :
     }
     file2.close();
 
-    thread()->sleep(1);
+    /*thread()->sleep(1);
     proceso2->startDetached("java -jar BTR.jar");
     thread()->sleep(1);
     proceso1->startDetached("java -jar Lofar.jar");
@@ -135,7 +135,7 @@ siviso::siviso(QWidget *parent) :
 
     proceso3->startDetached("java -jar PPI.jar");
     thread()->sleep(1);
-    proceso4->startDetached("java -jar demon.jar");
+    proceso4->startDetached("java -jar demon.jar");*/
     thread()->sleep(1);
     proceso5->startDetached("java -jar ConexionSF.jar");
     thread()->sleep(1);
@@ -532,7 +532,7 @@ void siviso::leerSerialUSB()
                 numCatchSend = 0;
                 catchSend="";
             }
-        } else if(str[x]=='!'||str[x]=='A'||str[x]=='C'||str[x]=='E'||str[x]=='F'||str[x]=='H'||str[x]=='I'||str[x]=='K'||str[x]=='M'||str[x]=='N'||str[x]=='O'||str[x]=='P'||str[x]=='R'||str[x]=='S'||str[x]=='T'||str[x]=='U'){
+        } else if(str[x]=='!'||str[x]=='A'||str[x]=='C'||str[x]=='D'||str[x]=='E'||str[x]=='F'||str[x]=='H'||str[x]=='I'||str[x]=='K'||str[x]=='M'||str[x]=='N'||str[x]=='O'||str[x]=='P'||str[x]=='R'||str[x]=='S'||str[x]=='T'||str[x]=='U'){
             if(str[x]!='!'){
                 catchCmd += str[x];
             } else {
@@ -564,6 +564,13 @@ void siviso::leerSerialUSB()
                     sComSF="A_UP";
                     udpsocket->writeDatagram(sComSF.toLatin1(),direccionApp,puertoComSF);
                     sComSF="";
+                } else if(catchCmd == "AUDIOOK"){
+                    sComSF="CONF";
+                    udpsocket->writeDatagram(sComSF.toLatin1(),direccionApp,puertoComSF);
+                    sComSF="P_UP";
+                    udpsocket->writeDatagram(sComSF.toLatin1(),direccionApp,puertoComSF);
+                    sComSF="";
+                    ui->rec->setDisabled(true);
                 } else if(catchCmd == "FINISHCOMMUNICATIONP"){
                     sComSF="P_DW";
                     udpsocket->writeDatagram(sComSF.toLatin1(),direccionApp,puertoComSF);
@@ -668,12 +675,16 @@ void siviso::leerSerialUSB()
                 case 7:
                     if(tipoSensor == 0){
                         ui->B0Carg->setText(catchSensor+" %");
-                        if(catchSensor.toInt()<=20){
+                        if(catchSensor.toDouble()>20){
+                            ui->Alert->setText(" ");
+                        } else{
                             ui->Alert->setText("ALERTA BOYA PASIVA CON BATERIA BAJA");
                         }
                     } else if(tipoSensor == 1){
                         ui->B1Carg->setText(catchSensor+" %");
-                        if(catchSensor.toInt()<=20){
+                        if(catchSensor.toDouble()>20){
+                            ui->Alert->setText(" ");
+                        } else{
                             ui->Alert->setText("ALERTA BOYA ACTIVA CON BATERIA BAJA");
                         }
                     }
@@ -922,7 +933,7 @@ void siviso::on_rec_clicked()
 {
     serialPortUSB->write("AUDIO P\n");
     deshabilitado(true);
-    //ui->rec->setDisabled(true);
+    ui->rec->setDisabled(false);
     QString s;
     s = "OFF";
     udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoPPI);
