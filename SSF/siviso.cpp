@@ -117,6 +117,7 @@ siviso::siviso(QWidget *parent) :
         qDebug();
     }
     file1.close();
+    colorUp = 255;
 
     QFile file2("resource/colorDw.txt");
     if(file2.open(QIODevice::WriteOnly)){
@@ -126,6 +127,7 @@ siviso::siviso(QWidget *parent) :
         qDebug();
     }
     file2.close();
+    colorDw = 0;
 
     /*thread()->sleep(1);
     proceso2->startDetached("java -jar BTR.jar");
