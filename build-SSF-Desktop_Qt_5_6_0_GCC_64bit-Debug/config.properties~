@@ -10,5 +10,5 @@ longLF=512
 longPPI=80
 longDEMON=512
 timeSend=15000
-LFlimYup=50
-LFlimYdw=-40
+LFlimYup=170
+LFlimYdw=80

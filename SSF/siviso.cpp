@@ -135,10 +135,10 @@ siviso::siviso(QWidget *parent) :
 
     proceso3->startDetached("java -jar PPI.jar");
     thread()->sleep(1);
-    proceso4->startDetached("java -jar demon.jar");*/
+    proceso4->startDetached("java -jar demon.jar");
     thread()->sleep(1);
     proceso5->startDetached("java -jar ConexionSF.jar");
-    thread()->sleep(1);
+    thread()->sleep(1);*/
 
 
 //This use for TEST the class DBasePostgreSQL by Misael M Del Valle -- Status: Functional
