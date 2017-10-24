@@ -107,7 +107,7 @@ siviso::siviso(QWidget *parent) :
     ui->escala_ppi->setDisabled(true);
     ui->escala_desp->setDisabled(true);
 
-    serialPortUSB->write("GAIN 3\n");
+    //serialPortUSB->write("GAIN 3\n");
 
     QFile file1("resource/colorUp.txt");
     if(file1.open(QIODevice::WriteOnly)){
@@ -129,18 +129,18 @@ siviso::siviso(QWidget *parent) :
     file2.close();
     colorDw = 0;
 
-    /*thread()->sleep(1);
+    thread()->sleep(1);
     proceso2->startDetached("java -jar BTR.jar");
     thread()->sleep(1);
     proceso1->startDetached("java -jar Lofar.jar");
     thread()->sleep(1);
 
-    proceso3->startDetached("java -jar PPI.jar");
-    thread()->sleep(1);
+    //proceso3->startDetached("java -jar PPI.jar");
+    //thread()->sleep(1);
     proceso4->startDetached("java -jar demon.jar");
     thread()->sleep(1);
     proceso5->startDetached("java -jar ConexionSF.jar");
-    thread()->sleep(1);*/
+    thread()->sleep(1);
 
 
 //This use for TEST the class DBasePostgreSQL by Misael M Del Valle -- Status: Functional
