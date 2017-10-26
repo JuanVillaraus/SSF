@@ -49,6 +49,8 @@ siviso::siviso(QWidget *parent) :
     //udpsocket->writeDatagram(ui->view->text().toLatin1(),direccionPar,puertoPar); //visualiza la direcion IP y puerto del que envia
     //pSocket->connectToHost("192.168.1.10",6001);
 
+    bAudio = false;
+
     //ui->frecuencia->setValue(mysignal->get_frec());
     ui->bw->setValue(mysignal->get_bw());
     ui->it->setValue(mysignal->get_it());
@@ -106,6 +108,17 @@ siviso::siviso(QWidget *parent) :
     ui->prob_deteccion->setDisabled(true);
     ui->escala_ppi->setDisabled(true);
     ui->escala_desp->setDisabled(true);
+    ui->ran_det->setDisabled(true);
+
+    ui->cw->setDisabled(true);
+    ui->chirpDw->setDisabled(true);
+    ui->chirpUp->setDisabled(true);
+    ui->chype->setDisabled(true);
+    ui->chirpFrecDw->setDisabled(true);
+    ui->chirpFrecUp->setDisabled(true);
+    ui->chirpTime->setDisabled(true);
+    ui->frecP->setDisabled(true);
+    ui->nP->setDisabled(true);
 
     serialPortUSB->write("GAIN 3\n");
 
@@ -288,10 +301,28 @@ void siviso::leerSocket()
         } else if(info == "A1"){
             ui->B1estado->setText("Desconectado");
             s = "A_DW";
+            ui->cw->setDisabled(true);
+            ui->chirpDw->setDisabled(true);
+            ui->chirpUp->setDisabled(true);
+            ui->chype->setDisabled(true);
+            ui->chirpFrecDw->setDisabled(true);
+            ui->chirpFrecUp->setDisabled(true);
+            ui->chirpTime->setDisabled(true);
+            ui->frecP->setDisabled(true);
+            ui->nP->setDisabled(true);
             udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoComSF);
         } else if(info == "A2"){
             ui->B1estado->setText("En espera");
             s = "A_ESP";
+            ui->cw->setDisabled(true);
+            ui->chirpDw->setDisabled(true);
+            ui->chirpUp->setDisabled(true);
+            ui->chype->setDisabled(true);
+            ui->chirpFrecDw->setDisabled(true);
+            ui->chirpFrecUp->setDisabled(true);
+            ui->chirpTime->setDisabled(true);
+            ui->frecP->setDisabled(true);
+            ui->nP->setDisabled(true);
             udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoComSF);
         } else if(info == "P1"){
             ui->B0estado->setText("Desconectado");
@@ -424,14 +455,19 @@ void siviso::leerSerialUSB()
                 sComSF="INFO";
                 udpsocket->writeDatagram(sComSF.toLatin1(),direccionApp,puertoComSF);
                 sComSF="";
-                if(catchSend[0] == ','){
-                    bSend = false;
-                    ui->textTestGrap->appendPlainText("FALSE por coma inicial");
-                    for(int x=0;x<catchSend.size()-1;x++){
-                        if(catchSend[x] == ','){
-                            if(catchSend[x+1] == ','){
-                                ui->textTestGrap->appendPlainText("FALSE por coma seguidas");
-                                bSend = false;
+                if(bAudio){
+                    s = "AUDIO_CLOSE";
+                    udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoComSF);
+                }else{
+                    if(catchSend[0] == ','){
+                        bSend = false;
+                        ui->textTestGrap->appendPlainText("FALSE por coma inicial");
+                        for(int x=0;x<catchSend.size()-1;x++){
+                            if(catchSend[x] == ','){
+                                if(catchSend[x+1] == ','){
+                                    ui->textTestGrap->appendPlainText("FALSE por coma seguidas");
+                                    bSend = false;
+                                }
                             }
                         }
                     }
@@ -552,6 +588,15 @@ void siviso::leerSerialUSB()
                     udpsocket->writeDatagram(sComSF.toLatin1(),direccionApp,puertoComSF);
                     sComSF="";
                     ui->B1estado->setText("Encendido");
+                    ui->cw->setDisabled(false);
+                    ui->chirpDw->setDisabled(false);
+                    ui->chirpUp->setDisabled(false);
+                    ui->chype->setDisabled(false);
+                    ui->chirpFrecDw->setDisabled(false);
+                    ui->chirpFrecUp->setDisabled(false);
+                    ui->chirpTime->setDisabled(false);
+                    ui->frecP->setDisabled(false);
+                    ui->nP->setDisabled(false);
                 } else if(catchCmd == "OKP"){
                     ui->B0estado->setText("Enlazado");
                     sComSF="CONF";
@@ -566,12 +611,24 @@ void siviso::leerSerialUSB()
                     sComSF="A_UP";
                     udpsocket->writeDatagram(sComSF.toLatin1(),direccionApp,puertoComSF);
                     sComSF="";
+                    ui->cw->setDisabled(false);
+                    ui->chirpDw->setDisabled(false);
+                    ui->chirpUp->setDisabled(false);
+                    ui->chype->setDisabled(false);
+                    ui->chirpFrecDw->setDisabled(false);
+                    ui->chirpFrecUp->setDisabled(false);
+                    ui->chirpTime->setDisabled(false);
+                    ui->frecP->setDisabled(false);
+                    ui->nP->setDisabled(false);
                 } else if(catchCmd == "AUDIOOK"){
                     sComSF="CONF";
                     udpsocket->writeDatagram(sComSF.toLatin1(),direccionApp,puertoComSF);
                     sComSF="P_UP";
                     udpsocket->writeDatagram(sComSF.toLatin1(),direccionApp,puertoComSF);
+                    sComSF="AUDIO_OPEN";
+                    udpsocket->writeDatagram(sComSF.toLatin1(),direccionApp,puertoComSF);
                     sComSF="";
+                    bAudio = true;
                     ui->rec->setDisabled(true);
                 } else if(catchCmd == "FINISHCOMMUNICATIONP"){
                     sComSF="P_DW";
@@ -582,6 +639,15 @@ void siviso::leerSerialUSB()
                     sComSF="A_DW";
                     udpsocket->writeDatagram(sComSF.toLatin1(),direccionApp,puertoComSF);
                     sComSF="";
+                    ui->cw->setDisabled(true);
+                    ui->chirpDw->setDisabled(true);
+                    ui->chirpUp->setDisabled(true);
+                    ui->chype->setDisabled(true);
+                    ui->chirpFrecDw->setDisabled(true);
+                    ui->chirpFrecUp->setDisabled(true);
+                    ui->chirpTime->setDisabled(true);
+                    ui->frecP->setDisabled(true);
+                    ui->nP->setDisabled(true);
                     ui->B1estado->setText("Apagado");
                 } else if(catchCmd == "COMMUNICATIONERRORP"){
 

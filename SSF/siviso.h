@@ -83,6 +83,7 @@ public:
     bool bRec;
     bool bPlay;
     bool bSensor;
+    bool bAudio;
 
 private slots:
     void leerSocket();
