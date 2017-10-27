@@ -1542,20 +1542,21 @@ void siviso::on_chirpTime_editingFinished()
 
 void siviso::on_prob_deteccion_valueChanged(int arg1)
 {
-    mysignal->set_ganancia_sensor(arg1);
+    /*mysignal->set_ganancia_sensor(arg1);
 
     ui->view->appendPlainText("ganancia_sensor: ");
     QString s = QString::number(arg1);
     ui->view->appendPlainText(s);
     serialPortUSB->write("SET GAIN1 P\n");
     serialPortUSB->write(s.toLatin1()+"\n");
-    thread()->msleep(100);
+    thread()->msleep(100);*/
 
-    /*//serialPortUSB->write("SET THRESHOLD P\n");
+    //serialPortUSB->write("SET THRESHOLD P\n");
     QString s = QString::number(arg1);
     ui->view->appendPlainText(s);
-    serialPortUSB->write("SET GAIN1 P\n");
+    serialPortUSB->write("SET T P\n");
+    thread()->msleep(100);
     serialPortUSB->write(s.toLatin1() + "\n");
     //serialPortUSB->write("\n");
-    thread()->msleep(100);*/
+    thread()->msleep(100);
 }
