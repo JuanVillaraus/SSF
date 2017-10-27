@@ -9,10 +9,10 @@ Signal::Signal()
     frecP = 7000;
     nP = 1000;
     anchoP = 50;
-    rangoDetec = 0;
+    rangoDetec = 40;
     ganancia_sensor = 3;
     prob_falsa = 0.3;
-    prob_deteccion = 0.57;
+    prob_deteccion = 40;
     edo_mar = 2;
     info = "vacio";
 }

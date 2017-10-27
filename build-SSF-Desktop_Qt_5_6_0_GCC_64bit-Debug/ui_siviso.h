@@ -421,7 +421,7 @@ public:
         prob_deteccion = new QSpinBox(BarraHerramientas);
         prob_deteccion->setObjectName(QStringLiteral("prob_deteccion"));
         prob_deteccion->setGeometry(QRect(850, 160, 69, 41));
-        prob_deteccion->setValue(60);
+        prob_deteccion->setValue(40);
         label_23 = new QLabel(BarraHerramientas);
         label_23->setObjectName(QStringLiteral("label_23"));
         label_23->setGeometry(QRect(836, 120, 91, 41));

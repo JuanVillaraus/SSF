@@ -84,6 +84,7 @@ public:
     bool bPlay;
     bool bSensor;
     bool bAudio;
+    bool bPulso;
 
 private slots:
     void leerSocket();
@@ -205,6 +206,8 @@ private slots:
     void on_chirpFrecDw_editingFinished();
 
     void on_chirpTime_editingFinished();
+
+    void on_prob_deteccion_valueChanged(int arg1);
 
 private:
     Ui::siviso *ui;
