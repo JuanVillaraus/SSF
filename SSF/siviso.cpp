@@ -143,18 +143,26 @@ siviso::siviso(QWidget *parent) :
     file2.close();
     colorDw = 0;
 
-    thread()->sleep(1);
+    QFile file("resource/angMarc.txt");
+    if(file.open(QIODevice::WriteOnly)){
+        QTextStream stream(&file);
+        stream<<0;
+    } else {
+        qDebug();
+    }
+    file.close();
+
+    /*thread()->sleep(1);
     proceso2->startDetached("java -jar BTR.jar");
     thread()->sleep(1);
     proceso1->startDetached("java -jar Lofar.jar");
     thread()->sleep(1);
     proceso4->startDetached("java -jar demon.jar");
     thread()->sleep(1);
-    proceso5->startDetached("java -jar ConexionSF.jar");
+    proceso5->startDetached("java -jar ConexionSF.jar");*/
     thread()->sleep(1);
-
-    //proceso3->startDetached("java -jar PPI.jar");
-    //thread()->sleep(1);
+    proceso3->startDetached("java -jar PPI.jar");
+    thread()->sleep(1);
 
 
 //This use for TEST the class DBasePostgreSQL by Misael M Del Valle -- Status: Functional
@@ -504,7 +512,15 @@ void siviso::leerSerialUSB()
                         udpsocket->writeDatagram(catchSend.toLatin1(),direccionApp,puertoDEMON);
                     }
                     if(compGraf=="PPI"){
-                        udpsocket->writeDatagram(catchSend.toLatin1(),direccionApp,puertoPPI);
+                        //udpsocket->writeDatagram(catchSend.toLatin1(),direccionApp,puertoPPI);
+                        QFile file("resource/targets.txt");
+                        if(file.open(QIODevice::WriteOnly)){
+                            QTextStream stream(&file);
+                            stream<<catchSend;
+                        } else {
+                            qDebug();
+                        }
+                        file.close();
                     }
                     if(compGraf=="BAUDIO"){
                         QFile file("resource/audio.txt");
@@ -1119,7 +1135,6 @@ void siviso::on_setColorUp_valueChanged(int value)
         colorDw = colorUp-1;
         ui->setColorDw->setValue(colorDw);
     }
-
     QFile file("resource/colorUp.txt");
     if(file.open(QIODevice::WriteOnly)){
         QTextStream stream(&file);
@@ -1293,12 +1308,25 @@ void siviso::on_dial_valueChanged(int value)
 
 void siviso::on_ang_valueChanged(int arg1)
 {
-    if(arg1<=180)
+    if(arg1<=180){
         ui->dial->setValue(arg1);
-    else{
+    }else{
         int n = arg1-360;
         ui->dial->setValue(n);
     }
+    if(arg1<0){
+        arg1+=360;
+    }
+    QFile file("resource/angMarc.txt");
+    if(file.open(QIODevice::WriteOnly)){
+        QTextStream stream(&file);
+        stream<<arg1;
+    } else {
+        qDebug();
+    }
+    file.close();
+    QString s = "RP";
+    udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoPPI);
 }
 
 void siviso::on_origenOmni_clicked()
