@@ -152,17 +152,26 @@ siviso::siviso(QWidget *parent) :
     }
     file.close();
 
-    /*thread()->sleep(1);
+    QFile file3("resource/targets.txt");
+    if(file3.open(QIODevice::WriteOnly)){
+        QTextStream stream(&file3);
+        stream<<"0;";
+    } else {
+        qDebug();
+    }
+    file3.close();
+
+    thread()->sleep(1);
     proceso2->startDetached("java -jar BTR.jar");
     thread()->sleep(1);
     proceso1->startDetached("java -jar Lofar.jar");
     thread()->sleep(1);
     proceso4->startDetached("java -jar demon.jar");
     thread()->sleep(1);
-    proceso5->startDetached("java -jar ConexionSF.jar");*/
-    thread()->sleep(1);
     proceso3->startDetached("java -jar PPI.jar");
     thread()->sleep(1);
+    /*proceso5->startDetached("java -jar ConexionSF.jar");
+    thread()->sleep(1);*/
 
 
 //This use for TEST the class DBasePostgreSQL by Misael M Del Valle -- Status: Functional
@@ -469,7 +478,6 @@ void siviso::leerSerialUSB()
                     udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoComSF);
                     bPulso = false;
                     deshabilitado(false);
-                    bSend = false;
 
                 }
                 if(bAudio){
@@ -513,6 +521,7 @@ void siviso::leerSerialUSB()
                     }
                     if(compGraf=="PPI"){
                         //udpsocket->writeDatagram(catchSend.toLatin1(),direccionApp,puertoPPI);
+                        ui->view->appendPlainText(catchSend);
                         QFile file("resource/targets.txt");
                         if(file.open(QIODevice::WriteOnly)){
                             QTextStream stream(&file);
@@ -521,6 +530,8 @@ void siviso::leerSerialUSB()
                             qDebug();
                         }
                         file.close();
+                        s = "RP";
+                        udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoPPI);
                     }
                     if(compGraf=="BAUDIO"){
                         QFile file("resource/audio.txt");
