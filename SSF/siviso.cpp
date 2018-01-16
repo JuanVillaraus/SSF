@@ -86,8 +86,12 @@ siviso::siviso(QWidget *parent) :
     ui->ApagarA->setVisible(false);
     ui->sensorOFF->setVisible(false);
     ui->sensorON->setVisible(false);
-    ui->anchoP->setDisabled(true);
+    ui->setColorUp->setVisible(false);
+    ui->setColorDw->setVisible(false);
+    ui->dataSim->setVisible(false);
+    ui->dist->setVisible(false);
 
+    ui->anchoP->setDisabled(true);
     //ui->frecuencia->setDisabled(true);
     ui->bw->setDisabled(true);
     ui->it->setDisabled(true);
@@ -99,8 +103,8 @@ siviso::siviso(QWidget *parent) :
     ui->origenAuto->setDisabled(true);
     //ui->rec->setDisabled(true);
     //ui->play->setDisabled(true);
-    ui->vol_dw->setDisabled(true);
-    ui->vol_up->setDisabled(true);
+    //ui->vol_dw->setDisabled(true);
+    //ui->vol_up->setDisabled(true);
     //ui->et_blancos->setDisabled(true);
     //ui->clas_blancos->setDisabled(true);
     ui->edo_mar->setDisabled(true);
@@ -161,7 +165,7 @@ siviso::siviso(QWidget *parent) :
     }
     file3.close();
 
-    thread()->sleep(1);
+    /*thread()->sleep(1);
     proceso2->startDetached("java -jar BTR.jar");
     thread()->sleep(1);
     proceso1->startDetached("java -jar Lofar.jar");
@@ -170,7 +174,7 @@ siviso::siviso(QWidget *parent) :
     thread()->sleep(1);
     proceso3->startDetached("java -jar PPI.jar");
     thread()->sleep(1);
-    /*proceso5->startDetached("java -jar ConexionSF.jar");
+    proceso5->startDetached("java -jar ConexionSF.jar");
     thread()->sleep(1);*/
 
 
@@ -377,7 +381,12 @@ void siviso::leerSocket()
                 serialPortUSB->setBaudRate(QSerialPort::Baud9600);
                 serialPortUSB->setDataBits(QSerialPort::Data8);
                 serialPortUSB->setStopBits(QSerialPort::OneStop);
-                serialPortUSB->setParity(QSerialPort::NoParity);
+                serialPortUSB->setParity(QSerialPort::NoParity);for (int x = 0; x < 100; x++) {                                         //inicializa el waterfall en cero
+            for (int y = 0; y < longPPI; y++) {
+                waterfall[x][y] = 0;
+                waterfallTargets[x][y] = 0;
+            }
+        }
                 serialPortUSB->setFlowControl(QSerialPort::NoFlowControl);
             }else{
                 ui->view->appendPlainText("Error de coexion con el puerto USB serial\n");
@@ -439,11 +448,11 @@ void siviso::on_btOpenPort_clicked()
 
 void siviso::leerSerialUSB()
 {
-    char buffer[2048];
+    char buffer[4095];
     int nDatos;
     //numCatchSend++;
     serialPortUSB->flush();
-    nDatos = serialPortUSB->read(buffer,2047);
+    nDatos = serialPortUSB->read(buffer,4095);
     bool bSend = false;
 
     buffer[nDatos] = '\0';
@@ -452,6 +461,10 @@ void siviso::leerSerialUSB()
     QString sComSF;
     QString s;
     QString str;
+    double lat;
+    double log;
+    QString sLat;
+    QString sLog;
     str=QString(buffer);
     int n =str.size();
     //ui->textTestGrap->appendPlainText(QString::number(n));
@@ -459,7 +472,7 @@ void siviso::leerSerialUSB()
 
     numCatchSend += n;
     for(int x=0;x<str.size();x++){
-        if(str[x]=='1'||str[x]=='2'||str[x]=='3'||str[x]=='4'||str[x]=='5'||str[x]=='6'||str[x]=='7'||str[x]=='8'||str[x]=='9'||str[x]=='0'||str[x]==','||str[x]==';'||str[x]=='.'||str[x]=='-'){
+        if(str[x]=='1'||str[x]=='2'||str[x]=='3'||str[x]=='4'||str[x]=='5'||str[x]=='6'||str[x]=='7'||str[x]=='8'||str[x]=='9'||str[x]=='0'||str[x]==','||str[x]==';'||str[x]=='.'||str[x]=='-'||str[x]=='$'){
             bSend = true;
             ui->B0estado->setText("Enlazado");
             sComSF="P_UP";
@@ -481,11 +494,13 @@ void siviso::leerSerialUSB()
 
                 }
                 if(bAudio){
-                    if(numCatchSend>10000){
+                    //if(numCatchSend>10000){
+                    if(catchSend[numCatchSend-1]=='0'&&catchSend[numCatchSend]==';'){//prueba para probar el fin de la cadena---------------------------------------------------------------------------------
                         s = "CLOSE";
                         udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoComSF);
                         deshabilitado(false);
                         bAudio = false;
+                        numCatchSend = 0;
                     } else {
                         numCatchSend = 0;
                         catchCmd = "";
@@ -522,14 +537,15 @@ void siviso::leerSerialUSB()
                     if(compGraf=="PPI"){
                         //udpsocket->writeDatagram(catchSend.toLatin1(),direccionApp,puertoPPI);
                         ui->view->appendPlainText(catchSend);
-                        QFile file("resource/targets.txt");
+                        /*QFile file("resource/targets.txt");
                         if(file.open(QIODevice::WriteOnly)){
                             QTextStream stream(&file);
                             stream<<catchSend;
                         } else {
                             qDebug();
                         }
-                        file.close();
+                        file.close();*/
+                        udpsocket->writeDatagram(catchSend.toLatin1(),direccionApp,puertoPPI);
                         s = "RP";
                         udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoPPI);
                     }
@@ -773,10 +789,37 @@ void siviso::leerSerialUSB()
                     break;
                 case 5:
                     if(catchSensor.toDouble()!=0){
+                        sLat="";
+                        lat=0.0;
+                        int i=2;
+                        if(catchSensor[0]=='-'){
+                            i++;
+                        }
+                        for(;i<catchSensor.length();i++){
+                            sLat+=catchSensor[i];
+                        }
+                        lat=sLat.toDouble();
+                        lat=lat/60;
+                        sLat="";
+                        i=0;
+                        if(catchSensor[0]=='-'){
+                            i++;
+                        }
+                        sLat+=catchSensor[i];
+                        sLat+=catchSensor[i+1];
+                        lat+=sLat.toDouble();
+                        if(catchSensor[0]=='-'){
+                            lat*=-1;
+                        }
+                        sLat=QString::number(lat);
                         if(tipoSensor == 0){
-                            ui->B0Lat->setNum(catchSensor.toDouble());
+                            ui->B0Lat->setText(sLat);
+                            sLat="Pt"+sLat;
+                            udpsocket->writeDatagram(sLat.toLatin1(),direccionApp,puertoPPI);
                         } else if(tipoSensor == 1){
-                            ui->B1Lat->setNum(catchSensor.toDouble());
+                            ui->B1Lat->setText(sLat);
+                            sLat="At"+sLat;
+                            udpsocket->writeDatagram(sLat.toLatin1(),direccionApp,puertoPPI);
                         }
                     }
                     catchSensor = "";
@@ -784,10 +827,38 @@ void siviso::leerSerialUSB()
                     break;
                 case 6:
                     if(catchSensor.toDouble()!=0){
+                        sLog="";
+                        log=0.0;
+                        int i=3;
+                        if(catchSensor[0]=='-'){
+                            i++;
+                        }
+                        for(;i<catchSensor.length();i++){
+                            sLog+=catchSensor[i];
+                        }
+                        log=sLog.toDouble();
+                        log=log/60;
+                        sLog="";
+                        i=0;
+                        if(catchSensor[0]=='-'){
+                            i++;
+                        }
+                        sLog+=catchSensor[i];
+                        sLog+=catchSensor[i+1];
+                        sLog+=catchSensor[i+2];
+                        log+=sLog.toDouble();
+                        if(catchSensor[0]=='-'){
+                            log*=-1;
+                        }
+                        sLog=QString::number(log);
                         if(tipoSensor == 0){
-                            ui->B0Long->setNum(catchSensor.toDouble());
+                            ui->B0Long->setText(sLog);
+                            sLog="Pg"+sLog;
+                            udpsocket->writeDatagram(sLog.toLatin1(),direccionApp,puertoPPI);
                         } else if(tipoSensor == 1){
-                            ui->B1Long->setNum(catchSensor.toDouble());
+                            ui->B1Long->setText(sLog);
+                            sLog="Ag"+sLog;
+                            udpsocket->writeDatagram(sLog.toLatin1(),direccionApp,puertoPPI);
                         }
                     }
                     catchSensor = "";
@@ -810,7 +881,6 @@ void siviso::leerSerialUSB()
                         }
                     }
                     nSensor++;
-
                     catchSensor = "";
                     break;
                 case 8:
@@ -820,9 +890,19 @@ void siviso::leerSerialUSB()
                         ui->B1Volt->setText(catchSensor+" V");
                     }
                     catchSensor = "";
+                    nSensor++;
                     break;
+                case 9:
+                    if(tipoSensor == 0){
+                        ui->B0Hu->setText(catchSensor+" %");
+                    } else if(tipoSensor == 1){
+                        ui->B1Hu->setText(catchSensor+" "
+                                                      "%");
+                    }
+                    catchSensor = "";
                     bSensor=false;
                     nSensor = 0;
+                    break;
                 }
             } else switch(c){
             case 'a':
@@ -915,6 +995,8 @@ void siviso::on_lf_clicked()
     compGraf="LF";
     s = "RP";
     udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoLF);
+    ui->setColorUp->setVisible(true);
+    ui->setColorDw->setVisible(true);
 }
 
 void siviso::on_btr_clicked()
@@ -929,6 +1011,8 @@ void siviso::on_btr_clicked()
     compGraf="BTR";
     s = "RP";
     udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoBTR);
+    ui->setColorUp->setVisible(true);
+    ui->setColorDw->setVisible(true);
 }
 
 
@@ -944,6 +1028,8 @@ void siviso::on_ppi_clicked()
     compGraf="PPI";
     s = "RP";
     udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoPPI);
+    ui->setColorUp->setVisible(false);
+    ui->setColorDw->setVisible(false);
 }
 
 void siviso::on_demon_clicked()
@@ -958,6 +1044,8 @@ void siviso::on_demon_clicked()
     compGraf="DEMON";
     s = "RP";
     udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoDEMON);
+    ui->setColorUp->setVisible(true);
+    ui->setColorDw->setVisible(true);
 }
 
 void siviso::on_origen_buque_clicked()
@@ -1103,6 +1191,8 @@ void siviso::on_toolButton_clicked()
         ui->ApagarA->setVisible(false);
         ui->sensorOFF->setVisible(false);
         ui->sensorON->setVisible(false);
+        ui->dataSim->setVisible(false);
+        ui->dist->setVisible(false);
     }else{
         bToolButton=true;
         ui->textTestGrap->setVisible(true);
@@ -1122,6 +1212,8 @@ void siviso::on_toolButton_clicked()
         ui->ApagarA->setVisible(true);
         ui->sensorOFF->setVisible(true);
         ui->sensorON->setVisible(true);
+        ui->dataSim->setVisible(true);
+        ui->dist->setVisible(true);
     }
 }
 
@@ -1300,15 +1392,17 @@ void siviso::on_openJars_clicked()
     udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoDEMON);
     udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoComSF);
 
-    proceso5->startDetached("java -jar ConexionSF.jar");
-    thread()->sleep(1);
-    proceso1->startDetached("java -jar Lofar.jar");
     thread()->sleep(1);
     proceso2->startDetached("java -jar BTR.jar");
     thread()->sleep(1);
-    proceso2->startDetached("java -jar PPI.jar");
+    proceso1->startDetached("java -jar Lofar.jar");
     thread()->sleep(1);
-    proceso3->startDetached("java -jar demon.jar");
+    proceso4->startDetached("java -jar demon.jar");
+    thread()->sleep(1);
+    proceso3->startDetached("java -jar PPI.jar");
+    thread()->sleep(1);
+    proceso5->startDetached("java -jar ConexionSF.jar");
+    thread()->sleep(1);
 }
 
 
@@ -1598,4 +1692,16 @@ void siviso::on_prob_deteccion_valueChanged(int arg1)
     serialPortUSB->write(s.toLatin1() + "\n");
     //serialPortUSB->write("\n");
     thread()->msleep(100);
+}
+
+void siviso::on_dataSim_clicked()
+{
+    QString s = "150$100,99,220,70,798$100,99,220,70,799$100,99,220,70,802$175,100,22,70,812$130,160,74,63,817$175,100,227,70,820$0;";
+    udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoPPI);
+}
+
+void siviso::on_dist_clicked()
+{
+    QString s = "DIS";
+    udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoPPI);
 }

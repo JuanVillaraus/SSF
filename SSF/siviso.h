@@ -209,6 +209,10 @@ private slots:
 
     void on_prob_deteccion_valueChanged(int arg1);
 
+    void on_dataSim_clicked();
+
+    void on_dist_clicked();
+
 private:
     Ui::siviso *ui;
 

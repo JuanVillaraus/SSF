@@ -7,7 +7,7 @@ int main(int argc, char *argv[])
     siviso w;
 
     w.m_pApplication = &a;
-            w.changeStyleSheet(DAY_STYLE);
+    w.changeStyleSheet(DAY_STYLE);
 
     w.show();
     //w.setGeometry(1300,1300,1,1);

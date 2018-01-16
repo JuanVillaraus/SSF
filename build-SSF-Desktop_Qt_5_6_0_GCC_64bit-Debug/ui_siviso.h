@@ -84,7 +84,7 @@ public:
     QSpinBox *prob_deteccion;
     QLabel *label_23;
     QLabel *label_24;
-    QDoubleSpinBox *escala_ppi;
+    QSpinBox *escala_ppi;
     QLabel *label_25;
     QDoubleSpinBox *escala_desp;
     QLabel *label_26;
@@ -140,6 +140,8 @@ public:
     QLabel *B0Volt;
     QLabel *B0estado;
     QLabel *label_34;
+    QLabel *label_69;
+    QLabel *B0Hu;
     QFrame *CompGraf;
     QSlider *setColorDw;
     QSlider *setColorUp;
@@ -160,6 +162,8 @@ public:
     QPushButton *sensorOFF;
     QPushButton *ApagarA;
     QPushButton *sensorON;
+    QPushButton *dataSim;
+    QPushButton *dist;
     QFrame *MedioAmbiente;
     QLabel *label_49;
     QLabel *label_50;
@@ -184,7 +188,6 @@ public:
     QLabel *B1Time_2;
     QLabel *B1Lat_2;
     QLabel *B1Temp;
-    QLabel *B1Pr_2;
     QLabel *B1Temp_2;
     QLabel *B1Volt_2;
     QLabel *B1Carg;
@@ -197,6 +200,8 @@ public:
     QLabel *B1Long;
     QLabel *B1Time;
     QLabel *B1estado;
+    QLabel *label_67;
+    QLabel *B1Hu;
     QFrame *Blancos;
     QLabel *label_40;
     QLabel *label_41;
@@ -430,9 +435,11 @@ public:
         label_24 = new QLabel(BarraHerramientas);
         label_24->setObjectName(QStringLiteral("label_24"));
         label_24->setGeometry(QRect(926, 120, 91, 41));
-        escala_ppi = new QDoubleSpinBox(BarraHerramientas);
+        escala_ppi = new QSpinBox(BarraHerramientas);
         escala_ppi->setObjectName(QStringLiteral("escala_ppi"));
         escala_ppi->setGeometry(QRect(940, 160, 69, 41));
+        escala_ppi->setMinimum(1);
+        escala_ppi->setMaximum(10);
         label_25 = new QLabel(BarraHerramientas);
         label_25->setObjectName(QStringLiteral("label_25"));
         label_25->setGeometry(QRect(1016, 116, 91, 41));
@@ -490,8 +497,8 @@ public:
         gan_sen = new QSpinBox(BarraHerramientas);
         gan_sen->setObjectName(QStringLiteral("gan_sen"));
         gan_sen->setGeometry(QRect(1112, 160, 61, 41));
-        gan_sen->setMinimum(3);
-        gan_sen->setMaximum(40);
+        gan_sen->setMinimum(2);
+        gan_sen->setMaximum(64);
         ang = new QSpinBox(BarraHerramientas);
         ang->setObjectName(QStringLiteral("ang"));
         ang->setGeometry(QRect(1360, 160, 71, 41));
@@ -608,7 +615,7 @@ public:
         label_32->setFont(font6);
         label_33 = new QLabel(PlataformaP);
         label_33->setObjectName(QStringLiteral("label_33"));
-        label_33->setGeometry(QRect(20, 150, 111, 17));
+        label_33->setGeometry(QRect(20, 150, 71, 17));
         label_33->setFont(font6);
         label_38 = new QLabel(PlataformaP);
         label_38->setObjectName(QStringLiteral("label_38"));
@@ -648,7 +655,7 @@ public:
         B0Temp->setFont(font6);
         B0Or = new QLabel(PlataformaP);
         B0Or->setObjectName(QStringLiteral("B0Or"));
-        B0Or->setGeometry(QRect(140, 150, 151, 17));
+        B0Or->setGeometry(QRect(100, 150, 61, 17));
         B0Or->setFont(font6);
         B0Carg = new QLabel(PlataformaP);
         B0Carg->setObjectName(QStringLiteral("B0Carg"));
@@ -667,6 +674,14 @@ public:
         label_34->setObjectName(QStringLiteral("label_34"));
         label_34->setGeometry(QRect(160, 180, 61, 17));
         label_34->setFont(font6);
+        label_69 = new QLabel(PlataformaP);
+        label_69->setObjectName(QStringLiteral("label_69"));
+        label_69->setGeometry(QRect(160, 150, 61, 17));
+        label_69->setFont(font6);
+        B0Hu = new QLabel(PlataformaP);
+        B0Hu->setObjectName(QStringLiteral("B0Hu"));
+        B0Hu->setGeometry(QRect(230, 150, 61, 17));
+        B0Hu->setFont(font6);
         CompGraf = new QFrame(centralWidget);
         CompGraf->setObjectName(QStringLiteral("CompGraf"));
         CompGraf->setGeometry(QRect(10, 310, 791, 701));
@@ -741,6 +756,12 @@ public:
         sensorON = new QPushButton(Desptact);
         sensorON->setObjectName(QStringLiteral("sensorON"));
         sensorON->setGeometry(QRect(286, 625, 81, 31));
+        dataSim = new QPushButton(Desptact);
+        dataSim->setObjectName(QStringLiteral("dataSim"));
+        dataSim->setGeometry(QRect(200, 660, 81, 27));
+        dist = new QPushButton(Desptact);
+        dist->setObjectName(QStringLiteral("dist"));
+        dist->setGeometry(QRect(290, 660, 71, 27));
         MedioAmbiente = new QFrame(centralWidget);
         MedioAmbiente->setObjectName(QStringLiteral("MedioAmbiente"));
         MedioAmbiente->setGeometry(QRect(1610, 750, 301, 261));
@@ -806,7 +827,7 @@ public:
         label_60->setFont(font6);
         label_61 = new QLabel(PlataformaActiva);
         label_61->setObjectName(QStringLiteral("label_61"));
-        label_61->setGeometry(QRect(20, 160, 111, 17));
+        label_61->setGeometry(QRect(20, 160, 81, 17));
         label_61->setFont(font6);
         label_62 = new QLabel(PlataformaActiva);
         label_62->setObjectName(QStringLiteral("label_62"));
@@ -836,10 +857,6 @@ public:
         B1Temp->setObjectName(QStringLiteral("B1Temp"));
         B1Temp->setGeometry(QRect(240, 130, 61, 20));
         B1Temp->setFont(font6);
-        B1Pr_2 = new QLabel(PlataformaActiva);
-        B1Pr_2->setObjectName(QStringLiteral("B1Pr_2"));
-        B1Pr_2->setGeometry(QRect(100, 160, 61, 17));
-        B1Pr_2->setFont(font6);
         B1Temp_2 = new QLabel(PlataformaActiva);
         B1Temp_2->setObjectName(QStringLiteral("B1Temp_2"));
         B1Temp_2->setGeometry(QRect(240, 170, 61, 17));
@@ -858,7 +875,7 @@ public:
         B1Nom->setFont(font5);
         B1Or = new QLabel(PlataformaActiva);
         B1Or->setObjectName(QStringLiteral("B1Or"));
-        B1Or->setGeometry(QRect(140, 160, 151, 17));
+        B1Or->setGeometry(QRect(100, 160, 61, 17));
         B1Or->setFont(font6);
         B1Volt = new QLabel(PlataformaActiva);
         B1Volt->setObjectName(QStringLiteral("B1Volt"));
@@ -890,6 +907,14 @@ public:
         B1estado->setLayoutDirection(Qt::LeftToRight);
         B1estado->setTextFormat(Qt::PlainText);
         B1estado->setAlignment(Qt::AlignCenter);
+        label_67 = new QLabel(PlataformaActiva);
+        label_67->setObjectName(QStringLiteral("label_67"));
+        label_67->setGeometry(QRect(160, 160, 61, 17));
+        label_67->setFont(font6);
+        B1Hu = new QLabel(PlataformaActiva);
+        B1Hu->setObjectName(QStringLiteral("B1Hu"));
+        B1Hu->setGeometry(QRect(230, 160, 61, 17));
+        B1Hu->setFont(font6);
         Blancos = new QFrame(centralWidget);
         Blancos->setObjectName(QStringLiteral("Blancos"));
         Blancos->setGeometry(QRect(1610, 540, 301, 201));
@@ -980,7 +1005,7 @@ public:
         origenBuque->setText(QApplication::translate("siviso", "Buque", 0));
         label_21->setText(QApplication::translate("siviso", "<html><head/><body><p align=\"center\"><span style=\" font-size:8pt;\">Estado<br/>de la mar</span></p></body></html>", 0));
         label_22->setText(QApplication::translate("siviso", "<html><head/><body><p align=\"center\"><span style=\" font-size:8pt;\">Probabilidad<br/>de falsa alarma</span></p></body></html>", 0));
-        label_23->setText(QApplication::translate("siviso", "<html><head/><body><p align=\"center\"><span style=\" font-size:8pt;\">Rango de<br/>detecci\303\263n</span></p></body></html>", 0));
+        label_23->setText(QApplication::translate("siviso", "<html><head/><body><p align=\"center\"><span style=\" font-size:8pt;\">Umbral de<br/>detecci\303\263n</span></p></body></html>", 0));
         label_24->setText(QApplication::translate("siviso", "<html><head/><body><p align=\"center\"><span style=\" font-size:8pt;\">Escala<br/>PPI</span></p></body></html>", 0));
         label_25->setText(QApplication::translate("siviso", "<html><head/><body><p align=\"center\"><span style=\" font-size:8pt;\">Escala<br/>despliegue<br/>t\303\241ctico</span></p></body></html>", 0));
         label_26->setText(QApplication::translate("siviso", "<html><head/><body><p align=\"center\"><span style=\" font-size:8pt;\">Ganancia</span></p></body></html>", 0));
@@ -1011,7 +1036,7 @@ public:
         label_30->setText(QApplication::translate("siviso", "Tiempo de operaci\303\263n", 0));
         label_31->setText(QApplication::translate("siviso", "Latitud:", 0));
         label_32->setText(QApplication::translate("siviso", "Presion en hPa", 0));
-        label_33->setText(QApplication::translate("siviso", "Orientaci\303\263n en grados:", 0));
+        label_33->setText(QApplication::translate("siviso", "Orientaci\303\263n:", 0));
         label_38->setText(QApplication::translate("siviso", "Longitud:", 0));
         label_39->setText(QApplication::translate("siviso", "Temperatura", 0));
         label_35->setText(QApplication::translate("siviso", "Voltaje Bateria", 0));
@@ -1029,6 +1054,8 @@ public:
 #endif // QT_NO_TOOLTIP
         B0estado->setText(QApplication::translate("siviso", "apagado", 0));
         label_34->setText(QApplication::translate("siviso", "Porcentaje", 0));
+        label_69->setText(QApplication::translate("siviso", "Humedad:", 0));
+        B0Hu->setText(QString());
         save->setText(QApplication::translate("siviso", "Guardar", 0));
         btOpenPort->setText(QApplication::translate("siviso", "abrir puerto", 0));
         sensor0->setText(QApplication::translate("siviso", "sensor P", 0));
@@ -1042,6 +1069,8 @@ public:
         sensorOFF->setText(QApplication::translate("siviso", "apagar S", 0));
         ApagarA->setText(QApplication::translate("siviso", "Apagar A", 0));
         sensorON->setText(QApplication::translate("siviso", "encender S", 0));
+        dataSim->setText(QApplication::translate("siviso", "data simul", 0));
+        dist->setText(QApplication::translate("siviso", "dist", 0));
         label_49->setText(QApplication::translate("siviso", "Direcci\303\263n del viento:", 0));
         label_50->setText(QApplication::translate("siviso", "Profundidad del fondo:", 0));
         label_52->setText(QApplication::translate("siviso", "Velocidad del sonido:", 0));
@@ -1056,7 +1085,7 @@ public:
         label_51->setText(QApplication::translate("siviso", "Tiempo de operaci\303\263n", 0));
         label_59->setText(QApplication::translate("siviso", "Latitud:", 0));
         label_60->setText(QApplication::translate("siviso", "Presion en hPa", 0));
-        label_61->setText(QApplication::translate("siviso", "Orientaci\303\263n en grados:", 0));
+        label_61->setText(QApplication::translate("siviso", "Orientaci\303\263n:", 0));
         label_62->setText(QApplication::translate("siviso", "Porcentaje:", 0));
         label_63->setText(QApplication::translate("siviso", "Longitud:", 0));
         label_64->setText(QApplication::translate("siviso", "Temperatura", 0));
@@ -1064,7 +1093,6 @@ public:
         B1Time_2->setText(QString());
         B1Lat_2->setText(QString());
         B1Temp->setText(QString());
-        B1Pr_2->setText(QString());
         B1Temp_2->setText(QString());
         B1Volt_2->setText(QString());
         B1Carg->setText(QString());
@@ -1080,6 +1108,8 @@ public:
         B1estado->setToolTip(QApplication::translate("siviso", "<html><head/><body><p align=\"center\"><br/></p></body></html>", 0));
 #endif // QT_NO_TOOLTIP
         B1estado->setText(QApplication::translate("siviso", "apagado", 0));
+        label_67->setText(QApplication::translate("siviso", "Humedad:", 0));
+        B1Hu->setText(QString());
         label_40->setText(QApplication::translate("siviso", "COG:", 0));
         label_41->setText(QApplication::translate("siviso", "Etiqueta blanco:", 0));
         label_42->setText(QApplication::translate("siviso", "Latitud:", 0));
