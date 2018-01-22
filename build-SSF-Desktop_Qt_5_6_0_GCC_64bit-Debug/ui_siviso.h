@@ -439,7 +439,7 @@ public:
         escala_ppi->setObjectName(QStringLiteral("escala_ppi"));
         escala_ppi->setGeometry(QRect(940, 160, 69, 41));
         escala_ppi->setMinimum(1);
-        escala_ppi->setMaximum(10);
+        escala_ppi->setMaximum(100);
         label_25 = new QLabel(BarraHerramientas);
         label_25->setObjectName(QStringLiteral("label_25"));
         label_25->setGeometry(QRect(1016, 116, 91, 41));

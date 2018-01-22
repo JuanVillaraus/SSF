@@ -213,6 +213,8 @@ private slots:
 
     void on_dist_clicked();
 
+    void on_escala_ppi_valueChanged(int arg1);
+
 private:
     Ui::siviso *ui;
 

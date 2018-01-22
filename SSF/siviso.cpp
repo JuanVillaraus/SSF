@@ -111,7 +111,7 @@ siviso::siviso(QWidget *parent) :
     ui->radio_boya->setDisabled(true);
     ui->prob_falsa->setDisabled(true);
     //ui->prob_deteccion->setDisabled(true);
-    ui->escala_ppi->setDisabled(true);
+    //ui->escala_ppi->setDisabled(true);
     ui->escala_desp->setDisabled(true);
     ui->ran_det->setDisabled(true);
 
@@ -1703,5 +1703,15 @@ void siviso::on_dataSim_clicked()
 void siviso::on_dist_clicked()
 {
     QString s = "DIS";
+    udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoPPI);
+}
+
+void siviso::on_escala_ppi_valueChanged(int arg1)
+{
+    QString s = "S";
+    s += QString::number(arg1);
+    ui->view->appendPlainText(s);
+    udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoPPI);
+    s = "RP";
     udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoPPI);
 }
