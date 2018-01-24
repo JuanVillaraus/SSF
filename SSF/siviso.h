@@ -215,6 +215,8 @@ private slots:
 
     void on_escala_ppi_valueChanged(int arg1);
 
+    void on_textSend_editingFinished();
+
 private:
     Ui::siviso *ui;
 

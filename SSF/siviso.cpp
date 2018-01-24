@@ -256,9 +256,22 @@ void siviso::leerSocket()
         quint16 senderPort;
         udpsocket->readDatagram(datagram.data(),datagram.size(), &sender, &senderPort);
         QString info = datagram.data();
-        ui->view->appendPlainText(" port-> " + QString("%1").arg(senderPort));
-        ui->view->appendPlainText(info);
-        //s = " ";
+
+        if(senderPort==puertoBTR){
+            ui->view->appendPlainText("BTR: "+info);
+        } else if(senderPort==puertoLF){
+            ui->view->appendPlainText("LF : "+info);
+        } else if(senderPort==puertoPPI){
+            ui->view->appendPlainText("PPI: "+info);
+        } else if(senderPort==puertoDEMON){
+            ui->view->appendPlainText("DMN: "+info);
+        } else if(senderPort==puertoComSF){
+            ui->view->appendPlainText("CSF: "+info);
+        } else if(senderPort==puertoREC){
+            ui->view->appendPlainText("REC: "+info);
+        } else {
+            ui->view->appendPlainText("port-> " + QString("%1").arg(senderPort)+": "+info);
+        }
 
         QString s;
         if(info == "runDEMON"){
@@ -393,6 +406,8 @@ void siviso::leerSocket()
                 s = "USB_DW";
                 udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoComSF);
             }*/
+        } else if(info == "ERROR"){
+            ui->view->appendPlainText("Comando no valido");
         } else if(info[0] == '#'){
             s = "";
             for(int x=1;x<info.size();x++){
@@ -432,7 +447,6 @@ void siviso::on_btOpenPort_clicked()
         udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoComSF);
         ui->view->appendPlainText("Error de coexion con el puerto USB serial\n");
     }
-
 }
 
 /*void siviso::leerSerialDB9()
@@ -1494,6 +1508,28 @@ void siviso::on_send_clicked()
             pSocket->write( data );
         }*/
 
+    QString send = "";
+    if(s[0] == '>'){
+        if(s[1]=='B'||s[1]=='L'||s[1]=='P'){
+            for(int n=2;n<s.length();n++){
+                if(s[n]!=' '){
+                    send += s[n];
+                }
+            }
+            if(s[1]=='B'){
+                ui->view->appendPlainText("BTR: "+send);
+                udpsocket->writeDatagram(send.toLatin1(),direccionApp,puertoBTR);
+            }
+            if(s[1]=='L'){
+                ui->view->appendPlainText("LF: "+send);
+                udpsocket->writeDatagram(send.toLatin1(),direccionApp,puertoLF);
+            }
+            if(s[1]=='P'){
+                ui->view->appendPlainText("PPI: "+send);
+                udpsocket->writeDatagram(send.toLatin1(),direccionApp,puertoPPI);
+            }
+        }
+    }
     serialPortUSB->write(s.toLatin1()+"\n");
     ui->textSend->clear();
 }
@@ -1696,7 +1732,7 @@ void siviso::on_prob_deteccion_valueChanged(int arg1)
 
 void siviso::on_dataSim_clicked()
 {
-    QString s = "150$100,99,220,70,798$100,99,220,70,799$100,99,220,70,802$175,100,22,70,812$130,160,74,63,817$175,100,227,70,820$0;";
+    QString s = "T150$100,99,220,70,798$100,99,220,70,799$100,99,220,70,802$175,100,22,70,812$130,160,74,63,817$175,100,227,70,820$0;";
     udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoPPI);
 }
 
@@ -1714,4 +1750,63 @@ void siviso::on_escala_ppi_valueChanged(int arg1)
     udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoPPI);
     s = "RP";
     udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoPPI);
+}
+
+void siviso::on_textSend_editingFinished()
+{
+    QString s = "";
+    QString send = "";
+    s = ui->textSend->text();
+    if(s[0] == '>'){
+        if(s[1]=='B'||s[1]=='L'||s[1]=='P'||s[1]=='G'){
+            ui->view->appendPlainText("[Comando]");
+            for(int n=2;n<s.length();n++){
+                if(s[n]!=' '){
+                    send += s[n];
+                }
+            }
+            if(s[1]=='B'){
+                ui->view->appendPlainText("Enviar a BTR: "+send);
+                udpsocket->writeDatagram(send.toLatin1(),direccionApp,puertoBTR);
+            }
+            if(s[1]=='L'){
+                ui->view->appendPlainText("Enviar a LF: "+send);
+                udpsocket->writeDatagram(send.toLatin1(),direccionApp,puertoLF);
+            }
+            if(s[1]=='P'){
+                ui->view->appendPlainText("Enviar a PPI: "+send);
+                udpsocket->writeDatagram(send.toLatin1(),direccionApp,puertoPPI);
+            }
+            if(s[1]=='G'){
+                if(send.toDouble()!=0){
+                    QString sLatLog="";
+                    double latLog=0.0;
+                    int i=2;
+                    if(send[0]=='-'){
+                        i++;
+                    }
+                    for(;i<send.length();i++){
+                        sLatLog+=send[i];
+                    }
+                    latLog=sLatLog.toDouble();
+                    latLog=latLog/60;
+                    sLatLog="";
+                    i=0;
+                    if(send[0]=='-'){
+                        i++;
+                    }
+                    sLatLog+=send[i];
+                    sLatLog+=send[i+1];
+                    latLog+=sLatLog.toDouble();
+                    if(send[0]=='-'){
+                        latLog*=-1;
+                    }
+                    sLatLog=QString::number(latLog);
+                    ui->view->appendPlainText("Convertir GPS Lat/Log: "+sLatLog);
+                }
+            }
+        }
+    }
+    serialPortUSB->write(s.toLatin1()+"\n");
+    ui->textSend->clear();
 }
