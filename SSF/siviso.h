@@ -73,6 +73,8 @@ public:
     int longLF;
     int longDEMON;
     int nWords;
+    int edoPas; //en esta variable se representa: 0.-Apagado, 1.-Desconectado, 2.-en espera y 3.-conectado
+    int edoAct; //en esta variable se representa: 0.-Apagado, 1.-Desconectado, 2.-en espera y 3.-conectado
     QString catchSend;
     QString compGraf;
     QString catchSensor;
