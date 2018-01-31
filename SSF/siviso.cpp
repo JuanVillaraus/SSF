@@ -167,7 +167,7 @@ siviso::siviso(QWidget *parent) :
     }
     file3.close();
 
-    thread()->sleep(1);
+    /*thread()->sleep(1);
     proceso2->startDetached("java -jar BTR.jar");
     thread()->sleep(1);
     proceso1->startDetached("java -jar Lofar.jar");
@@ -177,7 +177,7 @@ siviso::siviso(QWidget *parent) :
     proceso3->startDetached("java -jar PPI.jar");
     thread()->sleep(1);
     proceso5->startDetached("java -jar ConexionSF.jar");
-    thread()->sleep(1);
+    thread()->sleep(1);*/
 
 //This use for TEST the class DBasePostgreSQL by Misael M Del Valle -- Status: Functional
 //    myDB = new DBasePostgreSQL("172.16.1.3","PruebaQT",5432,"Administrador","nautilus");
