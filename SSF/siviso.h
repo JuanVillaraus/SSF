@@ -87,6 +87,8 @@ public:
     bool bSensor;
     bool bAudio;
     bool bPulso;
+    bool bAutoSend;
+    char graf;  //en esta variable se representa: P.-Diestatico, L.-Lofar, B.-BTR y D.-Demon
 
 private slots:
     void leerSocket();
@@ -218,6 +220,16 @@ private slots:
     void on_escala_ppi_valueChanged(int arg1);
 
     void on_textSend_editingFinished();
+
+    void on_GPSOr_clicked();
+
+    void on_pulso_clicked();
+
+    void on_prog_clicked();
+
+    void on_autoSend_clicked();
+
+    void on_btLF_clicked();
 
 private:
     Ui::siviso *ui;
