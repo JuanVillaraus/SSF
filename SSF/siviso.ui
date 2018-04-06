@@ -2134,8 +2134,8 @@ Verdadero</string>
     <widget class="QPushButton" name="GPSOr">
      <property name="geometry">
       <rect>
-       <x>370</x>
-       <y>660</y>
+       <x>290</x>
+       <y>560</y>
        <width>71</width>
        <height>27</height>
       </rect>
@@ -2148,7 +2148,7 @@ Verdadero</string>
      <property name="geometry">
       <rect>
        <x>370</x>
-       <y>630</y>
+       <y>660</y>
        <width>71</width>
        <height>27</height>
       </rect>
@@ -2173,7 +2173,7 @@ Verdadero</string>
     <widget class="QPushButton" name="autoSend">
      <property name="geometry">
       <rect>
-       <x>450</x>
+       <x>370</x>
        <y>630</y>
        <width>101</width>
        <height>27</height>
@@ -2186,14 +2186,70 @@ Verdadero</string>
     <widget class="QPushButton" name="btLF">
      <property name="geometry">
       <rect>
-       <x>560</x>
-       <y>630</y>
+       <x>450</x>
+       <y>660</y>
        <width>61</width>
        <height>27</height>
       </rect>
      </property>
      <property name="text">
       <string>lofar</string>
+     </property>
+    </widget>
+    <widget class="QSpinBox" name="Uu">
+     <property name="geometry">
+      <rect>
+       <x>630</x>
+       <y>580</y>
+       <width>61</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="minimum">
+      <number>2</number>
+     </property>
+     <property name="maximum">
+      <number>1022</number>
+     </property>
+     <property name="value">
+      <number>2</number>
+     </property>
+    </widget>
+    <widget class="QSpinBox" name="Ud">
+     <property name="geometry">
+      <rect>
+       <x>630</x>
+       <y>640</y>
+       <width>61</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="minimum">
+      <number>1</number>
+     </property>
+     <property name="maximum">
+      <number>1023</number>
+     </property>
+     <property name="value">
+      <number>1</number>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_70">
+     <property name="geometry">
+      <rect>
+       <x>640</x>
+       <y>620</y>
+       <width>41</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>8</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>Umbral</string>
      </property>
     </widget>
    </widget>

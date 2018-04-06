@@ -231,6 +231,10 @@ private slots:
 
     void on_btLF_clicked();
 
+    void on_Uu_valueChanged(int arg1);
+
+    void on_Ud_valueChanged(int arg1);
+
 private:
     Ui::siviso *ui;
 

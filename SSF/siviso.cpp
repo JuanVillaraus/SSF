@@ -34,6 +34,7 @@ siviso::siviso(QWidget *parent) :
     puertoComSF = 0;
     bAutoSend = true;
     graf = 'o';
+    nWords = 0;
 
     udpsocket = new QUdpSocket(this);
     //udpsocket->bind(localdir,puertolocal);
@@ -174,14 +175,14 @@ siviso::siviso(QWidget *parent) :
     }
     file3.close();
 
-    thread()->sleep(1);
+   /* thread()->sleep(1);
     proceso2->startDetached("java -jar BTR.jar");
     thread()->sleep(1);
     proceso1->startDetached("java -jar Lofar.jar");
     thread()->sleep(1);
     proceso4->startDetached("java -jar demon.jar");
     thread()->sleep(1);
-    proceso3->startDetached("java -jar PPI.jar");
+    proceso3->startDetached("java -jar PPI.jar");*/
     thread()->sleep(1);
     proceso5->startDetached("java -jar ConexionSF.jar");
     thread()->sleep(1);
@@ -524,8 +525,8 @@ void siviso::leerSerialUSB()
     for(int x=0;x<str.size();x++){
         if(str[x]=='$'||str[x]=='%'||str[x]=='&'||str[x]=='@'){
             if(str[x]=='$'){
-                graf = 'P';
-                catchSend = "";
+                graf = 'B';
+                catchSend = "$";
             }else if(str[x]=='%'){
                 graf = 'L';
                 catchSend = "";
@@ -586,7 +587,8 @@ void siviso::leerSerialUSB()
                     sComSF="P_UP";
                     udpsocket->writeDatagram(sComSF.toLatin1(),direccionApp,puertoComSF);
                     sComSF="";
-                    ui->textTestGrap->appendPlainText("esto enviaré: "+catchSend + " \n Long de: " + QString::number(numCatchSend));
+                    ui->textTestGrap->appendPlainText("esto enviaré: "+catchSend + " \n Long de: " + QString::number(numCatchSend)+ " \n words de: " + QString::number(nWords));
+                    nWords = 0;
 
                     if(graf=='B'&& compGraf=="BTR"){
                         udpsocket->writeDatagram(catchSend.toLatin1(),direccionApp,puertoBTR);
@@ -1040,7 +1042,6 @@ void siviso::leerSerialUSB()
          *                 udpsocket->writeDatagram(catchSend.toLatin1(),direccionApp,puertoComSF);
          *                 catchSend="";
          *                 }*/
-    nWords=0;
 }
 
 
@@ -1957,4 +1958,20 @@ void siviso::on_autoSend_clicked()
 void siviso::on_btLF_clicked()
 {
     serialPortUSB->write("LOFAR P\n");
+}
+
+void siviso::on_Uu_valueChanged(int arg1)
+{
+    QString s = "Uu";
+    s += QString::number(arg1);
+    ui->view->appendPlainText(s);
+    udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoBTR);
+}
+
+void siviso::on_Ud_valueChanged(int arg1)
+{
+    QString s = "Ud";
+    s += QString::number(arg1);
+    ui->view->appendPlainText(s);
+    udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoBTR);
 }
