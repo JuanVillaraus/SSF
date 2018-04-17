@@ -19,8 +19,8 @@
 
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_siviso_t {
-    QByteArrayData data[73];
-    char stringdata0[1471];
+    QByteArrayData data[81];
+    char stringdata0[1681];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -74,34 +74,42 @@ QT_MOC_LITERAL(41, 794, 21), // "on_origenOmni_clicked"
 QT_MOC_LITERAL(42, 816, 23), // "on_origenManual_clicked"
 QT_MOC_LITERAL(43, 840, 22), // "on_dial_sliderReleased"
 QT_MOC_LITERAL(44, 863, 22), // "on_ang_editingFinished"
-QT_MOC_LITERAL(45, 886, 15), // "on_send_clicked"
-QT_MOC_LITERAL(46, 902, 21), // "on_infoSignal_clicked"
-QT_MOC_LITERAL(47, 924, 18), // "on_ApagarP_clicked"
-QT_MOC_LITERAL(48, 943, 18), // "on_ApagarA_clicked"
-QT_MOC_LITERAL(49, 962, 20), // "on_sensorOFF_clicked"
-QT_MOC_LITERAL(50, 983, 19), // "on_sensorON_clicked"
-QT_MOC_LITERAL(51, 1003, 17), // "on_vol_dw_clicked"
-QT_MOC_LITERAL(52, 1021, 17), // "on_vol_up_clicked"
-QT_MOC_LITERAL(53, 1039, 16), // "on_demon_clicked"
-QT_MOC_LITERAL(54, 1056, 18), // "on_chirpUp_clicked"
-QT_MOC_LITERAL(55, 1075, 18), // "on_chirpDw_clicked"
-QT_MOC_LITERAL(56, 1094, 16), // "on_chype_clicked"
-QT_MOC_LITERAL(57, 1111, 27), // "on_chirpFrecUp_valueChanged"
-QT_MOC_LITERAL(58, 1139, 27), // "on_chirpFrecDw_valueChanged"
-QT_MOC_LITERAL(59, 1167, 25), // "on_chirpTime_valueChanged"
-QT_MOC_LITERAL(60, 1193, 30), // "on_chirpFrecUp_editingFinished"
-QT_MOC_LITERAL(61, 1224, 30), // "on_chirpFrecDw_editingFinished"
-QT_MOC_LITERAL(62, 1255, 28), // "on_chirpTime_editingFinished"
-QT_MOC_LITERAL(63, 1284, 18), // "on_dataSim_clicked"
-QT_MOC_LITERAL(64, 1303, 15), // "on_dist_clicked"
-QT_MOC_LITERAL(65, 1319, 27), // "on_textSend_editingFinished"
-QT_MOC_LITERAL(66, 1347, 16), // "on_GPSOr_clicked"
-QT_MOC_LITERAL(67, 1364, 16), // "on_pulso_clicked"
-QT_MOC_LITERAL(68, 1381, 15), // "on_prog_clicked"
-QT_MOC_LITERAL(69, 1397, 19), // "on_autoSend_clicked"
-QT_MOC_LITERAL(70, 1417, 15), // "on_btLF_clicked"
-QT_MOC_LITERAL(71, 1433, 18), // "on_Uu_valueChanged"
-QT_MOC_LITERAL(72, 1452, 18) // "on_Ud_valueChanged"
+QT_MOC_LITERAL(45, 886, 21), // "on_infoSignal_clicked"
+QT_MOC_LITERAL(46, 908, 18), // "on_ApagarP_clicked"
+QT_MOC_LITERAL(47, 927, 18), // "on_ApagarA_clicked"
+QT_MOC_LITERAL(48, 946, 20), // "on_sensorOFF_clicked"
+QT_MOC_LITERAL(49, 967, 19), // "on_sensorON_clicked"
+QT_MOC_LITERAL(50, 987, 17), // "on_vol_dw_clicked"
+QT_MOC_LITERAL(51, 1005, 17), // "on_vol_up_clicked"
+QT_MOC_LITERAL(52, 1023, 16), // "on_demon_clicked"
+QT_MOC_LITERAL(53, 1040, 18), // "on_chirpUp_clicked"
+QT_MOC_LITERAL(54, 1059, 18), // "on_chirpDw_clicked"
+QT_MOC_LITERAL(55, 1078, 16), // "on_chype_clicked"
+QT_MOC_LITERAL(56, 1095, 27), // "on_chirpFrecUp_valueChanged"
+QT_MOC_LITERAL(57, 1123, 27), // "on_chirpFrecDw_valueChanged"
+QT_MOC_LITERAL(58, 1151, 25), // "on_chirpTime_valueChanged"
+QT_MOC_LITERAL(59, 1177, 30), // "on_chirpFrecUp_editingFinished"
+QT_MOC_LITERAL(60, 1208, 30), // "on_chirpFrecDw_editingFinished"
+QT_MOC_LITERAL(61, 1239, 28), // "on_chirpTime_editingFinished"
+QT_MOC_LITERAL(62, 1268, 18), // "on_dataSim_clicked"
+QT_MOC_LITERAL(63, 1287, 15), // "on_dist_clicked"
+QT_MOC_LITERAL(64, 1303, 27), // "on_textSend_editingFinished"
+QT_MOC_LITERAL(65, 1331, 16), // "on_GPSOr_clicked"
+QT_MOC_LITERAL(66, 1348, 16), // "on_pulso_clicked"
+QT_MOC_LITERAL(67, 1365, 15), // "on_prog_clicked"
+QT_MOC_LITERAL(68, 1381, 19), // "on_autoSend_clicked"
+QT_MOC_LITERAL(69, 1401, 15), // "on_btLF_clicked"
+QT_MOC_LITERAL(70, 1417, 18), // "on_Uu_valueChanged"
+QT_MOC_LITERAL(71, 1436, 18), // "on_Ud_valueChanged"
+QT_MOC_LITERAL(72, 1455, 26), // "on_limProm_editingFinished"
+QT_MOC_LITERAL(73, 1482, 16), // "on_clean_clicked"
+QT_MOC_LITERAL(74, 1499, 25), // "on_dTotal_editingFinished"
+QT_MOC_LITERAL(75, 1525, 24), // "on_dPaso_editingFinished"
+QT_MOC_LITERAL(76, 1550, 31), // "on_central_frec_editingFinished"
+QT_MOC_LITERAL(77, 1582, 27), // "on_factor_p_editingFinished"
+QT_MOC_LITERAL(78, 1610, 28), // "on_water_vel_editingFinished"
+QT_MOC_LITERAL(79, 1639, 20), // "on_windowing_clicked"
+QT_MOC_LITERAL(80, 1660, 20) // "on_prefilter_clicked"
 
     },
     "siviso\0leerSocket\0\0leerSerialUSB\0"
@@ -128,13 +136,13 @@ QT_MOC_LITERAL(72, 1452, 18) // "on_Ud_valueChanged"
     "on_closeJars_clicked\0on_dial_valueChanged\0"
     "on_ang_valueChanged\0on_origenOmni_clicked\0"
     "on_origenManual_clicked\0on_dial_sliderReleased\0"
-    "on_ang_editingFinished\0on_send_clicked\0"
-    "on_infoSignal_clicked\0on_ApagarP_clicked\0"
-    "on_ApagarA_clicked\0on_sensorOFF_clicked\0"
-    "on_sensorON_clicked\0on_vol_dw_clicked\0"
-    "on_vol_up_clicked\0on_demon_clicked\0"
-    "on_chirpUp_clicked\0on_chirpDw_clicked\0"
-    "on_chype_clicked\0on_chirpFrecUp_valueChanged\0"
+    "on_ang_editingFinished\0on_infoSignal_clicked\0"
+    "on_ApagarP_clicked\0on_ApagarA_clicked\0"
+    "on_sensorOFF_clicked\0on_sensorON_clicked\0"
+    "on_vol_dw_clicked\0on_vol_up_clicked\0"
+    "on_demon_clicked\0on_chirpUp_clicked\0"
+    "on_chirpDw_clicked\0on_chype_clicked\0"
+    "on_chirpFrecUp_valueChanged\0"
     "on_chirpFrecDw_valueChanged\0"
     "on_chirpTime_valueChanged\0"
     "on_chirpFrecUp_editingFinished\0"
@@ -145,7 +153,13 @@ QT_MOC_LITERAL(72, 1452, 18) // "on_Ud_valueChanged"
     "on_GPSOr_clicked\0on_pulso_clicked\0"
     "on_prog_clicked\0on_autoSend_clicked\0"
     "on_btLF_clicked\0on_Uu_valueChanged\0"
-    "on_Ud_valueChanged"
+    "on_Ud_valueChanged\0on_limProm_editingFinished\0"
+    "on_clean_clicked\0on_dTotal_editingFinished\0"
+    "on_dPaso_editingFinished\0"
+    "on_central_frec_editingFinished\0"
+    "on_factor_p_editingFinished\0"
+    "on_water_vel_editingFinished\0"
+    "on_windowing_clicked\0on_prefilter_clicked"
 };
 #undef QT_MOC_LITERAL
 
@@ -155,7 +169,7 @@ static const uint qt_meta_data_siviso[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-      71,   14, // methods
+      79,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -163,77 +177,85 @@ static const uint qt_meta_data_siviso[] = {
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags
-       1,    0,  369,    2, 0x08 /* Private */,
-       3,    0,  370,    2, 0x08 /* Private */,
-       4,    0,  371,    2, 0x08 /* Private */,
-       5,    0,  372,    2, 0x08 /* Private */,
-       6,    0,  373,    2, 0x08 /* Private */,
-       7,    0,  374,    2, 0x08 /* Private */,
-       8,    0,  375,    2, 0x08 /* Private */,
-       9,    0,  376,    2, 0x08 /* Private */,
-      10,    0,  377,    2, 0x08 /* Private */,
-      11,    1,  378,    2, 0x08 /* Private */,
-      13,    1,  381,    2, 0x08 /* Private */,
-      14,    1,  384,    2, 0x08 /* Private */,
-      15,    1,  387,    2, 0x08 /* Private */,
-      16,    1,  390,    2, 0x08 /* Private */,
-      17,    1,  393,    2, 0x08 /* Private */,
-      18,    1,  396,    2, 0x08 /* Private */,
-      19,    1,  399,    2, 0x08 /* Private */,
-      21,    1,  402,    2, 0x08 /* Private */,
-      22,    0,  405,    2, 0x08 /* Private */,
-      23,    0,  406,    2, 0x08 /* Private */,
-      24,    0,  407,    2, 0x08 /* Private */,
-      25,    0,  408,    2, 0x08 /* Private */,
-      26,    1,  409,    2, 0x08 /* Private */,
-      27,    1,  412,    2, 0x08 /* Private */,
-      28,    1,  415,    2, 0x08 /* Private */,
-      29,    1,  418,    2, 0x08 /* Private */,
-      30,    1,  421,    2, 0x08 /* Private */,
-      31,    1,  424,    2, 0x08 /* Private */,
-      32,    0,  427,    2, 0x08 /* Private */,
-      33,    0,  428,    2, 0x08 /* Private */,
-      34,    0,  429,    2, 0x08 /* Private */,
-      35,    0,  430,    2, 0x08 /* Private */,
-      36,    0,  431,    2, 0x08 /* Private */,
-      37,    0,  432,    2, 0x08 /* Private */,
-      38,    0,  433,    2, 0x08 /* Private */,
-      39,    1,  434,    2, 0x08 /* Private */,
-      40,    1,  437,    2, 0x08 /* Private */,
-      41,    0,  440,    2, 0x08 /* Private */,
-      42,    0,  441,    2, 0x08 /* Private */,
-      43,    0,  442,    2, 0x08 /* Private */,
-      44,    0,  443,    2, 0x08 /* Private */,
-      45,    0,  444,    2, 0x08 /* Private */,
-      46,    0,  445,    2, 0x08 /* Private */,
-      47,    0,  446,    2, 0x08 /* Private */,
-      48,    0,  447,    2, 0x08 /* Private */,
-      49,    0,  448,    2, 0x08 /* Private */,
-      50,    0,  449,    2, 0x08 /* Private */,
-      51,    0,  450,    2, 0x08 /* Private */,
-      52,    0,  451,    2, 0x08 /* Private */,
-      53,    0,  452,    2, 0x08 /* Private */,
-      54,    0,  453,    2, 0x08 /* Private */,
-      55,    0,  454,    2, 0x08 /* Private */,
-      56,    0,  455,    2, 0x08 /* Private */,
-      57,    1,  456,    2, 0x08 /* Private */,
-      58,    1,  459,    2, 0x08 /* Private */,
-      59,    1,  462,    2, 0x08 /* Private */,
-      60,    0,  465,    2, 0x08 /* Private */,
-      61,    0,  466,    2, 0x08 /* Private */,
-      62,    0,  467,    2, 0x08 /* Private */,
-      15,    1,  468,    2, 0x08 /* Private */,
-      63,    0,  471,    2, 0x08 /* Private */,
-      64,    0,  472,    2, 0x08 /* Private */,
-      16,    1,  473,    2, 0x08 /* Private */,
-      65,    0,  476,    2, 0x08 /* Private */,
-      66,    0,  477,    2, 0x08 /* Private */,
-      67,    0,  478,    2, 0x08 /* Private */,
-      68,    0,  479,    2, 0x08 /* Private */,
-      69,    0,  480,    2, 0x08 /* Private */,
-      70,    0,  481,    2, 0x08 /* Private */,
-      71,    1,  482,    2, 0x08 /* Private */,
-      72,    1,  485,    2, 0x08 /* Private */,
+       1,    0,  409,    2, 0x08 /* Private */,
+       3,    0,  410,    2, 0x08 /* Private */,
+       4,    0,  411,    2, 0x08 /* Private */,
+       5,    0,  412,    2, 0x08 /* Private */,
+       6,    0,  413,    2, 0x08 /* Private */,
+       7,    0,  414,    2, 0x08 /* Private */,
+       8,    0,  415,    2, 0x08 /* Private */,
+       9,    0,  416,    2, 0x08 /* Private */,
+      10,    0,  417,    2, 0x08 /* Private */,
+      11,    1,  418,    2, 0x08 /* Private */,
+      13,    1,  421,    2, 0x08 /* Private */,
+      14,    1,  424,    2, 0x08 /* Private */,
+      15,    1,  427,    2, 0x08 /* Private */,
+      16,    1,  430,    2, 0x08 /* Private */,
+      17,    1,  433,    2, 0x08 /* Private */,
+      18,    1,  436,    2, 0x08 /* Private */,
+      19,    1,  439,    2, 0x08 /* Private */,
+      21,    1,  442,    2, 0x08 /* Private */,
+      22,    0,  445,    2, 0x08 /* Private */,
+      23,    0,  446,    2, 0x08 /* Private */,
+      24,    0,  447,    2, 0x08 /* Private */,
+      25,    0,  448,    2, 0x08 /* Private */,
+      26,    1,  449,    2, 0x08 /* Private */,
+      27,    1,  452,    2, 0x08 /* Private */,
+      28,    1,  455,    2, 0x08 /* Private */,
+      29,    1,  458,    2, 0x08 /* Private */,
+      30,    1,  461,    2, 0x08 /* Private */,
+      31,    1,  464,    2, 0x08 /* Private */,
+      32,    0,  467,    2, 0x08 /* Private */,
+      33,    0,  468,    2, 0x08 /* Private */,
+      34,    0,  469,    2, 0x08 /* Private */,
+      35,    0,  470,    2, 0x08 /* Private */,
+      36,    0,  471,    2, 0x08 /* Private */,
+      37,    0,  472,    2, 0x08 /* Private */,
+      38,    0,  473,    2, 0x08 /* Private */,
+      39,    1,  474,    2, 0x08 /* Private */,
+      40,    1,  477,    2, 0x08 /* Private */,
+      41,    0,  480,    2, 0x08 /* Private */,
+      42,    0,  481,    2, 0x08 /* Private */,
+      43,    0,  482,    2, 0x08 /* Private */,
+      44,    0,  483,    2, 0x08 /* Private */,
+      45,    0,  484,    2, 0x08 /* Private */,
+      46,    0,  485,    2, 0x08 /* Private */,
+      47,    0,  486,    2, 0x08 /* Private */,
+      48,    0,  487,    2, 0x08 /* Private */,
+      49,    0,  488,    2, 0x08 /* Private */,
+      50,    0,  489,    2, 0x08 /* Private */,
+      51,    0,  490,    2, 0x08 /* Private */,
+      52,    0,  491,    2, 0x08 /* Private */,
+      53,    0,  492,    2, 0x08 /* Private */,
+      54,    0,  493,    2, 0x08 /* Private */,
+      55,    0,  494,    2, 0x08 /* Private */,
+      56,    1,  495,    2, 0x08 /* Private */,
+      57,    1,  498,    2, 0x08 /* Private */,
+      58,    1,  501,    2, 0x08 /* Private */,
+      59,    0,  504,    2, 0x08 /* Private */,
+      60,    0,  505,    2, 0x08 /* Private */,
+      61,    0,  506,    2, 0x08 /* Private */,
+      15,    1,  507,    2, 0x08 /* Private */,
+      62,    0,  510,    2, 0x08 /* Private */,
+      63,    0,  511,    2, 0x08 /* Private */,
+      16,    1,  512,    2, 0x08 /* Private */,
+      64,    0,  515,    2, 0x08 /* Private */,
+      65,    0,  516,    2, 0x08 /* Private */,
+      66,    0,  517,    2, 0x08 /* Private */,
+      67,    0,  518,    2, 0x08 /* Private */,
+      68,    0,  519,    2, 0x08 /* Private */,
+      69,    0,  520,    2, 0x08 /* Private */,
+      70,    1,  521,    2, 0x08 /* Private */,
+      71,    1,  524,    2, 0x08 /* Private */,
+      72,    0,  527,    2, 0x08 /* Private */,
+      73,    0,  528,    2, 0x08 /* Private */,
+      74,    0,  529,    2, 0x08 /* Private */,
+      75,    0,  530,    2, 0x08 /* Private */,
+      76,    0,  531,    2, 0x08 /* Private */,
+      77,    0,  532,    2, 0x08 /* Private */,
+      78,    0,  533,    2, 0x08 /* Private */,
+      79,    0,  534,    2, 0x08 /* Private */,
+      80,    0,  535,    2, 0x08 /* Private */,
 
  // slots: parameters
     QMetaType::Void,
@@ -288,7 +310,6 @@ static const uint qt_meta_data_siviso[] = {
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
-    QMetaType::Void,
     QMetaType::Void, QMetaType::Int,   12,
     QMetaType::Void, QMetaType::Int,   12,
     QMetaType::Void, QMetaType::Double,   12,
@@ -307,6 +328,15 @@ static const uint qt_meta_data_siviso[] = {
     QMetaType::Void,
     QMetaType::Void, QMetaType::Int,   12,
     QMetaType::Void, QMetaType::Int,   12,
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void,
 
        0        // eod
 };
@@ -358,36 +388,44 @@ void siviso::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void
         case 38: _t->on_origenManual_clicked(); break;
         case 39: _t->on_dial_sliderReleased(); break;
         case 40: _t->on_ang_editingFinished(); break;
-        case 41: _t->on_send_clicked(); break;
-        case 42: _t->on_infoSignal_clicked(); break;
-        case 43: _t->on_ApagarP_clicked(); break;
-        case 44: _t->on_ApagarA_clicked(); break;
-        case 45: _t->on_sensorOFF_clicked(); break;
-        case 46: _t->on_sensorON_clicked(); break;
-        case 47: _t->on_vol_dw_clicked(); break;
-        case 48: _t->on_vol_up_clicked(); break;
-        case 49: _t->on_demon_clicked(); break;
-        case 50: _t->on_chirpUp_clicked(); break;
-        case 51: _t->on_chirpDw_clicked(); break;
-        case 52: _t->on_chype_clicked(); break;
-        case 53: _t->on_chirpFrecUp_valueChanged((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 54: _t->on_chirpFrecDw_valueChanged((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 55: _t->on_chirpTime_valueChanged((*reinterpret_cast< double(*)>(_a[1]))); break;
-        case 56: _t->on_chirpFrecUp_editingFinished(); break;
-        case 57: _t->on_chirpFrecDw_editingFinished(); break;
-        case 58: _t->on_chirpTime_editingFinished(); break;
-        case 59: _t->on_prob_deteccion_valueChanged((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 60: _t->on_dataSim_clicked(); break;
-        case 61: _t->on_dist_clicked(); break;
-        case 62: _t->on_escala_ppi_valueChanged((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 63: _t->on_textSend_editingFinished(); break;
-        case 64: _t->on_GPSOr_clicked(); break;
-        case 65: _t->on_pulso_clicked(); break;
-        case 66: _t->on_prog_clicked(); break;
-        case 67: _t->on_autoSend_clicked(); break;
-        case 68: _t->on_btLF_clicked(); break;
-        case 69: _t->on_Uu_valueChanged((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 70: _t->on_Ud_valueChanged((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 41: _t->on_infoSignal_clicked(); break;
+        case 42: _t->on_ApagarP_clicked(); break;
+        case 43: _t->on_ApagarA_clicked(); break;
+        case 44: _t->on_sensorOFF_clicked(); break;
+        case 45: _t->on_sensorON_clicked(); break;
+        case 46: _t->on_vol_dw_clicked(); break;
+        case 47: _t->on_vol_up_clicked(); break;
+        case 48: _t->on_demon_clicked(); break;
+        case 49: _t->on_chirpUp_clicked(); break;
+        case 50: _t->on_chirpDw_clicked(); break;
+        case 51: _t->on_chype_clicked(); break;
+        case 52: _t->on_chirpFrecUp_valueChanged((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 53: _t->on_chirpFrecDw_valueChanged((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 54: _t->on_chirpTime_valueChanged((*reinterpret_cast< double(*)>(_a[1]))); break;
+        case 55: _t->on_chirpFrecUp_editingFinished(); break;
+        case 56: _t->on_chirpFrecDw_editingFinished(); break;
+        case 57: _t->on_chirpTime_editingFinished(); break;
+        case 58: _t->on_prob_deteccion_valueChanged((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 59: _t->on_dataSim_clicked(); break;
+        case 60: _t->on_dist_clicked(); break;
+        case 61: _t->on_escala_ppi_valueChanged((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 62: _t->on_textSend_editingFinished(); break;
+        case 63: _t->on_GPSOr_clicked(); break;
+        case 64: _t->on_pulso_clicked(); break;
+        case 65: _t->on_prog_clicked(); break;
+        case 66: _t->on_autoSend_clicked(); break;
+        case 67: _t->on_btLF_clicked(); break;
+        case 68: _t->on_Uu_valueChanged((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 69: _t->on_Ud_valueChanged((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 70: _t->on_limProm_editingFinished(); break;
+        case 71: _t->on_clean_clicked(); break;
+        case 72: _t->on_dTotal_editingFinished(); break;
+        case 73: _t->on_dPaso_editingFinished(); break;
+        case 74: _t->on_central_frec_editingFinished(); break;
+        case 75: _t->on_factor_p_editingFinished(); break;
+        case 76: _t->on_water_vel_editingFinished(); break;
+        case 77: _t->on_windowing_clicked(); break;
+        case 78: _t->on_prefilter_clicked(); break;
         default: ;
         }
     }
@@ -418,13 +456,13 @@ int siviso::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 71)
+        if (_id < 79)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 71;
+        _id -= 79;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 71)
+        if (_id < 79)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 71;
+        _id -= 79;
     }
     return _id;
 }

@@ -175,7 +175,7 @@ private slots:
 
     void on_ang_editingFinished();
 
-    void on_send_clicked();
+    //void on_send_clicked();
 
     void on_infoSignal_clicked();
 
@@ -234,6 +234,24 @@ private slots:
     void on_Uu_valueChanged(int arg1);
 
     void on_Ud_valueChanged(int arg1);
+
+    void on_limProm_editingFinished();
+
+    void on_clean_clicked();
+
+    void on_dTotal_editingFinished();
+
+    void on_dPaso_editingFinished();
+
+    void on_central_frec_editingFinished();
+
+    void on_factor_p_editingFinished();
+
+    void on_water_vel_editingFinished();
+
+    void on_windowing_clicked();
+
+    void on_prefilter_clicked();
 
 private:
     Ui::siviso *ui;

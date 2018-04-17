@@ -83,12 +83,12 @@ siviso::siviso(QWidget *parent) :
     ui->closeJars->setVisible(false);
     ui->openJars->setVisible(false);
     ui->textSend->setVisible(false);
-    ui->send->setVisible(false);
+    //ui->send->setVisible(false);
     ui->infoSignal->setVisible(false);
     ui->ApagarP->setVisible(false);
     ui->ApagarA->setVisible(false);
-    ui->sensorOFF->setVisible(false);
-    ui->sensorON->setVisible(false);
+    //ui->sensorOFF->setVisible(false);
+    //ui->sensorON->setVisible(false);
     ui->setColorUp->setVisible(false);
     ui->setColorDw->setVisible(false);
     ui->dataSim->setVisible(false);
@@ -96,8 +96,25 @@ siviso::siviso(QWidget *parent) :
     ui->pulso->setVisible(false);
     ui->GPSOr->setVisible(false);
     ui->autoSend->setVisible(false);
-    ui->btLF->setVisible(false);
+    //ui->btLF->setVisible(false);
     ui->prog->setVisible(false);
+    ui->factor_p->setVisible(false);
+    ui->central_frec->setVisible(false);
+    ui->dTotal->setVisible(false);
+    ui->dPaso->setVisible(false);
+    ui->Uu->setVisible(false);
+    ui->Ud->setVisible(false);
+    ui->limProm->setVisible(false);
+    ui->clean->setVisible(false);
+    ui->label_70->setVisible(false);
+    ui->label_71->setVisible(false);
+    ui->label_72->setVisible(false);
+    ui->label_76->setVisible(false);
+    ui->label_78->setVisible(false);
+    ui->label_79->setVisible(false);
+    ui->windowing->setVisible(false);
+    ui->prefilter->setVisible(false);
+
 
     ui->anchoP->setDisabled(true);
     //ui->frecuencia->setDisabled(true);
@@ -175,14 +192,14 @@ siviso::siviso(QWidget *parent) :
     }
     file3.close();
 
-   /* thread()->sleep(1);
+    thread()->sleep(1);
     proceso2->startDetached("java -jar BTR.jar");
     thread()->sleep(1);
     proceso1->startDetached("java -jar Lofar.jar");
     thread()->sleep(1);
     proceso4->startDetached("java -jar demon.jar");
     thread()->sleep(1);
-    proceso3->startDetached("java -jar PPI.jar");*/
+    proceso3->startDetached("java -jar PPI.jar");
     thread()->sleep(1);
     proceso5->startDetached("java -jar ConexionSF.jar");
     thread()->sleep(1);
@@ -324,7 +341,7 @@ void siviso::leerSocket()
             }
         } else if(info == "DEMON"){
             if(bAutoSend){
-            //serialPortUSB->write("DEMON P\n");
+            serialPortUSB->write("DEMON P\n");
             }
         } else if(info == "SENSOR P"){
             if(bAutoSend){
@@ -1265,19 +1282,35 @@ void siviso::on_toolButton_clicked()
         ui->closeJars->setVisible(false);
         ui->openJars->setVisible(false);
         ui->textSend->setVisible(false);
-        ui->send->setVisible(false);
+        //ui->send->setVisible(false);
         ui->infoSignal->setVisible(false);
         ui->ApagarP->setVisible(false);
         ui->ApagarA->setVisible(false);
-        ui->sensorOFF->setVisible(false);
-        ui->sensorON->setVisible(false);
+        //ui->sensorOFF->setVisible(false);
+        //ui->sensorON->setVisible(false);
         ui->dataSim->setVisible(false);
         ui->dist->setVisible(false);
         ui->pulso->setVisible(false);
         ui->GPSOr->setVisible(false);
         ui->autoSend->setVisible(false);
-        ui->btLF->setVisible(false);
+        //ui->btLF->setVisible(false);
         ui->prog->setVisible(false);
+        ui->factor_p->setVisible(false);
+        ui->central_frec->setVisible(false);
+        ui->dTotal->setVisible(false);
+        ui->dPaso->setVisible(false);
+        ui->Uu->setVisible(false);
+        ui->Ud->setVisible(false);
+        ui->limProm->setVisible(false);
+        ui->clean->setVisible(false);
+        ui->label_70->setVisible(false);
+        ui->label_71->setVisible(false);
+        ui->label_72->setVisible(false);
+        ui->label_76->setVisible(false);
+        ui->label_78->setVisible(false);
+        ui->label_79->setVisible(false);
+        ui->windowing->setVisible(false);
+        ui->prefilter->setVisible(false);
     }else{
         bToolButton=true;
         ui->textTestGrap->setVisible(true);
@@ -1291,19 +1324,35 @@ void siviso::on_toolButton_clicked()
         ui->closeJars->setVisible(true);
         ui->openJars->setVisible(true);
         ui->textSend->setVisible(true);
-        ui->send->setVisible(true);
+        //ui->send->setVisible(true);
         ui->infoSignal->setVisible(true);
         ui->ApagarP->setVisible(true);
         ui->ApagarA->setVisible(true);
-        ui->sensorOFF->setVisible(true);
-        ui->sensorON->setVisible(true);
+        //ui->sensorOFF->setVisible(true);
+        //ui->sensorON->setVisible(true);
         ui->dataSim->setVisible(true);
         ui->dist->setVisible(true);
         ui->pulso->setVisible(true);
         ui->GPSOr->setVisible(true);
         ui->autoSend->setVisible(true);
-        ui->btLF->setVisible(true);
-        ui->prog->setVisible(true);
+        //ui->btLF->setVisible(true);
+        ui->prog->setVisible(true);        
+        ui->factor_p->setVisible(true);
+        ui->central_frec->setVisible(true);
+        ui->dTotal->setVisible(true);
+        ui->dPaso->setVisible(true);
+        ui->Uu->setVisible(true);
+        ui->Ud->setVisible(true);
+        ui->limProm->setVisible(true);
+        ui->clean->setVisible(true);
+        ui->label_70->setVisible(true);
+        ui->label_71->setVisible(true);
+        ui->label_72->setVisible(true);
+        ui->label_76->setVisible(true);
+        ui->label_78->setVisible(true);
+        ui->label_79->setVisible(true);
+        ui->windowing->setVisible(true);
+        ui->prefilter->setVisible(true);
     }
 }
 
@@ -1333,7 +1382,8 @@ void siviso::on_setColorUp_valueChanged(int value)
         QTextStream stream(&file);
         stream<<value;
     } else {
-        qDebug();
+        qDebug();bool test = true;
+        test ? "1" : "0";
     }
     file.close();
 
@@ -1595,12 +1645,12 @@ void siviso::on_ang_editingFinished()
     ui->textTestGrap->appendPlainText(s);
 }
 
-void siviso::on_send_clicked()
+/*void siviso::on_send_clicked()
 {
     QString s;
     s = ui->textSend->text();
 
-   /* QByteArray data = "prueba"; // <-- fill with data
+    QByteArray data = "prueba"; // <-- fill with data
     data = "ui->textSend->text()";
 
         pSocket = new QTcpSocket( this ); // <-- needs to be a member variable: QTcpSocket * pSocket;
@@ -1609,7 +1659,7 @@ void siviso::on_send_clicked()
         pSocket->connectToHost("192.168.1.10", 6001);
         if( pSocket->waitForConnected() ) {
             pSocket->write( data );
-        }*/
+        }
 
     QString send = "";
     if(s[0] == '>'){
@@ -1635,7 +1685,7 @@ void siviso::on_send_clicked()
     }
     serialPortUSB->write(s.toLatin1()+"\n");
     ui->textSend->clear();
-}
+}*/
 
 void siviso::on_infoSignal_clicked()
 {
@@ -1974,4 +2024,73 @@ void siviso::on_Ud_valueChanged(int arg1)
     s += QString::number(arg1);
     ui->view->appendPlainText(s);
     udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoBTR);
+}
+
+void siviso::on_limProm_editingFinished()
+{
+    QString s = "P";
+    s += QString::number(ui->limProm->value());
+    ui->view->appendPlainText(s);
+    udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoLF);
+}
+
+void siviso::on_clean_clicked()
+{
+    ui->textTestGrap->clear();
+    ui->view->clear();
+}
+
+void siviso::on_dTotal_editingFinished()
+{
+    serialPortUSB->write("SET D TOTAL P\n");
+    QString s = QString::number(ui->dTotal->value());
+    serialPortUSB->write(s.toLatin1()+"\n");
+}
+
+void siviso::on_dPaso_editingFinished()
+{
+    serialPortUSB->write("SET D PASO P\n");
+    QString s = QString::number(ui->dPaso->value());
+    serialPortUSB->write(s.toLatin1()+"\n");
+}
+
+void siviso::on_central_frec_editingFinished()
+{
+    serialPortUSB->write("SET CENTRAL FREQUENCY P\n");
+    QString s = QString::number(ui->central_frec->value());
+    serialPortUSB->write(s.toLatin1()+"\n");
+}
+
+void siviso::on_factor_p_editingFinished()
+{
+    serialPortUSB->write("SET R FACTOR P\n");
+    QString s = QString::number(ui->factor_p->value());
+    serialPortUSB->write(s.toLatin1()+"\n");
+}
+
+void siviso::on_water_vel_editingFinished()
+{
+    serialPortUSB->write("SET WATER VELOCITY P\n");
+    QString s = QString::number(ui->water_vel->value());
+    serialPortUSB->write(s.toLatin1()+"\n");
+}
+
+void siviso::on_windowing_clicked()
+{
+    serialPortUSB->write("SET WINDOWING P\n");
+    if(ui->windowing->checkState()){
+        serialPortUSB->write("1\n");
+    }else{
+        serialPortUSB->write("0\n");
+    }
+}
+
+void siviso::on_prefilter_clicked()
+{
+    serialPortUSB->write("SET PREFILTER P\n");
+    if(ui->prefilter->checkState()){
+        serialPortUSB->write("1\n");
+    }else{
+        serialPortUSB->write("0\n");
+    }
 }
