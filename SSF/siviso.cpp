@@ -192,12 +192,12 @@ siviso::siviso(QWidget *parent) :
     }
     file3.close();
 
-    thread()->sleep(1);
+    /*thread()->sleep(1);
     proceso2->startDetached("java -jar BTR.jar");
     thread()->sleep(1);
     proceso1->startDetached("java -jar Lofar.jar");
     thread()->sleep(1);
-    proceso4->startDetached("java -jar demon.jar");
+    proceso4->startDetached("java -jar demon.jar");*/
     thread()->sleep(1);
     proceso3->startDetached("java -jar PPI.jar");
     thread()->sleep(1);
@@ -309,6 +309,9 @@ void siviso::leerSocket()
             s = "OFF";
             udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoBTR);
             s = "LONG";
+            udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoBTR);
+            //s = "P"+QString::number(ui->dPaso->value());
+            s = "P"+QString::number(puertoPPI);
             udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoBTR);
         } else if(info == "runLF"){
             s = "EXIT";
@@ -456,6 +459,10 @@ void siviso::leerSocket()
             }else if(info[1]=='d'){
                 ui->setColorDw->setValue(s.toInt());
             }
+        }else if(info[0]=='D'){
+            udpsocket->writeDatagram(info.toLatin1(),direccionApp,puertoPPI);
+            s = "d"+QString::number(ui->dPaso->value());
+            udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoPPI);
         }
 
         if((info == "BTR"&&bAutoSend)||(info == "LOFAR"&&bAutoSend)||(info == "DEMON"&&bAutoSend)||(info == "SENSOR A"&&bAutoSend)||(info == "SENSOR P"&&bAutoSend)){
@@ -1126,6 +1133,8 @@ void siviso::on_ppi_clicked()
     udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoPPI);
     ui->setColorUp->setVisible(false);
     ui->setColorDw->setVisible(false);
+    s = "DISTARGET";
+    udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoBTR);
 }
 
 void siviso::on_demon_clicked()
@@ -2051,7 +2060,9 @@ void siviso::on_dPaso_editingFinished()
 {
     serialPortUSB->write("SET D PASO P\n");
     QString s = QString::number(ui->dPaso->value());
-    serialPortUSB->write(s.toLatin1()+"\n");
+    serialPortUSB->write(s.toLatin1()+"\n");    
+    s = "P"+QString::number(ui->dPaso->value());
+    udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoBTR);
 }
 
 void siviso::on_central_frec_editingFinished()
