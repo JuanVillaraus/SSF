@@ -231,10 +231,6 @@ private slots:
 
     void on_btLF_clicked();
 
-    void on_Uu_valueChanged(int arg1);
-
-    void on_Ud_valueChanged(int arg1);
-
     void on_limProm_editingFinished();
 
     void on_clean_clicked();
@@ -252,6 +248,10 @@ private slots:
     void on_windowing_clicked();
 
     void on_prefilter_clicked();
+
+    void on_Uu_valueChanged(double arg1);
+
+    void on_Ud_valueChanged(double arg1);
 
 private:
     Ui::siviso *ui;

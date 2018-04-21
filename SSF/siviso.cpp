@@ -1492,17 +1492,17 @@ void siviso::on_cw_clicked()
     QString s;
     s = "OFF";
     udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoDEMON);
-    udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoBTR);
     udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoLF);
-    s = "ON";
     udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoPPI);
-    compGraf="PPI";
+    s = "BIESTATICO";
+    udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoBTR);
+    compGraf="BTR";
     s = "RP";
     udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoPPI);
     serialPortUSB->write("BIESTATICO\n");
     thread()->msleep(100);
-    serialPortUSB->write("BURST A\n");
-    thread()->msleep(100);
+    /*serialPortUSB->write("BURST A\n");
+    thread()->msleep(100);*/
 }
 
 void siviso::on_startCom_clicked()
@@ -2019,22 +2019,6 @@ void siviso::on_btLF_clicked()
     serialPortUSB->write("LOFAR P\n");
 }
 
-void siviso::on_Uu_valueChanged(int arg1)
-{
-    QString s = "Uu";
-    s += QString::number(arg1);
-    ui->view->appendPlainText(s);
-    udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoBTR);
-}
-
-void siviso::on_Ud_valueChanged(int arg1)
-{
-    QString s = "Ud";
-    s += QString::number(arg1);
-    ui->view->appendPlainText(s);
-    udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoBTR);
-}
-
 void siviso::on_limProm_editingFinished()
 {
     QString s = "P";
@@ -2104,4 +2088,26 @@ void siviso::on_prefilter_clicked()
     }else{
         serialPortUSB->write("0\n");
     }
+}
+
+void siviso::on_Uu_valueChanged(double arg1)
+{
+    if(arg1<=ui->Ud->value()){
+        ui->Ud->setValue(arg1-0.01);
+    }
+    QString s = "Uu";
+    s += QString::number(arg1);
+    ui->view->appendPlainText(s);
+    udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoBTR);
+}
+
+void siviso::on_Ud_valueChanged(double arg1)
+{
+    if(arg1>=ui->Uu->value()){
+        ui->Uu->setValue(arg1+0.01);
+    }
+    QString s = "Ud";
+    s += QString::number(arg1);
+    ui->view->appendPlainText(s);
+    udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoBTR);
 }

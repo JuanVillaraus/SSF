@@ -2179,42 +2179,45 @@ Verdadero</string>
       <string>Automatico</string>
      </property>
     </widget>
-    <widget class="QSpinBox" name="Uu">
+    <widget class="QDoubleSpinBox" name="Uu">
      <property name="geometry">
       <rect>
-       <x>465</x>
+       <x>445</x>
        <y>580</y>
-       <width>81</width>
+       <width>101</width>
        <height>41</height>
       </rect>
      </property>
      <property name="minimum">
-      <number>2</number>
+      <double>0.020000000000000</double>
      </property>
      <property name="maximum">
-      <number>10000</number>
+      <double>9999.989999999999782</double>
      </property>
      <property name="value">
-      <number>2</number>
+      <double>2.000000000000000</double>
      </property>
     </widget>
-    <widget class="QSpinBox" name="Ud">
+    <widget class="QDoubleSpinBox" name="Ud">
      <property name="geometry">
       <rect>
-       <x>465</x>
+       <x>445</x>
        <y>640</y>
-       <width>81</width>
+       <width>101</width>
        <height>41</height>
       </rect>
      </property>
      <property name="minimum">
-      <number>1</number>
+      <double>0.010000000000000</double>
      </property>
      <property name="maximum">
-      <number>9999</number>
+      <double>10000.000000000000000</double>
+     </property>
+     <property name="singleStep">
+      <double>1.000000000000000</double>
      </property>
      <property name="value">
-      <number>1</number>
+      <double>1.000000000000000</double>
      </property>
     </widget>
     <widget class="QLabel" name="label_70">

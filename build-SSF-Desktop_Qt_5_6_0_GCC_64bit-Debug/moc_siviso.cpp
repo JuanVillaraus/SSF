@@ -99,17 +99,17 @@ QT_MOC_LITERAL(66, 1348, 16), // "on_pulso_clicked"
 QT_MOC_LITERAL(67, 1365, 15), // "on_prog_clicked"
 QT_MOC_LITERAL(68, 1381, 19), // "on_autoSend_clicked"
 QT_MOC_LITERAL(69, 1401, 15), // "on_btLF_clicked"
-QT_MOC_LITERAL(70, 1417, 18), // "on_Uu_valueChanged"
-QT_MOC_LITERAL(71, 1436, 18), // "on_Ud_valueChanged"
-QT_MOC_LITERAL(72, 1455, 26), // "on_limProm_editingFinished"
-QT_MOC_LITERAL(73, 1482, 16), // "on_clean_clicked"
-QT_MOC_LITERAL(74, 1499, 25), // "on_dTotal_editingFinished"
-QT_MOC_LITERAL(75, 1525, 24), // "on_dPaso_editingFinished"
-QT_MOC_LITERAL(76, 1550, 31), // "on_central_frec_editingFinished"
-QT_MOC_LITERAL(77, 1582, 27), // "on_factor_p_editingFinished"
-QT_MOC_LITERAL(78, 1610, 28), // "on_water_vel_editingFinished"
-QT_MOC_LITERAL(79, 1639, 20), // "on_windowing_clicked"
-QT_MOC_LITERAL(80, 1660, 20) // "on_prefilter_clicked"
+QT_MOC_LITERAL(70, 1417, 26), // "on_limProm_editingFinished"
+QT_MOC_LITERAL(71, 1444, 16), // "on_clean_clicked"
+QT_MOC_LITERAL(72, 1461, 25), // "on_dTotal_editingFinished"
+QT_MOC_LITERAL(73, 1487, 24), // "on_dPaso_editingFinished"
+QT_MOC_LITERAL(74, 1512, 31), // "on_central_frec_editingFinished"
+QT_MOC_LITERAL(75, 1544, 27), // "on_factor_p_editingFinished"
+QT_MOC_LITERAL(76, 1572, 28), // "on_water_vel_editingFinished"
+QT_MOC_LITERAL(77, 1601, 20), // "on_windowing_clicked"
+QT_MOC_LITERAL(78, 1622, 20), // "on_prefilter_clicked"
+QT_MOC_LITERAL(79, 1643, 18), // "on_Uu_valueChanged"
+QT_MOC_LITERAL(80, 1662, 18) // "on_Ud_valueChanged"
 
     },
     "siviso\0leerSocket\0\0leerSerialUSB\0"
@@ -152,14 +152,14 @@ QT_MOC_LITERAL(80, 1660, 20) // "on_prefilter_clicked"
     "on_textSend_editingFinished\0"
     "on_GPSOr_clicked\0on_pulso_clicked\0"
     "on_prog_clicked\0on_autoSend_clicked\0"
-    "on_btLF_clicked\0on_Uu_valueChanged\0"
-    "on_Ud_valueChanged\0on_limProm_editingFinished\0"
+    "on_btLF_clicked\0on_limProm_editingFinished\0"
     "on_clean_clicked\0on_dTotal_editingFinished\0"
     "on_dPaso_editingFinished\0"
     "on_central_frec_editingFinished\0"
     "on_factor_p_editingFinished\0"
     "on_water_vel_editingFinished\0"
-    "on_windowing_clicked\0on_prefilter_clicked"
+    "on_windowing_clicked\0on_prefilter_clicked\0"
+    "on_Uu_valueChanged\0on_Ud_valueChanged"
 };
 #undef QT_MOC_LITERAL
 
@@ -245,17 +245,17 @@ static const uint qt_meta_data_siviso[] = {
       67,    0,  518,    2, 0x08 /* Private */,
       68,    0,  519,    2, 0x08 /* Private */,
       69,    0,  520,    2, 0x08 /* Private */,
-      70,    1,  521,    2, 0x08 /* Private */,
-      71,    1,  524,    2, 0x08 /* Private */,
-      72,    0,  527,    2, 0x08 /* Private */,
-      73,    0,  528,    2, 0x08 /* Private */,
-      74,    0,  529,    2, 0x08 /* Private */,
-      75,    0,  530,    2, 0x08 /* Private */,
-      76,    0,  531,    2, 0x08 /* Private */,
-      77,    0,  532,    2, 0x08 /* Private */,
-      78,    0,  533,    2, 0x08 /* Private */,
-      79,    0,  534,    2, 0x08 /* Private */,
-      80,    0,  535,    2, 0x08 /* Private */,
+      70,    0,  521,    2, 0x08 /* Private */,
+      71,    0,  522,    2, 0x08 /* Private */,
+      72,    0,  523,    2, 0x08 /* Private */,
+      73,    0,  524,    2, 0x08 /* Private */,
+      74,    0,  525,    2, 0x08 /* Private */,
+      75,    0,  526,    2, 0x08 /* Private */,
+      76,    0,  527,    2, 0x08 /* Private */,
+      77,    0,  528,    2, 0x08 /* Private */,
+      78,    0,  529,    2, 0x08 /* Private */,
+      79,    1,  530,    2, 0x08 /* Private */,
+      80,    1,  533,    2, 0x08 /* Private */,
 
  // slots: parameters
     QMetaType::Void,
@@ -326,8 +326,6 @@ static const uint qt_meta_data_siviso[] = {
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
-    QMetaType::Void, QMetaType::Int,   12,
-    QMetaType::Void, QMetaType::Int,   12,
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
@@ -337,6 +335,8 @@ static const uint qt_meta_data_siviso[] = {
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
+    QMetaType::Void, QMetaType::Double,   12,
+    QMetaType::Void, QMetaType::Double,   12,
 
        0        // eod
 };
@@ -415,17 +415,17 @@ void siviso::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void
         case 65: _t->on_prog_clicked(); break;
         case 66: _t->on_autoSend_clicked(); break;
         case 67: _t->on_btLF_clicked(); break;
-        case 68: _t->on_Uu_valueChanged((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 69: _t->on_Ud_valueChanged((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 70: _t->on_limProm_editingFinished(); break;
-        case 71: _t->on_clean_clicked(); break;
-        case 72: _t->on_dTotal_editingFinished(); break;
-        case 73: _t->on_dPaso_editingFinished(); break;
-        case 74: _t->on_central_frec_editingFinished(); break;
-        case 75: _t->on_factor_p_editingFinished(); break;
-        case 76: _t->on_water_vel_editingFinished(); break;
-        case 77: _t->on_windowing_clicked(); break;
-        case 78: _t->on_prefilter_clicked(); break;
+        case 68: _t->on_limProm_editingFinished(); break;
+        case 69: _t->on_clean_clicked(); break;
+        case 70: _t->on_dTotal_editingFinished(); break;
+        case 71: _t->on_dPaso_editingFinished(); break;
+        case 72: _t->on_central_frec_editingFinished(); break;
+        case 73: _t->on_factor_p_editingFinished(); break;
+        case 74: _t->on_water_vel_editingFinished(); break;
+        case 75: _t->on_windowing_clicked(); break;
+        case 76: _t->on_prefilter_clicked(); break;
+        case 77: _t->on_Uu_valueChanged((*reinterpret_cast< double(*)>(_a[1]))); break;
+        case 78: _t->on_Ud_valueChanged((*reinterpret_cast< double(*)>(_a[1]))); break;
         default: ;
         }
     }
