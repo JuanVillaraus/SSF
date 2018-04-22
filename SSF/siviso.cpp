@@ -2029,6 +2029,7 @@ void siviso::on_limProm_editingFinished()
     s += QString::number(ui->limProm->value());
     ui->view->appendPlainText(s);
     udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoLF);
+    udpsocket->writeDatagram(s.toLatin1(),direccionApp,puertoDEMON);
 }
 
 void siviso::on_clean_clicked()
