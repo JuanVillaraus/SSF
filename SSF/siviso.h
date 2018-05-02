@@ -79,6 +79,12 @@ public:
     QString compGraf;
     QString catchSensor;
     QString catchCmd;
+    QString latB0;
+    QString latB1;
+    QString latO;
+    QString logB0;
+    QString logB1;
+    QString logO;
     PPI *myppi;
     Signal *mysignal;
     bool bToolButton;
@@ -253,6 +259,10 @@ private slots:
 
     void on_Ud_valueChanged(double arg1);
 
+    void on_cleanA_clicked();
+
+    void on_cleanP_clicked();
+
 private:
     Ui::siviso *ui;
 
@@ -266,6 +276,7 @@ private:
     quint16 puertoPPI;
     quint16 puertoREC;
     quint16 puertoComSF;
+    quint16 puertoSensor;
     QSerialPort *serialPortDB9;
     QSerialPort *serialPortUSB;
     QProcess *proceso1;
@@ -273,6 +284,7 @@ private:
     QProcess *proceso3;
     QProcess *proceso4;
     QProcess *proceso5;
+    QProcess *proceso6;
 
     // For use the class dbasepostgresql by Misael M Del Valle
     DBasePostgreSQL* myDB;

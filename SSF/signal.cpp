@@ -6,7 +6,7 @@ Signal::Signal()
     bw = 7.2;
     it = 5;
     dt = 9;
-    frecP = 7000;
+    frecP = 2000;
     nP = 1000;
     anchoP = 50;
     rangoDetec = 40;
